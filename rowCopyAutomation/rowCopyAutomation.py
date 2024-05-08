@@ -20,8 +20,6 @@ lastCell = wb[sheet1Name].max_row + 1
 
 wb.active = wb[sheet2Name]
 
-print(wb[sheet2Name].max_row)
-
 cnt = 2
 
 for i in range(firstCell, lastCell):
