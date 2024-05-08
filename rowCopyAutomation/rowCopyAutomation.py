@@ -1,13 +1,5 @@
-from openpyxl import Workbook
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill
-from openpyxl.utils import get_column_letter
 import os
-from os import listdir
-from os.path import exists
-from os import makedirs
-import win32com.client
-
 
 wb = load_workbook('data.xlsx')
 sheet1Name = '상품리스트'
