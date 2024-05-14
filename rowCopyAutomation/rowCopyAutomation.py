@@ -12,6 +12,12 @@ lastCell = wb[sheet1Name].max_row + 1
 
 wb.active = wb[sheet2Name]
 
+for sheet in wb:
+  if sheet.title == sheet2Name:
+    sheet.sheet_view.tabSelected = True
+  else:
+    sheet.sheet_view.tabSelected = False
+
 cnt = 2
 
 for i in range(firstCell, lastCell):
