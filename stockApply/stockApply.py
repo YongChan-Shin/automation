@@ -41,8 +41,12 @@ for wb2Sheet in wb2:
     else:
       continue
 
+# 차감 재고 데이터 매칭 오류 정보 저장
+f = open("차감 재고 데이터 매칭 오류.txt", "a+")
 for i in sellList:
   if i not in prdList:
     print("{} : {}".format(i, sellList[i]))
+    f.write("{} : {}\n".format(i, sellList[i]))
+f.close()
     
 wb2.save(currPath + '\\재고 및 품절 데이터_판매량 반영.xlsx')
