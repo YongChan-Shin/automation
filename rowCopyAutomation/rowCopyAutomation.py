@@ -52,7 +52,7 @@ for wb2Sheet in wb2:
         wb[sheet2Name].cell(cnt, 6).value = wb[sheet2Name].cell(cnt, 2).value + " " + color + " " + size
         prdIdxInfo = wb[sheet2Name].cell(cnt, 6).value
         try:
-          wb[sheet2Name].cell(cnt, 7).value = stockList[prdIdxInfo.replace(" ", "")]
+          wb[sheet2Name].cell(cnt, 7).value = stockList[prdIdxInfo.replace(" ", "").replace("(저스틴23)", "").replace("(주니어)", "")]
         except:
           pass
         
