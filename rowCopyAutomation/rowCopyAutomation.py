@@ -56,6 +56,12 @@ for wb2Sheet in wb2:
         except:
           pass
         
+        try:
+          if wb[sheet2Name].cell(cnt, 7).value >= 10000:
+            wb[sheet2Name].cell(cnt, 7).value = 300
+        except:
+          pass
+        
         if prdIdxInfo in prdIdxInfoList or wb[sheet2Name].cell(cnt, 7).value == 0:
           for z in range(1, 16):
             wb[sheet2Name].cell(cnt, z).fill = fillData
