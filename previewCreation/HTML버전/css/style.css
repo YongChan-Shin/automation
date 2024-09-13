@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&display=swap');
+
+@font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 굵은 폰트 */
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 얇은 폰트 */
+@font-face {
+    font-family: 'Cafe24SsurroundAir';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GmarketSansTTFBold';
+  src: url('../fonts/GmarketSansTTFBold.ttf') format('woff');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  justify-content: center;
+  font-family: 'yg-jalnan';
+}
+.input_container {
+  /* border: 1px solid #000; */
+  text-align: center;
+  padding: 30px;
+  width: 500px;
+  /* height: 300px; */
+  font-size: 14px;
+  font-family: 'NanumSquareRound';
+  background-color: yellow
+}
+.button {
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+  height: 50px;
+}
+.button button {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.container {
+  margin: 20px;
+}
+.container .wrap {
+  margin-bottom: 30px;
+}
+.container .inner {
+  position: relative;
+  text-align: center;
+}
+.container #inner1 {
+  position: relative;
+  height: 120px;
+}
+.container #inner1 p.set {
+  position: absolute;
+  top: -25px;
+  left: 20px;
+  font-size: 35px;
+}
+.container #inner1 p.color {
+  position: absolute;
+  top: 45px;
+  left: 20px;
+  font-family: 'GmarketSansMedium';
+  font-size: 24px;
+}
+.container #inner1 p.code {
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  display: inline;
+  background-color: rgb(255, 175, 75);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+}
+.container #inner1 p.option {
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  color: #bbb;
+}
+
+.container .inner img {
+  display: block;
+  padding: 0;
+  width: 500px;
+  height: 500px;
+}
+
+
+
+
+
+
+
+
+
+/* .container .inner img.logo {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 5px;
+  right: 15px;
+}
+.desc_main {
+  position: relative;
+  text-align: left;
+  margin: 10px 0;
+}
+span.num {
+  text-align: center;
+  position: absolute;
+  display: block;
+  top: -50px;
+  left: 165px;
+  display: block;
+  margin: 0 auto;
+  width: 70px;
+  height: 70px;
+  line-height: 68px;
+  color: white;
+  background-color: rgb(100, 180, 140);
+  text-align: center;
+  font-family: 'S-Core Dream 6';
+  font-size: 23px;
+}
+span.set {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: #434343;
+  font-family: 'S-Core Dream 6';
+  font-size: 30px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.desc_main p {
+  margin-left: 15px;
+}
+p.size {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 110px;
+  font-size: 20px;
+  font-family: 'S-Core Dream 3';
+  color: #434343;
+  margin-left: 0;
+  margin-bottom: 18px;
+}
+p.color {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'S-Core Dream 3';
+  color: #434343;
+  margin-left: 0;
+  margin-bottom: 15px;
+}
+div.sale_main, div.sale_shocking, div.sale_final, div.sale_surprise {
+  margin-top: 85px;
+  width: 300px;
+  margin-left: 50px;
+}
+div.sale_main div, div.sale_shocking div, div.sale_final div, div.sale_surprise div {
+  float: left;
+  width: 50%;
+  text-align: center;
+  font-size: 20px;
+  padding: 15px;
+  margin-bottom: 8px;
+}
+div.sale_main div.sale_bg, div.sale_shocking div.sale_bg, div.sale_final div.sale_bg, div.sale_surprise div.sale_bg {
+  width: 60%;
+}
+div.sale_main div.sale, div.sale_shocking div.sale, div.sale_final div.sale, div.sale_surprise div.sale {
+  width: 40%;
+}
+
+
+div.sale_main .sale_bg {
+  font-family: 'S-Core Dream 3';
+  background-color: rgb(242, 242, 242);
+  color: #434343;
+}
+div.sale_main .sale {
+  font-family: 'S-Core Dream 3';
+  background-color: rgb(242, 242, 242);
+  color: #434343;
+}
+div.sale_shocking .sale_bg {
+  font-family: 'S-Core Dream 3';
+  font-size: 21px;
+  background-color: rgb(100, 180, 140);
+  color: #fff;
+}
+div.sale_shocking .sale {
+  font-family: 'S-Core Dream 3';
+  font-size: 21px;
+  background-color: rgb(100, 180, 140);
+  color: #fff;
+}
+div.sale_final .sale_bg {
+  font-family: 'S-Core Dream 3';
+  font-size: 21px;
+  background-color: rgb(255, 130, 100);
+  color: #fff;
+}
+div.sale_final .sale {
+  font-family: 'S-Core Dream 3';
+  font-size: 21px;
+  background-color: rgb(255, 130, 100);
+  color: #fff;
+  padding: 13.5px;
+}
+div.sale_surprise .sale_bg {
+  font-family: 'S-Core Dream 3';
+  font-size: 21px;
+  background-color: rgb(255, 205, 108);
+  color: #fff;
+}
+div.sale_surprise .sale {
+  font-family: 'S-Core Dream 6';
+  font-size: 21px;
+  background-color: rgb(255, 205, 108);
+  color: #fff;
+  padding: 13.5px;
+}
+div.sale_final div.sale_bg {
+  padding: 6px;
+  line-height: 24px;
+}
+div.sale_surprise div.sale_bg {
+  padding: 9px;
+  line-height: 24px;
+}
+div.sale_bg span.final_1 {
+  display: block;
+  font-size: 16px;
+}
+div.sale_bg span.final_2 {
+  display: block;
+  font-weight: 600;
+  font-size: 22px;
+}
+div.sale_bg span.final_3 {
+  display: block;
+  font-size: 14px;
+  color: rgb(255, 130, 100);;
+}
+div.sale_bg span.final_4 {
+  display: block;
+  font-weight: 600;
+  font-size: 22px;
+}
+div.sale_final div.sale {
+  font-family: 'S-Core Dream 6';
+  font-size: 24px;
+}
+div.sale_surprise div.sale {
+  font-family: 'S-Core Dream 6';
+  font-size: 28px;
+  color: rgb(255, 130, 100);;
+  text-shadow: 2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), -2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255);
+  font-weight: 600;
+}
+div.bm {
+  display: block;
+  height: 30px;
+} */
