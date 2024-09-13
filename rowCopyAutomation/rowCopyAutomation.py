@@ -13,7 +13,7 @@ firstCell = 2
 lastCell = wb[sheet1Name].max_row + 1
 wb.active = wb[sheet2Name]
 
-wb2 = load_workbook('재고 및 품절 데이터.xlsx')
+wb2 = load_workbook('데이터.xlsx')
 
 prdIdxInfoList = [] # 품절상품 정보
 stockList = {} # 상품별 재고수량 정보
@@ -58,7 +58,7 @@ for wb2Sheet in wb2:
         
         try:
           if wb[sheet2Name].cell(cnt, 7).value >= 10000:
-            wb[sheet2Name].cell(cnt, 7).value = 300
+            wb[sheet2Name].cell(cnt, 7).value = 50
         except:
           pass
         
