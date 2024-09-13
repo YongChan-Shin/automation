@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700,900&display=swap');
+
+@font-face {
+  font-family: 'GmarketSansTTFMedium';
+  src: local("GmarketSansTTFMedium");
+}
+
+@font-face {
+  font-family: 'GmarketSansTTFLight';
+  src: local("GmarketSansTTFLight");
+  /* font-weight: bold; */
+}
+
+@font-face {
+  font-family: 'Jalnan';
+  src: local(" 여기어때 잘난체 굵게");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  justify-content: center;
+}
+
+.input_container {
+  overflow: hidden;
+  text-align: center;
+  padding: 30px;
+  width: 500px;
+  font-size: 14px;
+  font-family: 'GmarketSansTTFLight';
+  background-color: yellow
+}
+
+.button {
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+  height: 50px;
+}
+
+.button button {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.container {
+  /* border: 1px solid #000; */
+  margin: 20px;
+}
+
+.container .inner {
+  width: 1000px;
+  text-align: center;
+  margin: 50px 0;
+  padding-bottom: 50px;
+  padding-top: 120px;
+}
+
+.container .inner .logo {
+  margin-bottom: 30px;
+
+}
+
+.container .inner #set_wrap p.set {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 65px;
+  font-weight: 600;
+  font-family: 'Jalnan';
+}
+
+.container .inner #set_wrap p.color, .container .inner #set_wrap p.size {
+  margin: 0;
+  font-size: 26px;
+}
+
+.container .inner #set_wrap p.color {
+  display: inline;
+}
+
+.container .inner #set_wrap span.color {
+  font-size: 26px;
+}
+
+.container .inner #set_wrap p.size {
+  margin-top: 5px;
+}
+
+.container .inner #set_wrap .text_wrap {
+  margin: 80px 0 120px 0;
+}
+
+.container .inner #set_wrap .text_wrap p {
+  font-family: 'GmarketSansTTFLight';
+  font-size: 36px;
+}
+
+
+.container .inner #set_wrap .main_img.stitch {
+  position: relative;
+}
+
+.container .inner #set_wrap .main_img.stitch .stitch_circle {
+  position: absolute;
+  top: 280px;
+  right: 200px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 3px dashed red;
+}
+
+.container .inner #set_wrap .main_img.stitch .stitch_text {
+  position: absolute;
+  top: 620px;
+  right: 70px;
+  width: 550px;
+  border-radius: 25px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: 26px;
+  color: #fff;
+  background-color: tomato;
+  padding: 10px;
+  line-height: 1.5em;
+}
+
+.container .inner #set_wrap .main_img.stitch .stitch_explain {
+  margin: 15px 0;
+  text-align: left;
+  font-family: 'GmarketSansTTFLight';
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.container .inner #set_wrap .product_wrap {
+  margin-bottom: 60px;
+}
+
+.container .inner #set_wrap .product_wrap p.view {
+  font-family: 'GmarketSansTTFMedium';
+  font-size: 50px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.container .inner #set_wrap .product_wrap p.view_detail {
+  font-size: 22px;
+}
+
+.mb_s {
+  height: 40px;
+}
+.mb_l {
+  height: 60px;
+}
+.mb_xl {
+  height: 100px;
+}
