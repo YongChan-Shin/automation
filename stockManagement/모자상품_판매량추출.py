@@ -1,17 +1,7 @@
 from openpyxl import load_workbook
-from openpyxl.styles import PatternFill
-from openpyxl.styles import Font
-import os
-from datetime import datetime
 
 wb = load_workbook('판매데이터.xlsx')
 sheet1Name = '판매량 체크'
-
-currPath = os.getcwd()
-now = datetime.now()
-
-fillData = PatternFill(fill_type='solid', start_color='FF7789', end_color='FF7789')
-fillData2 = PatternFill(fill_type='solid', start_color='FFFFFF', end_color='FFFFFF')
 
 firstCell = 2
 lastCell = wb[sheet1Name].max_row + 1
