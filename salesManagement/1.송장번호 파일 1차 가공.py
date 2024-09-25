@@ -182,9 +182,9 @@ for file in excelFileList:
   }
 
   # 주문수량
-  orderNum = sheet2.cell(i, 1).value.split('☞')[-1].replace("개", "")
 
   for i in range(first_row, last_row2):
+    orderNum = sheet2.cell(i, 1).value.split('☞')[-1].replace("개", "")
     try:
       for product in product_list:
         if product in str(sheet2.cell(i, 1).value):
@@ -198,8 +198,8 @@ for file in excelFileList:
           sheet2.cell(i, 3).value = color
       for size in size_list:
         if size in str(sheet2.cell(i, 1).value):
-          sheet2.cell(i, 4).value = size
-      sheet2.cell(i, 5).value = str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) + "/" + str(sheet2.cell(i, 3).value) + "/" + str(sheet2.cell(i, 4).value)
+          sheet2.cell(i, 4).value = size.replace("FREE", "free")
+      sheet2.cell(i, 5).value = str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) + "/" + str(sheet2.cell(i, 3).value) + "/" + str(sheet2.cell(i, 4).value.replace("FREE", "free"))
       sheet2.cell(i, 6).value = sheet1.cell(2, 7).value
       
       if sheet2.cell(i, 5).value not in orderDict:
