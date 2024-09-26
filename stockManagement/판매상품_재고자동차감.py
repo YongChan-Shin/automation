@@ -91,6 +91,7 @@ for wb2Sheet in wb2:
     
     # 실제 판매채널 체크
     if wb2Sheet.cell(i, 5).value != None:
+      wb2Sheet.cell(i, 20).value = " "
       try:
         wb2Sheet.cell(i, 20).value = sellChannelList[wb2Sheet.cell(i, 5).value]
         if wb2Sheet.cell(i, 19).value != None:
