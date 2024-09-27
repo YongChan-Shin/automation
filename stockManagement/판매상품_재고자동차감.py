@@ -107,18 +107,18 @@ errList = []
 
 for i in sellList:
   if i not in prdList:
-    print('{} : {}'.format(i, sellList[i]))
+    print('{} : {} / {}'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
     errList.append(i)
 
 if len(errList) > 0 or len(prdOrderSoldout) > 0:
   f = open('차감 재고 데이터 매칭 오류.txt', 'w')
   for i in errList:
-    f.write('{} : {}\n'.format(i, sellList[i]))
+    f.write('{} : {} / {}\n'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
   f.write('\n\n\nㅡㅡㅡㅡㅡㅡㅡㅡㅡ 재고수량 0인 상품 중 판매된 상품리스트 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n')
   f.close()
   f = open('차감 재고 데이터 매칭 오류.txt', 'a')
   for i in prdOrderSoldout:
-    f.write('{}\n'.format(i))
+    f.write('{} / {}\n'.format(i, sellChannelList[i.split(" ")[0]]))
   f.close()
 
 # 판매량 차감 후 품절처리된 상품 정보 저장
