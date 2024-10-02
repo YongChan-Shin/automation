@@ -17,6 +17,7 @@ wb2 = load_workbook('데이터.xlsx')
 
 prdIdxInfoList = [] # 품절상품 정보
 stockList = {} # 상품별 재고수량 정보
+channelList = {} # 상품별 세팅채널 정보
 
 for wb2Sheet in wb2:
   wb2FirstCell = 3
@@ -35,6 +36,7 @@ for wb2Sheet in wb2:
       continue
     # 상품식별값에 따른 재고수량 매칭
     stockList[wb2Sheet.cell(stockCnt, 13).value.replace(" ", "")] = wb2Sheet.cell(stockCnt, 14).value
+    channelList[wb2Sheet.cell(stockCnt, 13).value.replace(" ", "")] = wb2Sheet.cell(stockCnt, 19).value
 
   cnt = 2
 
@@ -53,6 +55,8 @@ for wb2Sheet in wb2:
         prdIdxInfo = wb[sheet2Name].cell(cnt, 6).value
         try:
           wb[sheet2Name].cell(cnt, 7).value = stockList[prdIdxInfo.replace(" ", "").replace("(저스틴23)", "").replace("(주니어)", "")]
+          wb[sheet2Name].cell(cnt, 9).value = channelList[prdIdxInfo.replace(" ", "").replace("(저스틴23)", "").replace("(주니어)", "")]
+          wb[sheet2Name].cell(cnt, 10).value = " "
         except:
           pass
         
