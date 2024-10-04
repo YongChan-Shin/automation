@@ -56,6 +56,8 @@ for wb2Sheet in wb2:
         try:
           wb[sheet2Name].cell(cnt, 7).value = stockList[prdIdxInfo.replace(" ", "").replace("(저스틴23)", "").replace("(주니어)", "")]
           wb[sheet2Name].cell(cnt, 9).value = channelList[prdIdxInfo.replace(" ", "").replace("(저스틴23)", "").replace("(주니어)", "")]
+          if wb[sheet2Name].cell(cnt, 9).value == "랜덤박스":
+            wb[sheet2Name].cell(cnt, 7).value = 0
           wb[sheet2Name].cell(cnt, 10).value = " "
         except:
           pass
