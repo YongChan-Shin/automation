@@ -98,6 +98,7 @@ for wb2Sheet in wb2:
           for prd in wb2Sheet.cell(i, 20).value.split('/'):
             if prd not in wb2Sheet.cell(i, 19).value:
               wb2Sheet.cell(i, 19).fill = fillData
+              wb2Sheet.cell(i, 19).value = '(' + prd + ')' + wb2Sheet.cell(i, 19).value
               wb2Sheet.cell(i, 20).fill = fillData
       except:
         pass
