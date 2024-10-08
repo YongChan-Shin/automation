@@ -28,7 +28,7 @@ for i in files:
     if(not i.startswith('~')):
       excelFileList.append(i)
 
-# print(excelFileList)
+print(excelFileList)
 
 for file in excelFileList:
 
@@ -66,7 +66,7 @@ for file in excelFileList:
         continue
       try:
         pass
-        # print(sheet1.cell(row=i, column=7).value + " / 송장번호 : " + sheet1.cell(row=i, column=13).value)
+        print(sheet1.cell(row=i, column=7).value + " / 송장번호 : " + sheet1.cell(row=i, column=13).value)
       except:
         pass
       sheet2.cell(row=sheet2MaxRow + 1, column=1).value = sheet1.cell(row=i, column=j).value # 주문 정보 삽입
@@ -75,7 +75,7 @@ for file in excelFileList:
       
       for product in product_list:
         try:
-          if product in str(sheet1.cell(row=i, column=j).value) and product in :
+          if product in str(sheet1.cell(row=i, column=j).value):
             if product not in orderDictPrdNums:
               orderDictPrdNums[product] = [sheet1.cell(row=i, column=9).value]
             else:
@@ -83,10 +83,6 @@ for file in excelFileList:
                 orderDictPrdNums[product].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
         except:
           pass
-        
-      for key, value in orderDictPrdNums.items():
-        print(key, value)
-      
 
   fillData = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
   fillAlignment = Alignment(horizontal='center')
