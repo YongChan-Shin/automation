@@ -52,6 +52,9 @@ prdSoldoutList = []
 # 중복상품 체크용 딕셔너리
 doublePrdList = {}
 
+# 세팅채널과 판매채널 상이한 상품리스트
+channelErrPrdList = []
+
 wb2 = load_workbook('데이터.xlsx')
 
 for wb2Sheet in wb2:
@@ -96,10 +99,13 @@ for wb2Sheet in wb2:
         wb2Sheet.cell(i, 20).value = sellChannelList[wb2Sheet.cell(i, 5).value]
         if wb2Sheet.cell(i, 19).value != None:
           for prd in wb2Sheet.cell(i, 20).value.split('/'):
+            # 세팅채널과 판매채널 상이 시 특이사항 표시
             if prd not in wb2Sheet.cell(i, 19).value:
               wb2Sheet.cell(i, 19).fill = fillData
               wb2Sheet.cell(i, 19).value = '(' + prd + ')' + wb2Sheet.cell(i, 19).value
               wb2Sheet.cell(i, 20).fill = fillData
+              if wb2Sheet.cell(i, 5).value not in channelErrPrdList:
+                channelErrPrdList.append(wb2Sheet.cell(i, 5).value)
       except:
         pass
     
@@ -167,5 +173,11 @@ if len(stockErrList) > 0:
   for i in stockErrList:
     f4.write('{}\n'.format(i))
   f4.close()
+
+if len(channelErrPrdList) > 0:
+  f5 = open('세팅채널과 판매채널이 상이한 상품 정보.txt', 'w')
+  for i in channelErrPrdList:
+    f5.write('{}\n'.format(i))
+  f5.close()
 
 wb2.save(currPath + '\\데이터_판매량 반영.xlsx')
