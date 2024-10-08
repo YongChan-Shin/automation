@@ -100,12 +100,12 @@ for wb2Sheet in wb2:
         if wb2Sheet.cell(i, 19).value != None:
           for prd in wb2Sheet.cell(i, 20).value.split('/'):
             # 세팅채널과 판매채널 상이 시 특이사항 표시
-            if prd not in wb2Sheet.cell(i, 19).value:
+            if sellList.get(wb2Sheet.cell(i, 13).value) > 0 and prd not in wb2Sheet.cell(i, 19).value:
               wb2Sheet.cell(i, 19).fill = fillData
               wb2Sheet.cell(i, 19).value = '(' + prd + ')' + wb2Sheet.cell(i, 19).value
               wb2Sheet.cell(i, 20).fill = fillData
-              if wb2Sheet.cell(i, 5).value not in channelErrPrdList:
-                channelErrPrdList.append(wb2Sheet.cell(i, 5).value)
+              if str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value) not in channelErrPrdList:
+                channelErrPrdList.append(str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value))
       except:
         pass
     
