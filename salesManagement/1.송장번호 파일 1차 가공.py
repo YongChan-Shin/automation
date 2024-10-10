@@ -135,6 +135,8 @@ for file in excelFileList:
   sheet2.cell(1, 25).alignment = fillAlignment
   sheet2.cell(1, 27).alignment = fillAlignment
   sheet2.cell(1, 28).alignment = fillAlignment
+  sheet2.cell(1, 30).alignment = fillAlignment
+  sheet2.cell(1, 31).alignment = fillAlignment
   
   sheet2.cell(1, 1).font = fillFont
   sheet2.cell(1, 2).font = fillFont
@@ -158,6 +160,8 @@ for file in excelFileList:
   sheet2.cell(1, 25).font = fillFont
   sheet2.cell(1, 27).font = fillFont
   sheet2.cell(1, 28).font = fillFont
+  sheet2.cell(1, 30).font = fillFont
+  sheet2.cell(1, 31).font = fillFont
 
   sheet2.cell(1, 1).fill = fillData
   sheet2.column_dimensions['A'].width = 60
