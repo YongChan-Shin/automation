@@ -317,10 +317,13 @@ for key, value in orderDictPrdChannel.items():
   valueText = ""
   dailyWs.cell(orderDictPrdChannelCnt, 22).value = key
   for idx, i in enumerate(value):
-    if idx == 0:
-      valueText += arrangeChannel(i)
-    else:
-      valueText += "/{}".format(arrangeChannel(i))
+    try:
+      if idx == 0:
+        valueText += arrangeChannel(i)
+      else:
+        valueText += "/{}".format(arrangeChannel(i))
+    except:
+      pass
   dailyWs.cell(orderDictPrdChannelCnt, 23).value = valueText
   orderDictPrdChannelCnt += 1
   
