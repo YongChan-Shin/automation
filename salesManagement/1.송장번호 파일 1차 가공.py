@@ -77,10 +77,10 @@ for file in excelFileList:
         try:
           if product in str(sheet1.cell(row=i, column=j).value):
             if product not in orderDictPrdNums:
-              orderDictPrdNums[product] = [sheet1.cell(row=i, column=9).value]
+              orderDictPrdNums[product.replace("(저스틴23)", "")] = [sheet1.cell(row=i, column=9).value]
             else:
               if sheet1.cell(row=i, column=9).value not in orderDictPrdNums[product]:
-                orderDictPrdNums[product].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
+                orderDictPrdNums[product.replace("(저스틴23)", "")].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
         except:
           pass
 
@@ -210,7 +210,7 @@ for file in excelFileList:
     try:
       for product in product_list:
         if product in str(sheet2.cell(i, 1).value):
-          sheet2.cell(i, 2).value = product
+          sheet2.cell(i, 2).value = product.replace("(저스틴23)", "")
           # 스마일비니 단품 판매건 체크
           if "스마일비니" in str(sheet2.cell(i, 1).value) and "(1+1)" not in str(sheet2.cell(i, 1).value):
             orderBeanie.append(str(sheet1.cell(2, 7).value) + " / " + str(sheet2.cell(i, 1).value) + " / " + orderNum)
