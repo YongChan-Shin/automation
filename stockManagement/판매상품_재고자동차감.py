@@ -76,7 +76,7 @@ for wb2Sheet in wb2:
     if sellList.get(wb2Sheet.cell(i, 13).value) != None:
       if wb2Sheet.cell(i, 14).value > 0:
         if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
-          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '/' + str(now.strftime('%Y-%m-%d')))
+          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개부족/' + str(now.strftime('%Y-%m-%d')) + '/세팅채널 : ' + str(wb2Sheet.cell(i, 20).value))
           wb2Sheet.cell(i, 14).value = 0
         else:
           wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
