@@ -75,7 +75,7 @@ for wb2Sheet in wb2:
     # 판매상품 재고 차감
     if sellList.get(wb2Sheet.cell(i, 13).value) != None:
       if wb2Sheet.cell(i, 14).value > 0:
-        if sellList[wb2Sheet.cell(i, 13).value] > wb2Sheet.cell(i, 14).value:
+        if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
           prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '/' + str(now.strftime('%Y-%m-%d')))
           wb2Sheet.cell(i, 14).value = 0
         else:
