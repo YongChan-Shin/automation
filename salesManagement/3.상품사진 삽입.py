@@ -72,6 +72,8 @@ for file in excelFileList:
     if sheet1.cell(row=i, column=4).value == None or sheet1.cell(row=i, column=4).value == '':
       continue
     else:
+      sheet1.cell(row=i, column=27).value = " "
+      sheet1.cell(row=i, column=30).value = " "
       sheet2["A" + str(i)].alignment = Alignment(vertical='center')
       sheet2["B" + str(i)].alignment = Alignment(vertical='center')
       print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
