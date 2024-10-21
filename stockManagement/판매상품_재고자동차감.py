@@ -31,6 +31,14 @@ for i in range(firstCell, lastCell):
     sellChannelList[wb[sheet1Name].cell(i, 22).value] = wb[sheet1Name].cell(i, 23).value
   except:
     pass
+  
+# 상품별 주문번호정보 생성
+orderNumList ={}
+for i in range(firstCell, lastCell):
+  try:
+    orderNumList[wb[sheet1Name].cell(i, 25).value] = wb[sheet1Name].cell(i, 26).value
+  except:
+    pass
 
 print(sellList)
 
@@ -45,9 +53,13 @@ stockErrList = []
 
 # 재고수량 0인 상품 중 판매된 상품리스트
 prdOrderSoldout = []
+# 재고수량 0인 상품 중 판매된 상품수량 카운트 변수
+prdOrderSoldoutCount = 0
 
 # 판매량 차감 후 품절된 상품리스트
 prdSoldoutList = []
+# 판매량 차감 후 품절된 상품수량 카운트 변수
+prdSoldoutCount = 0
 
 # 중복상품 체크용 딕셔너리
 doublePrdList = {}
@@ -76,12 +88,12 @@ for wb2Sheet in wb2:
     if sellList.get(wb2Sheet.cell(i, 13).value) != None:
       if wb2Sheet.cell(i, 14).value > 0:
         if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
-          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개부족/' + str(now.strftime('%Y-%m-%d')) + '/세팅채널 : ' + str(wb2Sheet.cell(i, 19).value))
+          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개부족/' + str(now.strftime('%Y-%m-%d')) + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumList[wb2Sheet.cell(i, 5).value]))
           wb2Sheet.cell(i, 14).value = 0
         else:
           wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
       else:
-        prdOrderSoldout.append((str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value])))
+        prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumList[wb2Sheet.cell(i, 5).value]))
         wb2Sheet.cell(i, 14).value = 0
         
       # 누적판매량 정리
@@ -125,14 +137,16 @@ if len(errList) > 0 or len(prdOrderSoldout) > 0:
   f.close()
   f = open('차감 재고 데이터 매칭 오류.txt', 'a')
   for i in prdOrderSoldout:
-    f.write('{} / {}\n'.format(i, sellChannelList[i.split(" ")[0]]))
+    prdOrderSoldoutCount += 1
+    f.write('[{}] {} \n - 판매채널 : {}\n\n'.format(prdOrderSoldoutCount, i, sellChannelList[i.split(" ")[0]]))
   f.close()
 
 # 판매량 차감 후 품절처리된 상품 정보 저장
 if len(prdSoldoutList) > 0:
   f2 = open('판매량 차감 후 품절처리된 상품 정보.txt', 'w')
   for i in prdSoldoutList:
-    f2.write('{}\n'.format(i))
+    prdSoldoutCount += 1
+    f2.write('[{}] {}\n\n'.format(prdSoldoutCount, i))
   f2.close()
 
 # 중복상품 체크 정보 저장
