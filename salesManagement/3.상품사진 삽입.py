@@ -69,6 +69,7 @@ for file in excelFileList:
   last_row = sheet1.max_row + 1  
   
   for i in range(first_row, last_row):
+    sheet1.cell(row=i, column=24).value = " "
     sheet1.cell(row=i, column=27).value = " "
     sheet1.cell(row=i, column=30).value = " "
     
