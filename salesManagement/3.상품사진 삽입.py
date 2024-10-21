@@ -69,11 +69,12 @@ for file in excelFileList:
   last_row = sheet1.max_row + 1  
   
   for i in range(first_row, last_row):
+    sheet1.cell(row=i, column=27).value = " "
+    sheet1.cell(row=i, column=30).value = " "
+    
     if sheet1.cell(row=i, column=4).value == None or sheet1.cell(row=i, column=4).value == '':
       continue
     else:
-      sheet1.cell(row=i, column=27).value = " "
-      sheet1.cell(row=i, column=30).value = " "
       sheet2["A" + str(i)].alignment = Alignment(vertical='center')
       sheet2["B" + str(i)].alignment = Alignment(vertical='center')
       print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
