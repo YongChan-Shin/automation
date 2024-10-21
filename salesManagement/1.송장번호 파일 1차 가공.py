@@ -58,6 +58,7 @@ for file in excelFileList:
   
   # 주문번호 수집
   orderDictPrdNums = {}
+  orderDictPrdDetailNums = {}
 
   for i in range(first_row, last_row):
     for j in range(first_col, last_col):
@@ -73,9 +74,13 @@ for file in excelFileList:
       sheet2.cell(row=sheet2MaxRow + 1, column=7).value = "_".join(sheet1.cell(i, 6).value.split(" ")[:2]) # 주소 정보 삽입
       sheet2.cell(row=sheet2MaxRow + 1, column=8).value = str(sheet1.cell(i, 4).value) + str(sheet1.cell(i, 3).value) # 주문 고객 정보 삽입
       
+      # 상품(상세정보) 주문번호 수집 식별자
+      prdDetailInfo = ''
+      
       for product in product_list:
         try:
           if product in str(sheet1.cell(row=i, column=j).value):
+            prdDetailInfoProduct = product.replace("(저스틴23)", "")
             if product not in orderDictPrdNums:
               orderDictPrdNums[product.replace("(저스틴23)", "")] = [sheet1.cell(row=i, column=9).value]
             else:
@@ -83,7 +88,21 @@ for file in excelFileList:
                 orderDictPrdNums[product.replace("(저스틴23)", "")].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
         except:
           pass
+        
+      for color in color_list:
+        if color in str(sheet1.cell(row=i, column=j).value):
+          prdDetailInfoColor = color
+      for size in size_list:
+        if size in str(sheet1.cell(row=i, column=j).value):
+          prdDetailInfoSize = size.replace("FREE", "free")
+      
+      prdDetailInfo = '{}/{}/{}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
 
+      if prdDetailInfo not in orderDictPrdDetailNums:
+        orderDictPrdDetailNums[prdDetailInfo] = [sheet1.cell(row=i, column=9).value]
+      else:
+        orderDictPrdDetailNums[prdDetailInfo].append(sheet1.cell(row=i, column=9).value)
+      
   fillData = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
   fillAlignment = Alignment(horizontal='center')
   fillFont = Font(bold=True)
@@ -112,6 +131,8 @@ for file in excelFileList:
   sheet2.cell(1, 28).value = '판매량'
   sheet2.cell(1, 30).value = '상품명'
   sheet2.cell(1, 31).value = '주문번호'
+  sheet2.cell(1, 33).value = '상품명(상세)'
+  sheet2.cell(1, 34).value = '주문번호'
   
   sheet2.cell(1, 1).alignment = fillAlignment
   sheet2.cell(1, 2).alignment = fillAlignment
@@ -137,6 +158,8 @@ for file in excelFileList:
   sheet2.cell(1, 28).alignment = fillAlignment
   sheet2.cell(1, 30).alignment = fillAlignment
   sheet2.cell(1, 31).alignment = fillAlignment
+  sheet2.cell(1, 33).alignment = fillAlignment
+  sheet2.cell(1, 34).alignment = fillAlignment
   
   sheet2.cell(1, 1).font = fillFont
   sheet2.cell(1, 2).font = fillFont
@@ -162,6 +185,8 @@ for file in excelFileList:
   sheet2.cell(1, 28).font = fillFont
   sheet2.cell(1, 30).font = fillFont
   sheet2.cell(1, 31).font = fillFont
+  sheet2.cell(1, 33).font = fillFont
+  sheet2.cell(1, 34).font = fillFont
 
   sheet2.cell(1, 1).fill = fillData
   sheet2.column_dimensions['A'].width = 60
@@ -180,6 +205,8 @@ for file in excelFileList:
   sheet2.column_dimensions['AA'].width = 40
   sheet2.column_dimensions['AD'].width = 40
   sheet2.column_dimensions['AE'].width = 40
+  sheet2.column_dimensions['AG'].width = 40
+  sheet2.column_dimensions['AH'].width = 40
 
   last_row2 = sheet2.max_row + 1
 
@@ -359,6 +386,12 @@ for file in excelFileList:
     sheet2.cell(orderDictPrdNumsCnt, 30).value = key
     sheet2.cell(orderDictPrdNumsCnt, 31).value = ", ".join(value)
     orderDictPrdNumsCnt += 1
+    
+  orderDictPrdDetailNumsCnt = 2
+  for key, value in orderDictPrdDetailNums.items():
+    sheet2.cell(orderDictPrdDetailNumsCnt, 33).value = key
+    sheet2.cell(orderDictPrdDetailNumsCnt, 34).value = ", ".join(value)
+    orderDictPrdDetailNumsCnt += 1
 
 
   fillData2 = PatternFill(fill_type='solid', start_color='CCFFCC', end_color='CCFFCC')
@@ -387,6 +420,8 @@ for file in excelFileList:
   sheet2["AB1"].fill = fillData3
   sheet2["AD1"].fill = fillData2
   sheet2["AE1"].fill = fillData2
+  sheet2["AG1"].fill = fillData2
+  sheet2["AH1"].fill = fillData2
   
   wb.active = sheet2
 
