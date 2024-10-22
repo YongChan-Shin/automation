@@ -33,10 +33,18 @@ for i in range(firstCell, lastCell):
     pass
   
 # 상품별 주문번호정보 생성
-orderNumList ={}
+# orderNumList ={}
+# for i in range(firstCell, lastCell):
+#   try:
+#     orderNumList[wb[sheet1Name].cell(i, 25).value] = wb[sheet1Name].cell(i, 26).value
+#   except:
+#     pass
+  
+# 상품별(컬러/사이즈) 주문번호정보 생성
+orderNumDetailList ={}
 for i in range(firstCell, lastCell):
   try:
-    orderNumList[wb[sheet1Name].cell(i, 25).value] = wb[sheet1Name].cell(i, 26).value
+    orderNumDetailList[wb[sheet1Name].cell(i, 28).value.replace("/", " ")] = wb[sheet1Name].cell(i, 29).value
   except:
     pass
 
@@ -88,12 +96,12 @@ for wb2Sheet in wb2:
     if sellList.get(wb2Sheet.cell(i, 13).value) != None:
       if wb2Sheet.cell(i, 14).value > 0:
         if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
-          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개부족/' + str(now.strftime('%Y-%m-%d')) + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumList[wb2Sheet.cell(i, 5).value]))
+          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개부족/' + str(now.strftime('%Y-%m-%d')) + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
           wb2Sheet.cell(i, 14).value = 0
         else:
           wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
       else:
-        prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumList[wb2Sheet.cell(i, 5).value]))
+        prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
         wb2Sheet.cell(i, 14).value = 0
         
       # 누적판매량 정리
