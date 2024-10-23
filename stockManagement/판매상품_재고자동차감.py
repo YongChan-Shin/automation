@@ -32,6 +32,14 @@ for i in range(firstCell, lastCell):
   except:
     pass
   
+# 판매채널정보(상세)  생성
+sellChannelDetailList ={}
+for i in range(firstCell, lastCell):
+  try:
+    sellChannelDetailList[wb[sheet1Name].cell(i, 25).value.replace("/", " ")] = wb[sheet1Name].cell(i, 26).value
+  except:
+    pass
+  
 # 상품별 주문번호정보 생성
 # orderNumList ={}
 # for i in range(firstCell, lastCell):
@@ -108,17 +116,34 @@ for wb2Sheet in wb2:
     else:
       pass
     
-    # 실제 판매채널 체크
-    if wb2Sheet.cell(i, 5).value != None:
+    # # 실제 판매채널 체크
+    # if wb2Sheet.cell(i, 5).value != None:
+    #   wb2Sheet.cell(i, 20).value = " "
+    #   try:
+    #     wb2Sheet.cell(i, 20).value = sellChannelList[wb2Sheet.cell(i, 5).value]
+    #     if wb2Sheet.cell(i, 19).value != None:
+    #       for prd in wb2Sheet.cell(i, 20).value.split('/'):
+    #         # 세팅채널과 판매채널 상이 시 특이사항 표시
+    #         if sellList.get(wb2Sheet.cell(i, 13).value) > 0 and prd not in wb2Sheet.cell(i, 19).value:
+    #           wb2Sheet.cell(i, 19).fill = fillData
+    #           wb2Sheet.cell(i, 19).value = '(' + prd + ')' + wb2Sheet.cell(i, 19).value
+    #           wb2Sheet.cell(i, 20).fill = fillData
+    #           if str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value) not in channelErrPrdList:
+    #             channelErrPrdList.append(str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value))
+    #   except:
+    #     pass
+      
+    # 실제 판매채널(상세) 체크
+    if wb2Sheet.cell(i, 13).value != None:
       wb2Sheet.cell(i, 20).value = " "
       try:
-        wb2Sheet.cell(i, 20).value = sellChannelList[wb2Sheet.cell(i, 5).value]
+        wb2Sheet.cell(i, 20).value = sellChannelDetailList[wb2Sheet.cell(i, 13).value]
         if wb2Sheet.cell(i, 19).value != None:
-          for prd in wb2Sheet.cell(i, 20).value.split('/'):
+          for channel in wb2Sheet.cell(i, 20).value.split('/'):
             # 세팅채널과 판매채널 상이 시 특이사항 표시
-            if sellList.get(wb2Sheet.cell(i, 13).value) > 0 and prd not in wb2Sheet.cell(i, 19).value:
+            if sellList.get(wb2Sheet.cell(i, 13).value) > 0 and channel not in wb2Sheet.cell(i, 19).value:
               wb2Sheet.cell(i, 19).fill = fillData
-              wb2Sheet.cell(i, 19).value = '(' + prd + ')' + wb2Sheet.cell(i, 19).value
+              wb2Sheet.cell(i, 19).value = '(' + channel + ')' + wb2Sheet.cell(i, 19).value
               wb2Sheet.cell(i, 20).fill = fillData
               if str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value) not in channelErrPrdList:
                 channelErrPrdList.append(str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value))
