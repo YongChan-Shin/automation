@@ -70,10 +70,12 @@ dailyWs.cell(1, 19).value = '주문건수(주문수량기준)'
 dailyWs.cell(1, 20).value = '판매량'
 dailyWs.cell(1, 22).value = '상품 판매채널 종합'
 dailyWs.cell(1, 23).value = '판매채널'
-dailyWs.cell(1, 25).value = '상품 주문번호 종합'
-dailyWs.cell(1, 26).value = '주문번호'
-dailyWs.cell(1, 28).value = '상품(상세) 주문번호 종합'
+dailyWs.cell(1, 25).value = '상품(상세) 판매채널 종합'
+dailyWs.cell(1, 26).value = '판매채널'
+dailyWs.cell(1, 28).value = '상품 주문번호 종합'
 dailyWs.cell(1, 29).value = '주문번호'
+dailyWs.cell(1, 31).value = '상품(상세) 주문번호 종합'
+dailyWs.cell(1, 32).value = '주문번호'
 
 dailyWs.cell(1, 1).alignment = fillAlignment
 dailyWs.cell(1, 2).alignment = fillAlignment
@@ -95,6 +97,8 @@ dailyWs.cell(1, 25).alignment = fillAlignment
 dailyWs.cell(1, 26).alignment = fillAlignment
 dailyWs.cell(1, 28).alignment = fillAlignment
 dailyWs.cell(1, 29).alignment = fillAlignment
+dailyWs.cell(1, 31).alignment = fillAlignment
+dailyWs.cell(1, 32).alignment = fillAlignment
 
 dailyWs.cell(1, 1).font = fillFont
 dailyWs.cell(1, 2).font = fillFont
@@ -116,6 +120,8 @@ dailyWs.cell(1, 25).font = fillFont
 dailyWs.cell(1, 26).font = fillFont
 dailyWs.cell(1, 28).font = fillFont
 dailyWs.cell(1, 29).font = fillFont
+dailyWs.cell(1, 31).font = fillFont
+dailyWs.cell(1, 32).font = fillFont
 
 dailyWs.cell(1, 1).fill = fillData
 dailyWs.column_dimensions['A'].width = 40
@@ -140,6 +146,8 @@ dailyWs.column_dimensions['Y'].width = 30
 dailyWs.column_dimensions['Z'].width = 50
 dailyWs.column_dimensions['AB'].width = 30
 dailyWs.column_dimensions['AC'].width = 50
+dailyWs.column_dimensions['AE'].width = 30
+dailyWs.column_dimensions['AF'].width = 50
 
 fillData2 = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
 dailyWs["A1"].fill = fillData2
@@ -162,6 +170,8 @@ dailyWs["Y1"].fill = fillData2
 dailyWs["Z1"].fill = fillData2
 dailyWs["AB1"].fill = fillData2
 dailyWs["AC1"].fill = fillData2
+dailyWs["AE1"].fill = fillData2
+dailyWs["AF1"].fill = fillData2
 
 orderDict = {}
 orderDictPrd = {}
@@ -175,6 +185,9 @@ orderDictPrdDetailNums = {}
 
 # 제품별 판매채널 정보
 orderDictPrdChannel = {}
+
+# 제품별(상세) 판매채널 정보
+orderDictPrdDetailChannel = {}
 
 for file in excelFileList:
 
@@ -281,6 +294,16 @@ for file in excelFileList:
       else:
         if ws.cell(i, 6).value not in orderDictPrdChannel[ws.cell(i, 2).value]:
           orderDictPrdChannel[ws.cell(i, 2).value].append(ws.cell(i, 6).value)
+        
+  for i in range(first_row, last_row):
+    if ws.cell(i, 5).value == None or ws.cell(i, 5).value == '':
+      continue
+    else:
+      if ws.cell(i, 5).value not in orderDictPrdDetailChannel:
+        orderDictPrdDetailChannel[ws.cell(i, 5).value] = [ws.cell(i, 6).value]
+      else:
+        if ws.cell(i, 6).value not in orderDictPrdDetailChannel[ws.cell(i, 5).value]:
+          orderDictPrdDetailChannel[ws.cell(i, 5).value].append(ws.cell(i, 6).value)
           
   orderDictCnt = 2
   for key, value in orderDict.items():
@@ -332,33 +355,48 @@ for file in excelFileList:
     dailyWs.cell(orderDictQuantityCnt, 20).value = value
     orderDictQuantityCnt += 1
     
-orderDictPrdChannelCnt = 2
-for key, value in orderDictPrdChannel.items():
-  valueText = ""
-  dailyWs.cell(orderDictPrdChannelCnt, 22).value = key
-  for idx, i in enumerate(value):
-    try:
-      if idx == 0:
-        valueText += arrangeChannel(i)
-      else:
-        valueText += "/{}".format(arrangeChannel(i))
-    except:
-      pass
-  dailyWs.cell(orderDictPrdChannelCnt, 23).value = valueText
-  orderDictPrdChannelCnt += 1
+  orderDictPrdChannelCnt = 2
+  for key, value in orderDictPrdChannel.items():
+    valueText = ""
+    dailyWs.cell(orderDictPrdChannelCnt, 22).value = key
+    for idx, i in enumerate(value):
+      try:
+        if idx == 0:
+          valueText += arrangeChannel(i)
+        else:
+          valueText += "/{}".format(arrangeChannel(i))
+      except:
+        pass
+    dailyWs.cell(orderDictPrdChannelCnt, 23).value = valueText
+    orderDictPrdChannelCnt += 1
+    
+  orderDictPrdDetailChannelCnt = 2
+  for key, value in orderDictPrdDetailChannel.items():
+    valueText = ""
+    dailyWs.cell(orderDictPrdDetailChannelCnt, 25).value = key
+    for idx, i in enumerate(value):
+      try:
+        if idx == 0:
+          valueText += arrangeChannel(i)
+        else:
+          valueText += "/{}".format(arrangeChannel(i))
+      except:
+        pass
+    dailyWs.cell(orderDictPrdDetailChannelCnt, 26).value = valueText
+    orderDictPrdDetailChannelCnt += 1
   
   orderDictPrdNumsCnt = 2
   for key, value in orderDictPrdNums.items():
-    dailyWs.cell(orderDictPrdNumsCnt, 25).value = key
-    dailyWs.cell(orderDictPrdNumsCnt, 26).value = value
-    dailyWs.cell(orderDictPrdNumsCnt, 27).value = " "
+    dailyWs.cell(orderDictPrdNumsCnt, 28).value = key
+    dailyWs.cell(orderDictPrdNumsCnt, 29).value = value
+    dailyWs.cell(orderDictPrdNumsCnt, 30).value = " "
     orderDictPrdNumsCnt += 1
     
   orderDictPrdDetailNumsCnt = 2
   for key, value in orderDictPrdDetailNums.items():
-    dailyWs.cell(orderDictPrdDetailNumsCnt, 28).value = key
-    dailyWs.cell(orderDictPrdDetailNumsCnt, 29).value = value
-    dailyWs.cell(orderDictPrdDetailNumsCnt, 30).value = " "
+    dailyWs.cell(orderDictPrdDetailNumsCnt, 31).value = key
+    dailyWs.cell(orderDictPrdDetailNumsCnt, 32).value = value
+    dailyWs.cell(orderDictPrdDetailNumsCnt, 33).value = " "
     orderDictPrdDetailNumsCnt += 1  
     
 dailyWb.save(currPath + '\\' + date + '.xlsx')
