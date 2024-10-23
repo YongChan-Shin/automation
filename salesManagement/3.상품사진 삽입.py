@@ -72,6 +72,7 @@ for file in excelFileList:
     sheet1.cell(row=i, column=24).value = " "
     sheet1.cell(row=i, column=27).value = " "
     sheet1.cell(row=i, column=30).value = " "
+    sheet1.cell(row=i, column=33).value = " "
     
     if sheet1.cell(row=i, column=4).value == None or sheet1.cell(row=i, column=4).value == '':
       continue
