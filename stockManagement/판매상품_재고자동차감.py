@@ -52,7 +52,7 @@ for i in range(firstCell, lastCell):
 orderNumDetailList ={}
 for i in range(firstCell, lastCell):
   try:
-    orderNumDetailList[wb[sheet1Name].cell(i, 28).value.replace("/", " ")] = wb[sheet1Name].cell(i, 29).value
+    orderNumDetailList[wb[sheet1Name].cell(i, 31).value.replace("/", " ")] = wb[sheet1Name].cell(i, 32).value
   except:
     pass
 
