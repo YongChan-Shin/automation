@@ -35,7 +35,7 @@ ws = wb.active
 fillData = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
 fillData2 = PatternFill(fill_type='solid', start_color='FFBDBD', end_color='FFBDBD')
 fillAlignment = Alignment(horizontal='center')
-fillFont = Font(bold=True, size=9)
+fillFont = Font(bold=True)
 
 ws.cell(1, 24).value = '상품정보'
 ws.cell(1, 25).value = '상품명'
@@ -122,5 +122,5 @@ if len(stockErrList) > 0:
     f.write("{}\n\n".format(i))
   f.close()
 
-wb.active.auto_filter.ref = "A2:AC2"
+wb.active.auto_filter.ref = "A1:AC1"
 wb.save('상품옵션별 재고현황 추출.xlsx')
