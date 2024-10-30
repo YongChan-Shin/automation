@@ -97,23 +97,26 @@ for wb2Sheet in wb2:
       doublePrdList[wb2Sheet.cell(i, 13).value] += 1
       
     # 판매상품 재고 차감
-    if sellList.get(wb2Sheet.cell(i, 13).value) != None:
-      if wb2Sheet.cell(i, 14).value > 0:
-        if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
-          prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + '차감 후 수량 : ' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개/' + str(now.strftime('%Y-%m-%d')) + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
-          wb2Sheet.cell(i, 14).value = 0
+    try:
+      if sellList.get(wb2Sheet.cell(i, 13).value) != None:
+        if wb2Sheet.cell(i, 14).value > 0:
+          if sellList[wb2Sheet.cell(i, 13).value] >= wb2Sheet.cell(i, 14).value:
+            prdSoldoutList.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매/' + '차감 후 수량 : ' + str(wb2Sheet.cell(i, 14).value - sellList[wb2Sheet.cell(i, 13).value]) + '개/' + str(now.strftime('%Y-%m-%d')) + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
+            wb2Sheet.cell(i, 14).value = 0
+          else:
+            wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
         else:
-          wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
+          prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
+          wb2Sheet.cell(i, 14).value = 0
+          
+        # 누적판매량 정리
+        if wb2Sheet.cell(i, 16).value != None:
+          wb2Sheet.cell(i, 16).value += sellList[wb2Sheet.cell(i, 13).value]
+        else:
+          wb2Sheet.cell(i, 16).value = sellList[wb2Sheet.cell(i, 13).value]
       else:
-        prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
-        wb2Sheet.cell(i, 14).value = 0
-        
-      # 누적판매량 정리
-      if wb2Sheet.cell(i, 16).value != None:
-        wb2Sheet.cell(i, 16).value += sellList[wb2Sheet.cell(i, 13).value]
-      else:
-        wb2Sheet.cell(i, 16).value = sellList[wb2Sheet.cell(i, 13).value]
-    else:
+        pass
+    except:
       pass
     
     # # 실제 판매채널 체크
