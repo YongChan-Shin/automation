@@ -165,7 +165,7 @@ for i in range(first_row, last_row_sh2 + 1):
         if sheet2.cell(row=i, column=5).value == "노출함" and sheet2.cell(row=i, column=6).value == "판매함":
           if sheet2.cell(row=i, column=7).value != '품절':
             print("{}/{}".format(sheet2.cell(i, 8).value, sheet2.cell(i, 7).value))
-            stockErrList.append("○ {} / 노출상태 : {} 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
+            stockErrList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
             for colNum in range(1, 14):
               sheet2.cell(row=i, column=colNum).fill = fillData2
   except:
