@@ -76,10 +76,6 @@ ws.column_dimensions['V'].width = 25
 first_row = 7
 last_row = ws.max_row + 1
 
-# 주문번호 수집
-orderDictPrdNums = {}
-orderDictPrdDetailNums = {}
-
 for i in range(first_row, last_row):
   try:
     ws.cell(i, 17).value = str(ws.cell(i, 6).value) + '/' + str(ws.cell(i, 7).value)

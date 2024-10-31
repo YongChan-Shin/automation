@@ -76,10 +76,6 @@ ws.column_dimensions['W'].width = 25
 first_row = 2
 last_row = ws.max_row + 1
 
-# 주문번호 수집
-orderDictPrdNums = {}
-orderDictPrdDetailNums = {}
-
 for i in range(first_row, last_row):
   try:
     ws.cell(i, 18).value = str(ws.cell(i, 8).value) + '/' + str(ws.cell(i, 11).value)
@@ -116,7 +112,8 @@ for i in range(first_row, last_row):
     continue
   
 if len(stockErrList) > 0:
-  f = open("보리보리) 품절상품 중 판매세팅된 상품 정보.txt", "w")
+  f = open("(보리보리) 품절상품 중 판매세팅된 상품 정보.txt", "w")
+  f.write("(보리보리) 품절상품 중 판매세팅된 상품 정보\n\n")
   for i in stockErrList:
     f.write("{}\n\n".format(i))
   f.close()
