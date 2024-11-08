@@ -59,7 +59,7 @@ for key, value in samsonyPrdList.items():
 resultWb.save("result.xlsx")
 
 
-# JSON 파일 저장
+# JSON 파일로 저장
 jsonData = {}
 jsonData['data'] = []
 
