@@ -1,6 +1,7 @@
 from openpyxl import Workbook
 from openpyxl import load_workbook
 
+import json
 import source
 import switchPrdInfo
 
@@ -56,3 +57,23 @@ for key, value in samsonyPrdList.items():
     print(key, value)
 
 resultWb.save("result.xlsx")
+
+
+# JSON 파일 저장
+jsonData = {}
+jsonData['data'] = []
+
+for key, value in samsonyPrdList.items():
+  try:
+    jsonData['data'].append({
+        "samsonyPrdName": key,
+        "kidscomoPrdName": switchPrdInfo.info[key],
+        "samsonyPrice": value,
+        "kidscomoPrice": kidscomoPrdList[switchPrdInfo.info[key]],
+        "priceGap": value - kidscomoPrdList[switchPrdInfo.info[key]]
+    })
+  except:
+    print(key, value)
+    
+with open("tracking.json", "w", encoding="UTF-8") as outfile:
+  json.dump(jsonData, outfile, indent=2, ensure_ascii=False)
