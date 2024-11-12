@@ -15,6 +15,36 @@ product_list = productsData.product_list
 color_list = productsData.color_list
 size_list = productsData.size_list
 
+# 모자정보 리스트
+capProducts = [
+  "퍼피캡모자",
+  "퍼피모자",
+  "카우보이별모자",
+  "곰돌이모자",
+  "용용이모자",
+  "베어캡모자",
+  "알파벳모자",
+  "알파벳벙거지",
+  "보스턴챙모자",
+  "스마일비니",
+  "보스턴비니",
+  "티라노모자",
+  "토밍이세트",
+  "토밍이모자세트",
+  "코코모자",
+  "토끼요정모자",
+  "해피스노우세트",
+  "해피스노우모자세트",
+  "동물친구모자",
+  "리리모자",
+  "카우모자",
+  "콩이모자",
+  "포근이모자",
+  "도토리비니",
+  "카라멜비니",
+  "왕방울모자",
+]
+
 # 폴더 내 엑셀 파일 검색
 currPath = os.getcwd()
 files = listdir(currPath + '\\data')
@@ -88,13 +118,16 @@ for file in excelFileList:
                 orderDictPrdNums[product.replace("(저스틴23)", "")].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
         except:
           pass
-        
+      
       for color in color_list:
         if color in str(sheet1.cell(row=i, column=j).value):
           prdDetailInfoColor = color
       for size in size_list:
         if size in str(sheet1.cell(row=i, column=j).value):
           prdDetailInfoSize = size.replace("FREE", "free")
+      
+      if prdDetailInfoProduct in capProducts:
+        prdDetailInfoSize = "free"
       
       prdDetailInfo = '{}/{}/{}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
 
@@ -248,6 +281,10 @@ for file in excelFileList:
       for size in size_list:
         if size in str(sheet2.cell(i, 1).value):
           sheet2.cell(i, 4).value = size.replace("FREE", "free")
+      
+      if str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) in capProducts:
+        sheet2.cell(i, 4).value = "free"
+        
       sheet2.cell(i, 5).value = str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) + "/" + str(sheet2.cell(i, 3).value) + "/" + str(sheet2.cell(i, 4).value.replace("FREE", "free"))
       sheet2.cell(i, 6).value = sheet1.cell(2, 7).value
       
