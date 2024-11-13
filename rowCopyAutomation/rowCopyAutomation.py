@@ -16,8 +16,15 @@ wb.active = wb[sheet2Name]
 wb2 = load_workbook('데이터.xlsx')
 
 prdIdxInfoList = [] # 품절상품 정보
+prdIdxInfoCSList = [] # 품절상품(CS팀전달) 정보
 stockList = {} # 상품별 재고수량 정보
 channelList = {} # 상품별 세팅채널 정보
+
+firstCellInfoCS = 3
+lastCellInfoCs = wb2['품절상품(CS팀전달)'].max_row + 1
+
+for i in range(firstCellInfoCS, lastCellInfoCs):
+  prdIdxInfoCSList.append(wb2['품절상품(CS팀전달)'].cell(i, 17).value)
 
 for wb2Sheet in wb2:
   wb2FirstCell = 3
@@ -29,6 +36,7 @@ for wb2Sheet in wb2:
           prdIdxInfoList.append(cell.value)
           
   fillData = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
+  fillData2 = PatternFill(fill_type='solid', start_color='DDEBF7', end_color='DDEBF7')
   fillFont = Font(color='FF0000')
 
   for stockCnt in range(wb2FirstCell, wb2LastCell):
@@ -69,10 +77,17 @@ for wb2Sheet in wb2:
           pass
         
         if prdIdxInfo in prdIdxInfoList or wb[sheet2Name].cell(cnt, 7).value == 0:
-          for z in range(1, 16):
-            wb[sheet2Name].cell(cnt, z).fill = fillData
-            wb[sheet2Name].cell(cnt, z).font = fillFont
-          wb[sheet2Name].cell(cnt, 8).value = "품절"
+          if prdIdxInfo in prdIdxInfoCSList:
+            for z in range(1, 16):
+              wb[sheet2Name].cell(cnt, z).fill = fillData
+              wb[sheet2Name].cell(cnt, z).font = fillFont
+            wb[sheet2Name].cell(cnt, 8).value = "품절"
+          else:
+            for z in range(1, 16):
+              wb[sheet2Name].cell(cnt, z).fill = fillData2
+              wb[sheet2Name].cell(cnt, z).font = fillFont
+            wb[sheet2Name].cell(cnt, 8).value = "자동품절(판매량차감)"
+            
         
         cnt += 1
   wb[sheet2Name].auto_filter.ref = "A1:O1"
