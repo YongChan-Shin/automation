@@ -14,9 +14,8 @@ jsonData = {}
 jsonData["data"] = []
   
 for i in range(first_row, last_row):
-  ws.cell(i, 5).value = '"prdName": "{}", "salesCnt": {}'.format(ws.cell(i, 1).value, ws.cell(i, 2).value)
   jsonData["data"].append({
-    "prdName": ws.cell(i, 1).value,
+    "prdName": ws.cell(i, 1).value.replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트"),
     "salesCnt": ws.cell(i, 2).value
   })
   
