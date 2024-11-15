@@ -248,28 +248,31 @@ first_row = 2
 last_row = accWs.max_row + 1
 
 for i in range(first_row, last_row):
-  if accWs.cell(i, 17).value >= 100:
-    orderDictQuantity['100개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 50:
-    orderDictQuantity['50개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 30:
-    orderDictQuantity['30개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 20:
-    orderDictQuantity['20개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 15:
-    orderDictQuantity['15개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 10:
-    orderDictQuantity['10개 이상'] += 1
-  elif accWs.cell(i, 17).value >= 5:
-    orderDictQuantity['5개 이상'] += 1
-  elif accWs.cell(i, 17).value == 4:
-    orderDictQuantity['4개'] += 1
-  elif accWs.cell(i, 17).value == 3:
-    orderDictQuantity['3개'] += 1
-  elif accWs.cell(i, 17).value == 2:
-    orderDictQuantity['2개'] += 1
-  elif accWs.cell(i, 17).value == 1:
-    orderDictQuantity['1개'] += 1
+  try:
+    if accWs.cell(i, 17).value >= 100:
+      orderDictQuantity['100개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 50:
+      orderDictQuantity['50개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 30:
+      orderDictQuantity['30개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 20:
+      orderDictQuantity['20개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 15:
+      orderDictQuantity['15개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 10:
+      orderDictQuantity['10개 이상'] += 1
+    elif accWs.cell(i, 17).value >= 5:
+      orderDictQuantity['5개 이상'] += 1
+    elif accWs.cell(i, 17).value == 4:
+      orderDictQuantity['4개'] += 1
+    elif accWs.cell(i, 17).value == 3:
+      orderDictQuantity['3개'] += 1
+    elif accWs.cell(i, 17).value == 2:
+      orderDictQuantity['2개'] += 1
+    elif accWs.cell(i, 17).value == 1:
+      orderDictQuantity['1개'] += 1
+  except:
+    pass
     
 orderDictQuantityCnt = 2
 for key, value in orderDictQuantity.items():
