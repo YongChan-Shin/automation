@@ -64,6 +64,14 @@ prdList = []
 # 재고정보 생성
 stockList = {}
 
+# 재고정보(사이즈종합) 생성
+stockAllSizeList = {}
+currentPrd = ""
+
+# 재고수량(사이즈종합) 20개 미만 상품 리스트
+stockImpendingCheckSheetName = "겨울_이월" # TODO 확인 후 수정필요
+stockImpending = []
+
 # 품절상품 중 재고수량 0인 아닌 상품 식별 리스트
 stockErrList = []
 
@@ -86,9 +94,18 @@ for wb2Sheet in wb2:
   wb2LastCell = wb2Sheet.max_row + 1
   
   for i in range(wb2FirstCell, wb2LastCell):
-    if wb2Sheet.cell(i, 13).value != None:
-      prdList.append(wb2Sheet.cell(i, 13).value)
-      stockList[wb2Sheet.cell(i, 13).value] = wb2Sheet.cell(i, 14).value
+    try:
+      if wb2Sheet.cell(i, 13).value != None:
+        prdList.append(wb2Sheet.cell(i, 13).value)
+        stockList[wb2Sheet.cell(i, 13).value] = wb2Sheet.cell(i, 14).value
+        if wb2Sheet.title == stockImpendingCheckSheetName:
+          if wb2Sheet.cell(i, 5).value != currentPrd:
+            currentPrd = wb2Sheet.cell(i, 5).value
+            stockAllSizeList[wb2Sheet.cell(i, 5).value] = wb2Sheet.cell(i, 14).value
+          else:
+            stockAllSizeList[wb2Sheet.cell(i, 5).value] += wb2Sheet.cell(i, 14).value
+    except:
+      pass
       
     # 중복상품 체크
     if wb2Sheet.cell(i, 13).value not in doublePrdList and wb2Sheet.cell(i, 13).value != None:
@@ -211,6 +228,14 @@ for i in range(wb2Soldout2FirstCell, wb2Soldout2LastCell):
       stockErrList.append('{} / {}'.format(wb2['품절상품(판매량차감)'].cell(i, 17).value, stockList[wb2['품절상품(판매량차감)'].cell(i, 17).value]))
   except:
     pass
+  
+# 사이즈 종합 재고수량 20개 미만 상품 정보 저장
+for key, value in stockAllSizeList.items():
+  try:
+    if value > 0 and value < 20:
+      stockImpending.append("{}/총 재고 : {}".format(key, value))
+  except:
+    pass
 
 if len(stockErrList) > 0:
   f4 = open('품절상품 중 재고수량 0인 아닌 상품 정보.txt', 'w')
@@ -223,5 +248,12 @@ if len(channelErrPrdList) > 0:
   for i in channelErrPrdList:
     f5.write('{}\n'.format(i))
   f5.close()
+  
+if len(stockImpending) > 0:
+  f6 = open('전 사이즈 총 재고수량 20개 미만 상품.txt', 'w')
+  f6.write('ㅡㅡㅡㅡㅡㅡㅡㅡ 시트 : {} ㅡㅡㅡㅡㅡㅡㅡㅡ\n\n'.format(stockImpendingCheckSheetName))
+  for i in stockImpending:
+    f6.write('{}\n'.format(i))
+  f6.close()
 
 wb2.save(currPath + '\\데이터_판매량 반영.xlsx')
