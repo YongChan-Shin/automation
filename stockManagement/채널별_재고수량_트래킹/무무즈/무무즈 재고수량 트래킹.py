@@ -16,6 +16,14 @@ wbStock = load_workbook('데이터.xlsx')
 stockList = {} # 재고정보
 stockErrList = [] # 품절상품 중 판매세팅된 상품정보
 
+soldoutPrdCSList = [] # 품절상품(CS팀전달)
+
+first_row_cs = 3
+last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
+
+for i in range(first_row_cs, last_row_cs):
+  soldoutPrdCSList.append(wbStock['품절상품(CS팀전달)'].cell(i, 17).value)
+
 for wbSheet in wbStock:
   wbFirstCell = 3
   wbLastCell = wbSheet.max_row + 1
@@ -165,7 +173,10 @@ for i in range(first_row, last_row_sh2 + 1):
         if sheet2.cell(row=i, column=5).value == "노출함" and sheet2.cell(row=i, column=6).value == "판매함":
           if sheet2.cell(row=i, column=7).value != '품절':
             print("{}/{}".format(sheet2.cell(i, 8).value, sheet2.cell(i, 7).value))
-            stockErrList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
+            if sheet2.cell(i, 8).value in soldoutPrdCSList:
+              stockErrList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
+            else:
+              stockErrList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))              
             for colNum in range(1, 14):
               sheet2.cell(row=i, column=colNum).fill = fillData2
   except:
