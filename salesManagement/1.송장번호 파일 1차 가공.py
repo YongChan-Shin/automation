@@ -111,10 +111,10 @@ for file in excelFileList:
         try:
           if product in str(sheet1.cell(row=i, column=j).value):
             prdDetailInfoProduct = product.replace("(저스틴23)", "").replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트")
-            if product not in orderDictPrdNums:
+            if prdDetailInfoProduct not in orderDictPrdNums:
               orderDictPrdNums[prdDetailInfoProduct] = [sheet1.cell(row=i, column=9).value]
             else:
-              if sheet1.cell(row=i, column=9).value not in orderDictPrdNums[product]:
+              if sheet1.cell(row=i, column=9).value not in orderDictPrdNums[prdDetailInfoProduct]:
                 orderDictPrdNums[prdDetailInfoProduct].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
         except:
           pass
