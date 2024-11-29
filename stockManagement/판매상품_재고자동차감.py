@@ -75,6 +75,9 @@ stockImpending = []
 # 품절상품 중 재고수량 0인 아닌 상품 식별 리스트
 stockErrList = []
 
+# 품절상품(CS팀전달)
+soldoutPrdCSList = []
+
 # 재고수량 0인 상품 중 판매된 상품리스트
 prdOrderSoldout = []
 
@@ -88,6 +91,12 @@ doublePrdList = {}
 channelErrPrdList = []
 
 wb2 = load_workbook('데이터.xlsx')
+
+first_row_cs = 3
+last_row_cs = wb2['품절상품(CS팀전달)'].max_row + 1
+
+for i in range(first_row_cs, last_row_cs):
+  soldoutPrdCSList.append(wb2['품절상품(CS팀전달)'].cell(i, 17).value)
 
 for wb2Sheet in wb2:
   wb2FirstCell = 3
@@ -123,7 +132,10 @@ for wb2Sheet in wb2:
           else:
             wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
         else:
-          prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
+          if wb2Sheet.cell(i, 13).value not in soldoutPrdCSList:
+            prdOrderSoldout.append("(※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※) " + str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
+          else:  
+            prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
           wb2Sheet.cell(i, 14).value = 0
           
         # 누적판매량 정리
@@ -193,6 +205,7 @@ if len(errList) > 0 or len(prdOrderSoldout) > 0:
 # 판매량 차감 후 품절처리된 상품 정보 저장
 if len(prdSoldoutList) > 0:
   f2 = open('판매량 차감 후 품절처리된 상품 정보.txt', 'w')
+  f2.write('ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 판매량 차감 후 품절처리된 상품 정보 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n')
   for i in prdSoldoutList:
     f2.write('○ {}\n\n'.format(i))
   f2.close()
