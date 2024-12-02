@@ -483,8 +483,8 @@ for file in excelFileList:
     
   salesChannelList = list(set(salesChannelList))
   
-  if len(salesChannelList) > 0:
-    f2 = open('판매처 중복오류 확인 필요.txt', 'w')
+  if len(salesChannelList) > 1:
+    f2 = open('판매처 중복오류 확인 필요_{}.txt'.format(file), 'w')
     for i in salesChannelList:
       f2.write('{}\n'.format(i))
     f2.close()
