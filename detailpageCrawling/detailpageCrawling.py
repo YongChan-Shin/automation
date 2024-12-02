@@ -61,7 +61,7 @@ for num in range(first_cell, last_cell):
   code_name = ws.cell(row=num, column=2).value
   
 
-  for j in range(0, len(img_src1)):
+  for j in range(0, len(img_list)):
       try:
           urllib.request.urlretrieve(img_list[j], str(file_no) + '.jpg')
           file_no += 1
