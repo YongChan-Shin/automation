@@ -89,6 +89,10 @@ for file in excelFileList:
   # 주문번호 수집
   orderDictPrdNums = {}
   orderDictPrdDetailNums = {}
+  
+  # 판매처 중복오류 체크
+  salesChannelList = []
+  baseChannel = ''
 
   for i in range(first_row, last_row):
     for j in range(first_col, last_col):
@@ -96,7 +100,9 @@ for file in excelFileList:
       if sheet1.cell(row=i, column=j).value == None or sheet1.cell(row=i, column=j).value == '':
         continue
       try:
-        pass
+        if sheet1.cell(row=i, column=7).value != baseChannel:
+          baseChannel = sheet1.cell(row=i, column=7).value
+          salesChannelList.append(baseChannel)
         print(sheet1.cell(row=i, column=7).value + " / 송장번호 : " + sheet1.cell(row=i, column=13).value)
       except:
         pass
@@ -474,3 +480,11 @@ for file in excelFileList:
     for i in orderBeanie:
       f.write('{}\n'.format(i))
     f.close()
+    
+  salesChannelList = list(set(salesChannelList))
+  
+  if len(salesChannelList) > 0:
+    f2 = open('판매처 중복오류 확인 필요.txt', 'w')
+    for i in salesChannelList:
+      f2.write('{}\n'.format(i))
+    f2.close()
