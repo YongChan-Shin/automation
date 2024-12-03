@@ -18,6 +18,8 @@ stockErrList = [] # 품절상품 중 판매세팅된 상품정보
 
 soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
+impendingPrdList = [] # 재고 보충 필요 상품정보
+
 first_row_cs = 3
 last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
 
@@ -120,6 +122,13 @@ for i in range(first_row, last_row):
               stockErrList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 판매상태 : {} / 사용여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 16).value, ws.cell(i, 8).value, ws.cell(i, 9).value, ws.cell(i, 7).value))
             for colNum in range(1, 18):
               ws.cell(row=i, column=colNum).fill = fillData2
+              
+    if stockList[ws.cell(i, 16).value] != 0:
+      if ws.cell(row=i, column=8).value == "판매중":
+        if ws.cell(row=i, column=9).value == "사용":
+          if int(ws.cell(row=i, column=7).value) <= 3:
+            impendingPrdList.append("○ {} / 판매상태 : {} / 사용여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 16).value, ws.cell(i, 8).value, ws.cell(i, 9).value, ws.cell(i, 7).value, stockList[ws.cell(i, 16).value]))
+        
   except:
     continue
   
@@ -129,6 +138,13 @@ if len(stockErrList) > 0:
   for i in stockErrList:
     f.write("{}\n\n".format(i))
   f.close()
+  
+if len(impendingPrdList) > 0:
+  f = open("(톡스토어) 재고 보충 필요 상품 정보(품절 혹은 품절임박).txt", "w")
+  f.write("(톡스토어) 재고 보충 필요 상품 정보(품절 혹은 품절임박)\n\n")
+  for i in impendingPrdList:
+    f.write("{}\n\n".format(i))
+  f.close()  
 
 wb.active.auto_filter.ref = "A1:Q1"
 wb.save('상품옵션별 재고현황 추출.xlsx')
