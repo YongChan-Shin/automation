@@ -176,15 +176,15 @@ for i in range(first_row, last_row_sh2 + 1):
           if sheet2.cell(row=i, column=7).value != "품절":
             print("{}/{}".format(sheet2.cell(i, 8).value, sheet2.cell(i, 7).value))
             if sheet2.cell(i, 8).value in soldoutPrdCSList:
-              stockErrList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
+              stockErrList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
             else:
-              stockErrList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))              
+              stockErrList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : 0".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))              
             for colNum in range(1, 14):
               sheet2.cell(row=i, column=colNum).fill = fillData2
               
     if stockList[sheet2.cell(i, 12).value] != 0:
       if sheet2.cell(row=i, column=7).value == "품절" or sheet2.cell(row=i, column=7).value == "임시품절":
-        impendingPrdList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 8).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, stockList[sheet2.cell(i, 12).value]))
+        impendingPrdList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, stockList[sheet2.cell(i, 12).value]))
   except:
     pass
   
