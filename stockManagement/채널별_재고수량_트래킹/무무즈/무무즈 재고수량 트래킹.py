@@ -184,7 +184,8 @@ for i in range(first_row, last_row_sh2 + 1):
               
     if stockList[sheet2.cell(i, 12).value] != 0:
       if sheet2.cell(row=i, column=7).value == "품절" or sheet2.cell(row=i, column=7).value == "임시품절":
-        impendingPrdList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, stockList[sheet2.cell(i, 12).value]))
+        if sheet2.cell(row=i, column=6).value == "판매함":
+          impendingPrdList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, stockList[sheet2.cell(i, 12).value]))
   except:
     pass
   
