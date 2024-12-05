@@ -136,6 +136,7 @@ for i in range(first_row, last_row):
   
 if len(stockErrList) > 0:
   f = open("(키즈노트) 품절상품 중 판매세팅된 상품 정보.txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(키즈노트) 품절상품 중 판매세팅된 상품 정보\n\n")
   for i in stockErrList:
     f.write("{}\n\n".format(i))
@@ -143,6 +144,7 @@ if len(stockErrList) > 0:
   
 if len(impendingPrdList) > 0:
   f = open("(키즈노트) 재고 보충 필요 상품 정보(품절 혹은 품절임박).txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(키즈노트) 재고 보충 필요 상품 정보(품절 혹은 품절임박)\n\n")
   for i in impendingPrdList:
     f.write("{}\n\n".format(i))
