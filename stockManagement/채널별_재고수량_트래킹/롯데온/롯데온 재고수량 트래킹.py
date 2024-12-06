@@ -15,6 +15,7 @@ wbStock = load_workbook('데이터.xlsx')
 
 stockList = {} # 재고정보
 stockErrList = [] # 품절상품 중 판매세팅된 상품정보
+stockErrAutoList = [] # 품절상품 중 판매세팅된 상품정보(자동품절건)
 
 soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
@@ -118,7 +119,7 @@ for i in range(first_row, last_row):
           if ws.cell(i, 28).value in soldoutPrdCSList:
             stockErrList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
           else:
-            stockErrList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))            
+            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))            
           for colNum in range(1, 30):
             ws.cell(row=i, column=colNum).fill = fillData2
             
@@ -128,11 +129,13 @@ for i in range(first_row, last_row):
   except:
     continue
   
-if len(stockErrList) > 0:
+if len(stockErrList) > 0 or len(stockErrAutoList) > 0:
   f = open("(롯데온) 품절상품 중 판매세팅된 상품 정보.txt", "w")
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(롯데온) 품절상품 중 판매세팅된 상품 정보\n\n")
   for i in stockErrList:
+    f.write("{}\n\n".format(i))
+  for i in stockErrAutoList:
     f.write("{}\n\n".format(i))
   f.close()
   
