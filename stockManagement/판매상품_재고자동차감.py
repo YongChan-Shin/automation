@@ -80,6 +80,8 @@ soldoutPrdCSList = []
 
 # 재고수량 0인 상품 중 판매된 상품리스트
 prdOrderSoldout = []
+# 재고수량 0인 상품 중 판매된 상품리스트(자동품절건 - CS팀에서 품절 넘어오지 않은 상품)
+prdOrderSoldoutAuto = []
 
 # 판매량 차감 후 품절된 상품리스트
 prdSoldoutList = []
@@ -133,7 +135,7 @@ for wb2Sheet in wb2:
             wb2Sheet.cell(i, 14).value -= sellList[wb2Sheet.cell(i, 13).value]
         else:
           if wb2Sheet.cell(i, 13).value not in soldoutPrdCSList:
-            prdOrderSoldout.append("(※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※) " + str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
+            prdOrderSoldoutAuto.append("(※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※) " + str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
           else:  
             prdOrderSoldout.append(str(wb2Sheet.cell(i, 13).value) + '/' + str(sellList[wb2Sheet.cell(i, 13).value]) + '개판매' + '\n- 세팅채널 : ' + str(wb2Sheet.cell(i, 19).value) + '\n- 판매채널 : ' + str(sellChannelDetailList[wb2Sheet.cell(i, 13).value]) + '\n- 주문번호 : ' + str(orderNumDetailList[wb2Sheet.cell(i, 13).value]))
           wb2Sheet.cell(i, 14).value = 0
@@ -191,7 +193,7 @@ for i in sellList:
     print('{} : {} / {}'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
     errList.append(i)
 
-if len(errList) > 0 or len(prdOrderSoldout) > 0:
+if len(errList) > 0 or len(prdOrderSoldout) > 0 or len(prdOrderSoldoutAuto) > 0:
   f = open('차감 재고 데이터 매칭 오류.txt', 'w')
   for i in errList:
     f.write('{} : {} / {}\n'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
@@ -199,6 +201,8 @@ if len(errList) > 0 or len(prdOrderSoldout) > 0:
   f.close()
   f = open('차감 재고 데이터 매칭 오류.txt', 'a')
   for i in prdOrderSoldout:
+    f.write('○ {} \n\n'.format(i))
+  for i in prdOrderSoldoutAuto:
     f.write('○ {} \n\n'.format(i))
   f.close()
 
