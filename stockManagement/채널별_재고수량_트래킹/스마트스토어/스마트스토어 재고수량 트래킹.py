@@ -161,7 +161,8 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
             
     if stockList[sheet2.cell(i, 6).value] != 0:
       if int(sheet2.cell(row=i, column=8).value) <= 3:
-        impendingPrdList.append("○ 상품번호 : {} / {} / 옵션사용여부 : {} / 옵션재고수량 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 1).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, sheet2.cell(i, 8).value, stockList[sheet2.cell(i, 6).value]))
+        if stockList[sheet2.cell(i, 6).value] != int(sheet2.cell(row=i, column=8).value):
+          impendingPrdList.append("○ 상품번호 : {} / {} / 옵션사용여부 : {} / 옵션재고수량 : {} / 데이터파일 기준 재고 : {}".format(sheet2.cell(i, 1).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, sheet2.cell(i, 8).value, stockList[sheet2.cell(i, 6).value]))
   except:
     pass
   

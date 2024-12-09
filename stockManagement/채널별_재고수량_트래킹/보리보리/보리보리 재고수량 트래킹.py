@@ -127,7 +127,8 @@ for i in range(first_row, last_row):
     if stockList[ws.cell(i, 22).value] != 0:
       if int(ws.cell(row=i, column=12).value) <= 3 and int(ws.cell(row=i, column=12).value) >= 0:
         if ws.cell(row=i, column=16).value == 'Y':
-          impendingPrdList.append("○ {} / 상품코드 : {} / 실재고 : {} / 임시재고 : {} / 사용여부 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 22).value, ws.cell(i, 7).value, ws.cell(i, 12).value, ws.cell(i, 13).value, ws.cell(i, 16).value, stockList[ws.cell(i, 22).value]))
+          if stockList[ws.cell(i, 22).value] != int(ws.cell(row=i, column=12).value):
+            impendingPrdList.append("○ {} / 상품코드 : {} / 실재고 : {} / 임시재고 : {} / 사용여부 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 22).value, ws.cell(i, 7).value, ws.cell(i, 12).value, ws.cell(i, 13).value, ws.cell(i, 16).value, stockList[ws.cell(i, 22).value]))
   except:
     continue
   

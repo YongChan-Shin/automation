@@ -128,7 +128,8 @@ for i in range(first_row, last_row):
       if ws.cell(row=i, column=8).value == "판매중":
         if ws.cell(row=i, column=9).value == "사용":
           if int(ws.cell(row=i, column=7).value) <= 3:
-            impendingPrdList.append("○ {} / 판매상태 : {} / 사용여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 16).value, ws.cell(i, 8).value, ws.cell(i, 9).value, ws.cell(i, 7).value, stockList[ws.cell(i, 16).value]))
+            if stockList[ws.cell(i, 16).value] != int(ws.cell(row=i, column=7).value):
+              impendingPrdList.append("○ {} / 판매상태 : {} / 사용여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 16).value, ws.cell(i, 8).value, ws.cell(i, 9).value, ws.cell(i, 7).value, stockList[ws.cell(i, 16).value]))
         
   except:
     continue
