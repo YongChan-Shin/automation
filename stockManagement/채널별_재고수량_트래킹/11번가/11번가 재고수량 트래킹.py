@@ -5,6 +5,12 @@ from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
 import productsData
+
+# 가을상품 판매여부 체크용
+import fallProducts 
+fallProductsCheck = fallProducts.fallProducts
+fallProductsCheckList = []
+
 # import os
 # from os import listdir
 # from os.path import exists
@@ -20,6 +26,8 @@ stockErrAutoList = [] # 품절상품 중 판매세팅된 상품정보(자동품�
 soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
 impendingPrdList = [] # 재고 보충 필요 상품정보
+
+
 
 first_row_cs = 3
 last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
@@ -128,6 +136,12 @@ for i in range(first_row, last_row):
       if int(ws.cell(row=i, column=8).value) <= 3:
         if stockList[ws.cell(i, 17).value] != int(ws.cell(row=i, column=8).value):
           impendingPrdList.append("○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value, stockList[ws.cell(i, 17).value]))
+    
+    if ws.cell(row=i, column=10).value == "사용함":
+      if int(ws.cell(row=i, column=8).value) != 0:
+        # 가을상품 포함여부 체크
+        if prdDetailInfoProduct in fallProductsCheck:
+          fallProductsCheckList.append("○ {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value))
           
   except:
     continue
@@ -147,6 +161,14 @@ if len(impendingPrdList) > 0:
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(11번가) 재고 보충 필요 상품 정보(품절 혹은 품절임박)\n\n")
   for i in impendingPrdList:
+    f.write("{}\n\n".format(i))
+  f.close()
+  
+if len(fallProductsCheckList) > 0:
+  f = open("(11번가) 가을 상품 포함 체크.txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
+  f.write("(11번가) 가을 상품 포함 체크\n\n")
+  for i in fallProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()
 
