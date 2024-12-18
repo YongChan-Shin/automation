@@ -6,10 +6,10 @@ from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
 import productsData
 
-# 가을상품 판매여부 체크용
-import fallProducts 
-fallProductsCheck = fallProducts.fallProducts
-fallProductsCheckList = []
+# 판매중지상품 판매여부 체크용
+import excProducts 
+excProductsCheck = excProducts.excProducts
+excProductsCheckList = []
 
 # import os
 # from os import listdir
@@ -133,15 +133,16 @@ for i in range(first_row, last_row):
             ws.cell(row=i, column=colNum).fill = fillData2
     
     if stockList[ws.cell(i, 17).value] != 0:
-      if int(ws.cell(row=i, column=8).value) <= 3:
-        if stockList[ws.cell(i, 17).value] != int(ws.cell(row=i, column=8).value):
-          impendingPrdList.append("○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value, stockList[ws.cell(i, 17).value]))
+      if ws.cell(row=i, column=10).value == "사용함":
+        if int(ws.cell(row=i, column=8).value) <= 3:
+          if stockList[ws.cell(i, 17).value] > int(ws.cell(row=i, column=8).value):
+            impendingPrdList.append("○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value, stockList[ws.cell(i, 17).value]))
     
     if ws.cell(row=i, column=10).value == "사용함":
       if int(ws.cell(row=i, column=8).value) != 0:
         # 가을상품 포함여부 체크
-        if prdDetailInfoProduct in fallProductsCheck:
-          fallProductsCheckList.append("○ {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value))
+        if prdDetailInfoProduct in excProductsCheck:
+          excProductsCheckList.append("○ {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 10).value, ws.cell(i, 8).value))
           
   except:
     continue
@@ -164,11 +165,11 @@ if len(impendingPrdList) > 0:
     f.write("{}\n\n".format(i))
   f.close()
   
-if len(fallProductsCheckList) > 0:
+if len(excProductsCheckList) > 0:
   f = open("(11번가) 가을 상품 포함 체크.txt", "w")
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(11번가) 가을 상품 포함 체크\n\n")
-  for i in fallProductsCheckList:
+  for i in excProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()
 

@@ -10,10 +10,10 @@ import productsData
 # from os.path import exists
 # from os import makedirs
 
-# 가을상품 판매여부 체크용
-import fallProducts 
-fallProductsCheck = fallProducts.fallProducts
-fallProductsCheckList = []
+# 판매중지상품 판매여부 체크용
+import excProducts 
+excProductsCheck = excProducts.excProducts
+excProductsCheckList = []
 
 # 재고정보 생성
 wbStock = load_workbook('데이터.xlsx')
@@ -131,13 +131,13 @@ for i in range(first_row, last_row):
     if stockList[ws.cell(i, 17).value] != 0:
       if ws.cell(row=i, column=6).value == "판매진행":
         if int(ws.cell(row=i, column=8).value) <= 3:
-          if stockList[ws.cell(i, 17).value] != int(ws.cell(row=i, column=8).value):
+          if stockList[ws.cell(i, 17).value] > int(ws.cell(row=i, column=8).value):
             impendingPrdList.append("○ {} / 상품번호 : {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 2).value, ws.cell(i, 6).value, ws.cell(i, 8).value, stockList[ws.cell(i, 17).value]))
             
       if ws.cell(row=i, column=6).value == "판매진행":
         if int(ws.cell(row=i, column=8).value) != 0:
-          if prdDetailInfoProduct in fallProductsCheck:
-            fallProductsCheckList.append("○ {} / 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
+          if prdDetailInfoProduct in excProductsCheck:
+            excProductsCheckList.append("○ {} / 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
   except:
     continue
   
@@ -159,11 +159,11 @@ if len(impendingPrdList) > 0:
     f.write("{}\n\n".format(i))
   f.close()
 
-if len(fallProductsCheckList) > 0:
+if len(excProductsCheckList) > 0:
   f = open("(키디키디) 가을 상품 포함 체크.txt", "w")
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(키디키디) 가을 상품 포함 체크\n\n")
-  for i in fallProductsCheckList:
+  for i in excProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()  
 

@@ -10,10 +10,10 @@ import productsData
 # from os.path import exists
 # from os import makedirs
 
-# 가을상품 판매여부 체크용
-import fallProducts 
-fallProductsCheck = fallProducts.fallProducts
-fallProductsCheckList = []
+# 판매중지상품 판매여부 체크용
+import excProducts 
+excProductsCheck = excProducts.excProducts
+excProductsCheckList = []
 
 # 정상상품 정보 생성
 wbNormal = load_workbook('상품목록.xlsx')
@@ -135,14 +135,15 @@ for i in range(first_row, last_row):
               
     if stockList[ws.cell(i, 21).value] != 0:
       if int(ws.cell(row=i, column=7).value) <= 3:
-        if stockList[ws.cell(i, 21).value] != int(ws.cell(row=i, column=7).value):
-          impendingPrdList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value, stockList[ws.cell(i, 21).value]))
+        if ws.cell(row=i, column=6).value != "강제품절":
+          if stockList[ws.cell(i, 21).value] > int(ws.cell(row=i, column=7).value):
+            impendingPrdList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value, stockList[ws.cell(i, 21).value]))
           
       if ws.cell(row=i, column=10).value in wbNormalPrds:
         if ws.cell(row=i, column=6).value != "강제품절":
           if int(ws.cell(row=i, column=7).value) != 0:          
-            if prdDetailInfoProduct in fallProductsCheck:
-              fallProductsCheckList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value))
+            if prdDetailInfoProduct in excProductsCheck:
+              excProductsCheckList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value))
   except:
     continue
   
@@ -164,11 +165,11 @@ if len(impendingPrdList) > 0:
     f.write("{}\n\n".format(i))
   f.close()
   
-if len(fallProductsCheckList) > 0:
+if len(excProductsCheckList) > 0:
   f = open("(키즈노트) 가을 상품 포함 체크.txt", "w")
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(키즈노트) 가을 상품 포함 체크\n\n")
-  for i in fallProductsCheckList:
+  for i in excProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()  
 
