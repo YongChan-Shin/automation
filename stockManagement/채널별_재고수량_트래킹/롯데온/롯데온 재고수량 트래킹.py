@@ -130,9 +130,10 @@ for i in range(first_row, last_row):
             
     if stockList[ws.cell(i, 28).value] != 0:
       if ws.cell(row=i, column=11).value == "Y":
-        if int(ws.cell(row=i, column=16).value) <= 3:
-          if stockList[ws.cell(i, 28).value] > int(ws.cell(row=i, column=16).value):
-            impendingPrdList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value, stockList[ws.cell(i, 28).value]))
+        if ws.cell(row=i, column=9).value == "판매중":
+          if int(ws.cell(row=i, column=16).value) <= 3:
+            if stockList[ws.cell(i, 28).value] > int(ws.cell(row=i, column=16).value):
+              impendingPrdList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value, stockList[ws.cell(i, 28).value]))
           
     if ws.cell(row=i, column=11).value == "Y":
       if int(ws.cell(row=i, column=16).value) != 0 or ws.cell(row=i, column=9).value == "판매중":          
