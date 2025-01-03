@@ -112,9 +112,9 @@ for wb2Sheet in wb2:
         if wb2Sheet.title == stockImpendingCheckSheetName:
           if wb2Sheet.cell(i, 5).value != currentPrd:
             currentPrd = wb2Sheet.cell(i, 5).value
-            stockAllSizeList[wb2Sheet.cell(i, 5).value] = wb2Sheet.cell(i, 14).value
+            stockAllSizeList[currentPrd] = wb2Sheet.cell(i, 14).value
           else:
-            stockAllSizeList[wb2Sheet.cell(i, 5).value] += wb2Sheet.cell(i, 14).value
+            stockAllSizeList[currentPrd] += wb2Sheet.cell(i, 14).value
     except:
       pass
       
