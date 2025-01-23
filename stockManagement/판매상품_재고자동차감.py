@@ -70,6 +70,7 @@ currentPrd = ""
 
 # 재고수량(사이즈종합) 20개 미만 상품 리스트
 stockImpendingCheckSheetName = "겨울_이월" # TODO 확인 후 수정필요
+stockImpendingCheckSheetName2 = "봄가을_이월" # TODO 확인 후 수정필요
 stockImpending = []
 
 # 품절상품 중 재고수량 0인 아닌 상품 식별 리스트
@@ -109,7 +110,7 @@ for wb2Sheet in wb2:
       if wb2Sheet.cell(i, 13).value != None:
         prdList.append(wb2Sheet.cell(i, 13).value)
         stockList[wb2Sheet.cell(i, 13).value] = wb2Sheet.cell(i, 14).value
-        if wb2Sheet.title == stockImpendingCheckSheetName:
+        if wb2Sheet.title == stockImpendingCheckSheetName or wb2Sheet.title == stockImpendingCheckSheetName2:
           if wb2Sheet.cell(i, 5).value != currentPrd:
             currentPrd = wb2Sheet.cell(i, 5).value
             stockAllSizeList[currentPrd] = wb2Sheet.cell(i, 14).value
@@ -269,7 +270,7 @@ if len(channelErrPrdList) > 0:
   
 if len(stockImpending) > 0:
   f6 = open('전 사이즈 총 재고수량 20개 미만 상품.txt', 'w')
-  f6.write('ㅡㅡㅡㅡㅡㅡㅡㅡ 시트 : {} ㅡㅡㅡㅡㅡㅡㅡㅡ\n\n'.format(stockImpendingCheckSheetName))
+  f6.write('ㅡㅡㅡㅡㅡㅡㅡㅡ 시트 : {} / {} ㅡㅡㅡㅡㅡㅡㅡㅡ\n\n'.format(stockImpendingCheckSheetName, stockImpendingCheckSheetName2)) # TODO 확인 후 수정필요
   for i in stockImpending:
     f6.write('{}\n'.format(i))
   f6.close()
