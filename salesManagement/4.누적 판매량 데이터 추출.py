@@ -42,6 +42,14 @@ accWs.cell(1, 16).value = '주문건수(주문고객기준)'
 accWs.cell(1, 17).value = '판매량'
 accWs.cell(1, 19).value = '주문건수(주문수량기준)'
 accWs.cell(1, 20).value = '판매량'
+accWs.cell(1, 22).value = '상품 판매채널 종합'
+accWs.cell(1, 23).value = '판매채널'
+accWs.cell(1, 25).value = '상품(상세) 판매채널 종합'
+accWs.cell(1, 26).value = '판매채널'
+accWs.cell(1, 28).value = '상품 주문번호 종합'
+accWs.cell(1, 29).value = '주문번호'
+accWs.cell(1, 31).value = '상품(상세) 주문번호 종합'
+accWs.cell(1, 32).value = '주문번호'
 
 accWs.cell(1, 1).alignment = fillAlignment
 accWs.cell(1, 2).alignment = fillAlignment
@@ -57,6 +65,14 @@ accWs.cell(1, 16).alignment = fillAlignment
 accWs.cell(1, 17).alignment = fillAlignment
 accWs.cell(1, 19).alignment = fillAlignment
 accWs.cell(1, 20).alignment = fillAlignment
+accWs.cell(1, 22).alignment = fillAlignment
+accWs.cell(1, 23).alignment = fillAlignment
+accWs.cell(1, 25).alignment = fillAlignment
+accWs.cell(1, 26).alignment = fillAlignment
+accWs.cell(1, 28).alignment = fillAlignment
+accWs.cell(1, 29).alignment = fillAlignment
+accWs.cell(1, 31).alignment = fillAlignment
+accWs.cell(1, 32).alignment = fillAlignment
 
 accWs.cell(1, 1).font = fillFont
 accWs.cell(1, 2).font = fillFont
@@ -72,6 +88,14 @@ accWs.cell(1, 16).font = fillFont
 accWs.cell(1, 17).font = fillFont
 accWs.cell(1, 19).font = fillFont
 accWs.cell(1, 20).font = fillFont
+accWs.cell(1, 22).font = fillFont
+accWs.cell(1, 23).font = fillFont
+accWs.cell(1, 25).font = fillFont
+accWs.cell(1, 26).font = fillFont
+accWs.cell(1, 28).font = fillFont
+accWs.cell(1, 29).font = fillFont
+accWs.cell(1, 31).font = fillFont
+accWs.cell(1, 32).font = fillFont
 
 accWs.column_dimensions['A'].width = 40
 accWs.column_dimensions['B'].width = 10
@@ -89,6 +113,14 @@ accWs.column_dimensions['P'].width = 30
 accWs.column_dimensions['Q'].width = 10
 accWs.column_dimensions['S'].width = 30
 accWs.column_dimensions['T'].width = 10
+accWs.column_dimensions['V'].width = 30
+accWs.column_dimensions['W'].width = 50
+accWs.column_dimensions['Y'].width = 30
+accWs.column_dimensions['Z'].width = 50
+accWs.column_dimensions['AB'].width = 30
+accWs.column_dimensions['AC'].width = 50
+accWs.column_dimensions['AE'].width = 30
+accWs.column_dimensions['AF'].width = 50
 
 fillData2 = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
 accWs["A1"].fill = fillData2
@@ -105,6 +137,14 @@ accWs["P1"].fill = fillData2
 accWs["Q1"].fill = fillData2
 accWs["S1"].fill = fillData2
 accWs["T1"].fill = fillData2
+accWs["V1"].fill = fillData2
+accWs["W1"].fill = fillData2
+accWs["Y1"].fill = fillData2
+accWs["Z1"].fill = fillData2
+accWs["AB1"].fill = fillData2
+accWs["AC1"].fill = fillData2
+accWs["AE1"].fill = fillData2
+accWs["AF1"].fill = fillData2
 
 orderDict = {}
 orderDictPrd = {}
@@ -125,6 +165,10 @@ orderDictQuantity = {
   '50개 이상': 0,
   '100개 이상': 0,
 }
+orderDictPrdNums = {}
+orderDictPrdDetailNums = {}
+orderDictPrdChannel = {}
+orderDictPrdDetailChannel = {}
 
 for file in excelFileList:
 
@@ -204,6 +248,42 @@ for file in excelFileList:
   #       orderDictQuantity[ws.cell(i, 19).value] = ws.cell(i, 20).value
   #     else:
   #       orderDictQuantity[ws.cell(i, 19).value] += ws.cell(i, 20).value
+          
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 22).value == None or ws.cell(i, 22).value == '':
+      continue
+    else:
+      if ws.cell(i, 22).value not in orderDictPrdChannel:
+        orderDictPrdChannel[ws.cell(i, 22).value] = ws.cell(i, 23).value
+      else:
+        orderDictPrdChannel[ws.cell(i, 22).value] += "/" + ws.cell(i, 23).value
+          
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 25).value == None or ws.cell(i, 25).value == '':
+      continue
+    else:
+      if ws.cell(i, 25).value not in orderDictPrdDetailChannel:
+        orderDictPrdDetailChannel[ws.cell(i, 25).value] = ws.cell(i, 26).value
+      else:
+        orderDictPrdDetailChannel[ws.cell(i, 25).value] += "/" + ws.cell(i, 26).value
+          
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 28).value == None or ws.cell(i, 28).value == '':
+      continue
+    else:
+      if ws.cell(i, 28).value not in orderDictPrdNums:
+        orderDictPrdNums[ws.cell(i, 28).value] = ws.cell(i, 29).value
+      else:
+        orderDictPrdNums[ws.cell(i, 28).value] += ws.cell(i, 29).value
+          
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 31).value == None or ws.cell(i, 31).value == '':
+      continue
+    else:
+      if ws.cell(i, 31).value not in orderDictPrdDetailNums:
+        orderDictPrdDetailNums[ws.cell(i, 31).value] = ws.cell(i, 32).value
+      else:
+        orderDictPrdDetailNums[ws.cell(i, 31).value] += ws.cell(i, 32).value
   
   orderDictCnt = 2
   for key, value in orderDict.items():
@@ -240,6 +320,30 @@ for file in excelFileList:
     accWs.cell(orderDictCustomerCnt, 16).value = key
     accWs.cell(orderDictCustomerCnt, 17).value = value
     orderDictCustomerCnt += 1
+  
+  orderDictPrdChannelCnt = 2
+  for key, value in orderDictPrdChannel.items():
+    accWs.cell(orderDictPrdChannelCnt, 22).value = key
+    accWs.cell(orderDictPrdChannelCnt, 23).value = "/".join(list(set(value.split('/'))))
+    orderDictPrdChannelCnt += 1
+  
+  orderDictPrdDetailChannelCnt = 2
+  for key, value in orderDictPrdDetailChannel.items():
+    accWs.cell(orderDictPrdDetailChannelCnt, 25).value = key
+    accWs.cell(orderDictPrdDetailChannelCnt, 26).value = "/".join(list(set(value.split('/'))))
+    orderDictPrdDetailChannelCnt += 1
+  
+  orderDictPrdNumsCnt = 2
+  for key, value in orderDictPrdNums.items():
+    accWs.cell(orderDictPrdNumsCnt, 28).value = key
+    accWs.cell(orderDictPrdNumsCnt, 29).value = value
+    orderDictPrdNumsCnt += 1
+  
+  orderDictPrdDetailNumsCnt = 2
+  for key, value in orderDictPrdDetailNums.items():
+    accWs.cell(orderDictPrdDetailNumsCnt, 31).value = key
+    accWs.cell(orderDictPrdDetailNumsCnt, 32).value = value
+    orderDictPrdDetailNumsCnt += 1
     
 # 주문수량기준 주문건수 정리
 accWs = dailyWb.active
