@@ -13,10 +13,10 @@ shutil.copy(from_dbFile_path, to_dbFile_path)
 query = "DELETE FROM ProductsData"
 cur.execute(query)
 
-import productseData
-prdInfo = productseData.product_list
-colorInfo = productseData.color_list
-sizeInfo = productseData.size_list
+import productsData
+prdInfo = productsData.product_list
+colorInfo = productsData.color_list
+sizeInfo = productsData.size_list
 
 for i in prdInfo:
   query = "INSERT OR IGNORE INTO ProductsData (PrdName) VALUES (?)"
