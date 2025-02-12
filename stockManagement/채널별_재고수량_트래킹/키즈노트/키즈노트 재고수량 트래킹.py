@@ -4,16 +4,10 @@ from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
-import productsData
 # import os
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
-
-# 판매중지상품 판매여부 체크용
-import excProducts 
-excProductsCheck = excProducts.excProducts
-excProductsCheckList = []
 
 # 정상상품 정보 생성
 wbNormal = load_workbook('상품목록.xlsx')
@@ -51,9 +45,38 @@ for wbSheet in wbStock:
       stockList[wbSheet.cell(i, 13).value] = wbSheet.cell(i, 14).value
 
 # 상품정보 리스트
-product_list = productsData.product_list
-color_list = productsData.color_list
-size_list = productsData.size_list
+product_list = []
+color_list = []
+size_list = []
+excProducts = [] # 판매중지상품 판매여부 체크용
+
+# DB 불러오기
+import sqlite3
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+
+cur.execute("SELECT PrdName from ProductsData WHERE PrdName IS NOT NULL ORDER BY rowid")
+data = cur.fetchall()
+for i in data:
+  product_list.append(i[0])
+
+cur.execute("SELECT Color from ProductsData WHERE Color IS NOT NULL ORDER BY rowid")
+data = cur.fetchall()
+for i in data:
+  color_list.append(i[0])
+
+cur.execute("SELECT Size from ProductsData WHERE Size IS NOT NULL ORDER BY rowid")
+data = cur.fetchall()
+for i in data:
+  size_list.append(i[0])
+
+cur.execute("SELECT ExcProducts from ProductsData WHERE ExcProducts IS NOT NULL ORDER BY rowid")
+data = cur.fetchall()
+for i in data:
+  excProducts.append(i[0])
+  
+# 판매중지상품 판매여부 체크용
+excProductsCheckList = []
 
 wb = load_workbook('./옵션.xlsx')
 ws = wb.active
@@ -142,7 +165,7 @@ for i in range(first_row, last_row):
       if ws.cell(row=i, column=10).value in wbNormalPrds:
         if ws.cell(row=i, column=6).value != "강제품절":
           if int(ws.cell(row=i, column=7).value) != 0:          
-            if prdDetailInfoProduct in excProductsCheck:
+            if prdDetailInfoProduct in excProducts:
               excProductsCheckList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value))
   except:
     continue
@@ -166,9 +189,9 @@ if len(impendingPrdList) > 0:
   f.close()
   
 if len(excProductsCheckList) > 0:
-  f = open("(키즈노트) 가을 상품 포함 체크.txt", "w")
+  f = open("(키즈노트) 판매제외 상품 포함 체크.txt", "w")
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
-  f.write("(키즈노트) 가을 상품 포함 체크\n\n")
+  f.write("(키즈노트) 판매제외 상품 포함 체크\n\n")
   for i in excProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()  
