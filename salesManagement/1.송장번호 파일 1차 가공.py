@@ -11,40 +11,36 @@ from os import makedirs
 import productsData
 
 # 상품정보 리스트
-product_list = productsData.product_list
-color_list = productsData.color_list
-size_list = productsData.size_list
+product_list = []
+color_list = []
+size_list = []
+cap_list = []
 
-# 모자정보 리스트
-capProducts = [
-  "퍼피캡모자",
-  "퍼피모자",
-  "카우보이별모자",
-  "곰돌이모자",
-  "용용이모자",
-  "베어캡모자",
-  "알파벳모자",
-  "알파벳벙거지",
-  "보스턴챙모자",
-  "스마일비니",
-  "보스턴비니",
-  "티라노모자",
-  "토밍이세트",
-  "토밍이모자세트",
-  "코코모자",
-  "토끼요정모자",
-  "해피스노우세트",
-  "해피스노우모자세트",
-  "동물친구모자",
-  "리리모자",
-  "카우모자",
-  "콩이모자",
-  "포근이모자",
-  "도토리비니",
-  "카라멜비니",
-  "왕방울모자",
-]
+# DB 불러오기
+import sqlite3
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
 
+cur.execute("SELECT PrdName from ProductsData WHERE PrdName IS NOT NULL")
+data = cur.fetchall()
+for i in data:
+  product_list.append(i[0])
+
+cur.execute("SELECT Color from ProductsData WHERE Color IS NOT NULL")
+data = cur.fetchall()
+for i in data:
+  color_list.append(i[0])
+
+cur.execute("SELECT Size from ProductsData WHERE Size IS NOT NULL")
+data = cur.fetchall()
+for i in data:
+  size_list.append(i[0])
+
+cur.execute("SELECT Cap from ProductsData WHERE Cap IS NOT NULL")
+data = cur.fetchall()
+for i in data:
+  cap_list.append(i[0])
+  
 # 폴더 내 엑셀 파일 검색
 currPath = os.getcwd()
 files = listdir(currPath + '\\data')
@@ -132,7 +128,7 @@ for file in excelFileList:
         if size in str(sheet1.cell(row=i, column=j).value):
           prdDetailInfoSize = size.replace("FREE", "free")
       
-      if prdDetailInfoProduct in capProducts:
+      if prdDetailInfoProduct in cap_list:
         prdDetailInfoSize = "free"
       
       prdDetailInfo = '{}/{}/{}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
@@ -288,7 +284,7 @@ for file in excelFileList:
         if size in str(sheet2.cell(i, 1).value):
           sheet2.cell(i, 4).value = size.replace("FREE", "free")
       
-      if str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) in capProducts:
+      if str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) in cap_list:
         sheet2.cell(i, 4).value = "free"
         
       sheet2.cell(i, 5).value = str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) + "/" + str(sheet2.cell(i, 3).value) + "/" + str(sheet2.cell(i, 4).value.replace("FREE", "free"))
