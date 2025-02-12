@@ -34,4 +34,20 @@ for idx, size in enumerate(sizeInfo):
 
 con.commit()
 
+# cur.execute("SELECT PrdName from ProductsData")
+# data = cur.fetchall()
+# for i in data:
+#   print(i)
+
+cur.execute("SELECT Color from ProductsData")
+data = cur.fetchall()
+for i in data:
+  if i[0] is not None:
+    print(i[0])
+
+# cur.execute("SELECT Size from ProductsData")
+# data = cur.fetchall()
+# for i in data:
+#   print(i)
+
 con.close()
