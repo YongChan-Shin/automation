@@ -20,6 +20,8 @@ soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
 impendingPrdList = [] # 재고 보충 필요 상품정보
 
+matchingErrList = [] # 상품정보 매칭 오류건
+
 first_row_cs = 3
 last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
 
@@ -171,7 +173,8 @@ for i in range(first_row, last_row):
           if prdDetailInfoProduct in excProducts:
             excProductsCheckList.append("○ {} / 상태 : {} / 노출여부 : {} / 재고수량 : {}".format(ws.cell(i, 21).value, ws.cell(i, 11).value, ws.cell(i, 12).value, ws.cell(i, 15).value))
             
-  except:
+  except Exception as e:
+    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
     continue
   
 if len(stockErrList) > 0 or len(stockErrAutoList) > 0:
@@ -197,6 +200,14 @@ if len(excProductsCheckList) > 0:
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(옥션) 판매제외 상품 포함 체크\n\n")
   for i in excProductsCheckList:
+    f.write("{}\n\n".format(i))
+  f.close()
+  
+if len(matchingErrList) > 0:
+  f = open("(옥션) 상품정보 매칭 오류건.txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
+  f.write("(옥션) 상품정보 매칭 오류건\n\n")
+  for i in matchingErrList:
     f.write("{}\n\n".format(i))
   f.close()
   

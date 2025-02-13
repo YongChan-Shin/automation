@@ -20,6 +20,8 @@ soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
 impendingPrdList = [] # 재고 보충 필요 상품정보
 
+matchingErrList = [] # 상품정보 매칭 오류건
+
 first_row_cs = 3
 last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
 
@@ -207,8 +209,9 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
           if prdDetailInfoProduct in excProducts:
             excProductsCheckList.append("○ 상품번호 : {} / {} / 옵션사용여부 : {} / 옵션재고수량 : {}".format(sheet2.cell(i, 1).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, sheet2.cell(i, 8).value))
             
-  except:
-    pass
+  except Exception as e:
+    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
+    continue
   
   
 if len(stockErrList) > 0 or len(stockErrAutoList) > 0:
@@ -234,6 +237,14 @@ if len(excProductsCheckList) > 0:
   f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
   f.write("(스마트스토어) 판매제외 상품 포함 체크\n\n")
   for i in excProductsCheckList:
+    f.write("{}\n\n".format(i))
+  f.close()
+  
+if len(matchingErrList) > 0:
+  f = open("(스마트스토어) 상품정보 매칭 오류건.txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
+  f.write("(스마트스토어) 상품정보 매칭 오류건\n\n")
+  for i in matchingErrList:
     f.write("{}\n\n".format(i))
   f.close()  
 

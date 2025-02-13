@@ -20,6 +20,8 @@ soldoutPrdCSList = [] # 품절상품(CS팀전달)
 
 impendingPrdList = [] # 재고 보충 필요 상품정보
 
+matchingErrList = [] # 상품정보 매칭 오류건
+
 first_row_cs = 3
 last_row_cs = wbStock['품절상품(CS팀전달)'].max_row + 1
 
@@ -177,7 +179,8 @@ for i in range(first_row, last_row):
               if prdDetailInfoProduct in excProducts:
                 excProductsCheckList.append("○ {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 23).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
         
-  except:
+  except Exception as e:
+    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
     continue
   
 if len(stockErrList) > 0 or len(stockErrAutoList) > 0:
@@ -205,6 +208,15 @@ if len(excProductsCheckList) > 0:
   for i in excProductsCheckList:
     f.write("{}\n\n".format(i))
   f.close()
+  
+if len(matchingErrList) > 0:
+  f = open("(이몰) 상품정보 매칭 오류건.txt", "w")
+  f.write("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n")
+  f.write("(이몰) 상품정보 매칭 오류건\n\n")
+  for i in matchingErrList:
+    f.write("{}\n\n".format(i))
+  f.close()
+
 
 wb.active.auto_filter.ref = "A1:X1"
 wb.save('상품옵션별 재고현황 추출.xlsx')
