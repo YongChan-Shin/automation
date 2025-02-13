@@ -9,7 +9,6 @@ import os
 from os import listdir
 from os.path import exists
 from os import makedirs
-import productsCode
 
 # 폴더 내 엑셀 파일 검색
 currPath = os.getcwd()
@@ -21,7 +20,21 @@ for i in files:
     if(not i.startswith('~')):
       excelFileList.append(i)
       
-productCode = productsCode.productCode
+# 제품 코드정보 생성
+productsCode = {}
+
+# DB 불러오기
+import sqlite3
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsCode.db')
+cur = con.cursor()
+
+cur.execute("SELECT PrdName, PrdCode from ProductsCode")
+data = cur.fetchall()
+
+for i in data:
+  productsCode[i[0]] = i[1]
+  
+print(productsCode)
 
 for file in excelFileList:
 
@@ -85,7 +98,7 @@ for file in excelFileList:
       try:
         sheet2.row_dimensions[i].height = 75
         # image_path = 'https://gi.esmplus.com/jja6806/thumbnail/{}.jpg'.format(sheet2.cell(row=i, column=3).value)
-        image_path = '.\\data\\images\\' + str(productCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
+        image_path = '.\\data\\images\\' + str(productsCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
         image = Image(image_path)
         image.width = 100
         image.height = 100
