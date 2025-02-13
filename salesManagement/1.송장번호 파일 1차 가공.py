@@ -21,22 +21,22 @@ import sqlite3
 con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
 cur = con.cursor()
 
-cur.execute("SELECT PrdName from ProductsData WHERE PrdName IS NOT NULL")
+cur.execute("SELECT PrdName from ProductsData WHERE PrdName IS NOT NULL ORDER BY rowid")
 data = cur.fetchall()
 for i in data:
   product_list.append(i[0])
 
-cur.execute("SELECT Color from ProductsData WHERE Color IS NOT NULL")
+cur.execute("SELECT Color from ProductsData WHERE Color IS NOT NULL ORDER BY rowid")
 data = cur.fetchall()
 for i in data:
   color_list.append(i[0])
 
-cur.execute("SELECT Size from ProductsData WHERE Size IS NOT NULL")
+cur.execute("SELECT Size from ProductsData WHERE Size IS NOT NULL ORDER BY rowid")
 data = cur.fetchall()
 for i in data:
   size_list.append(i[0])
 
-cur.execute("SELECT Cap from ProductsData WHERE Cap IS NOT NULL")
+cur.execute("SELECT Cap from ProductsData WHERE Cap IS NOT NULL ORDER BY rowid")
 data = cur.fetchall()
 for i in data:
   cap_list.append(i[0])
