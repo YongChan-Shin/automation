@@ -48,6 +48,7 @@ for wbSheet in wbStock:
 product_list = []
 color_list = []
 size_list = []
+cap_list = []
 excProducts = [] # 판매중지상품 판매여부 체크용
 
 # DB 불러오기
@@ -69,6 +70,11 @@ cur.execute("SELECT Size from ProductsData WHERE Size IS NOT NULL ORDER BY rowid
 data = cur.fetchall()
 for i in data:
   size_list.append(i[0])
+  
+cur.execute("SELECT Cap from ProductsData WHERE Cap IS NOT NULL ORDER BY rowid")
+data = cur.fetchall()
+for i in data:
+  cap_list.append(i[0])
 
 cur.execute("SELECT ExcProducts from ProductsData WHERE ExcProducts IS NOT NULL ORDER BY rowid")
 data = cur.fetchall()
@@ -138,6 +144,9 @@ for i in range(first_row, last_row):
       if size in str(ws.cell(row=i, column=4).value):
         prdDetailInfoSize = size.replace("FREE", "free")
         ws.cell(row=i, column=20).value = prdDetailInfoSize
+        
+    if prdDetailInfoProduct in cap_list:
+        prdDetailInfoSize = "free"
     
     prdDetailInfo = '{} {} {}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
     
