@@ -34,8 +34,6 @@ data = cur.fetchall()
 for i in data:
   productsCode[i[0]] = i[1]
   
-print(productsCode)
-
 for file in excelFileList:
 
   wb = load_workbook(currPath + '\\' + file)
