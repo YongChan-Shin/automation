@@ -8,7 +8,6 @@ import os
 from os import listdir
 from os.path import exists
 from os import makedirs
-import productsData
 
 # 상품정보 리스트
 product_list = []
