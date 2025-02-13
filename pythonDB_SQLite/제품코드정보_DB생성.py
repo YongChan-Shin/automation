@@ -1,33 +1,34 @@
 import shutil
 import sqlite3
-import productsData
+import productsCode
 
 # SQLite 연결 객체 생성
-con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsCode.db')
 
 # 커서 객체 생성
 cur = con.cursor()
 
 # 테이블 생성
-cur.execute("CREATE TABLE IF NOT EXISTS ProductsData(PrdName TEXT UNIQUE, Color TEXT UNIQUE, Size TEXT UNIQUE, Cap TEXT UNIQUE);")
+cur.execute("CREATE TABLE IF NOT EXISTS ProductsCode(PrdName TEXT UNIQUE, PrdCode TEXT);")
 
 # 기존 DB파일 백업
-from_dbFile_path = 'D:/1.업무/10.기타자료/Development/db/productsData.db'
-to_dbFile_path = 'D:/1.업무/10.기타자료/Development/db/backup/productsData_backup.db'
+from_dbFile_path = 'D:/1.업무/10.기타자료/Development/db/productsCode.db'
+to_dbFile_path = 'D:/1.업무/10.기타자료/Development/db/backup/productsCode_backup.db'
 shutil.copy(from_dbFile_path, to_dbFile_path)
 
 # DB파일 기존 데이터 초기화
-# query = "DELETE FROM ProductsData"
-# cur.execute(query)
+query = "DELETE FROM ProductsCode"
+cur.execute(query)
 
-prdInfo = productsData.product_list
-# colorInfo = productsData.color_list
-# sizeInfo = productsData.size_list
-# capInfo = productsData.capList
+codeInfo = productsCode.productCode
 
-for i in prdInfo:
-  query = "INSERT OR IGNORE INTO ProductsData (PrdName) VALUES (?)"
-  cur.execute(query, (i,))
+for prdName, prdCode in codeInfo.items():
+  # query = "INSERT OR IGNORE INTO ProductsCode (PrdName, PrdCode) VALUES (?, ?)"
+  try:
+    query = "INSERT INTO ProductsCode (PrdName, PrdCode) VALUES (?, ?)"
+    cur.execute(query, (prdName, prdCode))
+  except Exception as e:
+    print('{} / {} / {}'.format(prdName, prdCode, e))
 
 # for i in prdInfo:
 #   query = "INSERT OR IGNORE INTO ProductsData (PrdName) VALUES (?)"
