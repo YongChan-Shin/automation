@@ -153,7 +153,7 @@ for i in range(first_row_sh1, last_row_sh1):
     for opt in optList:
       last_row_sh2 = sheet2.max_row + 1
       sheet2.cell(last_row_sh2, 1).value = sheet1.cell(i, 1).value
-      sheet2.cell(last_row_sh2, 2).value = sheet1.cell(i, 10).value + "/" + sheet1.cell(i, 11).value.split('\n')[idx]
+      sheet2.cell(last_row_sh2, 2).value = sheet1.cell(i, 4).value + "/" + sheet1.cell(i, 10).value + "/" + sheet1.cell(i, 11).value.split('\n')[idx]
       sheet2.cell(last_row_sh2, 7).value = optIsUse[idx]
       sheet2.cell(last_row_sh2, 8).value = optStock[idx]
       idx += 1
