@@ -175,7 +175,7 @@ for i in range(first_row, last_row):
         if prdDetailInfoProduct in excProducts:
           excProductsCheckList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {}".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
   except Exception as e:
-    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
+    matchingErrList.append('row : {} / {}'.format(i, e))
     continue
   
 if len(stockErrList) > 0 or len(stockErrAutoList) > 0:

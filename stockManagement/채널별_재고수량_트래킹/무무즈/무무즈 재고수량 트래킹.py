@@ -234,7 +234,7 @@ for i in range(first_row, last_row_sh2 + 1):
           if prdDetailInfoProduct in excProducts:
             excProductsCheckList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {}".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
   except Exception as e:
-    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
+    matchingErrList.append('row : {} / {}'.format(i, e))
     continue
   
   

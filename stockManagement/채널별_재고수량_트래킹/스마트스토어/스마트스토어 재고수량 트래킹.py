@@ -178,7 +178,7 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
       if size in str(sheet2.cell(row=i, column=2).value):
         prdDetailInfoSize = size.replace("FREE", "free")
         sheet2.cell(row=i, column=5).value = prdDetailInfoSize
-        
+    
     if prdDetailInfoProduct in cap_list:
         prdDetailInfoSize = "free"
     
@@ -210,7 +210,7 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
             excProductsCheckList.append("○ 상품번호 : {} / {} / 옵션사용여부 : {} / 옵션재고수량 : {}".format(sheet2.cell(i, 1).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, sheet2.cell(i, 8).value))
             
   except Exception as e:
-    matchingErrList.append('{} / {}'.format(prdDetailInfo, e))
+    matchingErrList.append('row : {} / {}'.format(i, e))
     continue
   
   
