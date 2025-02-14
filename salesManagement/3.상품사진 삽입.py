@@ -9,6 +9,7 @@ import os
 from os import listdir
 from os.path import exists
 from os import makedirs
+import math
 
 # 폴더 내 엑셀 파일 검색
 currPath = os.getcwd()
@@ -62,7 +63,7 @@ for file in excelFileList:
   
   wb.active = wb['상품사진삽입']
   
-  fillAlignment = Alignment(horizontal='center', vertical='center')
+  fillAlignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
   fillFont = Font(bold=True)
   
   sheet2.cell(1, 1).value = '주문건수(상품기준)'
@@ -151,10 +152,15 @@ for file in excelFileList:
         sheet2.cell(i, 1).fill = fillData2
         sheet2.cell(i, 2).fill = fillData2
         sheet2.cell(i, 3).fill = fillData2
-        
-  sheet2.cell(2, 5).value = productsSeasonOrder['F']
-  sheet2.cell(2, 6).value = productsSeasonOrder['S']
-  sheet2.cell(2, 7).value = productsSeasonOrder['W']
+  
+  seasonOrderSum = 0      
+  for key, value in productsSeasonOrder.items():
+    seasonOrderSum += value
+  
+  sheet2.cell(2, 5).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['F'], round((productsSeasonOrder['F'] / seasonOrderSum), 3) * 100)
+  sheet2.cell(2, 6).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['S'], round((productsSeasonOrder['S'] / seasonOrderSum), 3) * 100)
+  sheet2.cell(2, 7).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['W'], round((productsSeasonOrder['W'] / seasonOrderSum), 3) * 100)
+  
   sheet2.cell(3, 5).value = '/'.join(prdF)
   sheet2.cell(3, 6).value = '/'.join(prdS)
   sheet2.cell(3, 7).value = '/'.join(prdW)
