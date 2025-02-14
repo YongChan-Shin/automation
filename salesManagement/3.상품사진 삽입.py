@@ -20,20 +20,36 @@ for i in files:
     if(not i.startswith('~')):
       excelFileList.append(i)
       
-# 제품 코드정보 생성
-productsCode = {}
+productsSeason = {} # 제품 시즌정보
+productsSeasonOrder = {'F': 0, 'S': 0, 'W': 0} # 시즌별 판매정보
+productsCode = {} # 제품 코드정보
+prdF = [] # 봄가을 판매상품 정보
+prdS = [] # 여름 판매상품 정보
+prdW = [] # 겨울 판매상품 정보
 
 # DB 불러오기
 import sqlite3
+
+# 상품 코드정보 생성
 con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsCode.db')
 cur = con.cursor()
-
 cur.execute("SELECT PrdName, PrdCode from ProductsCode")
 data = cur.fetchall()
-
 for i in data:
   productsCode[i[0]] = i[1]
-  
+con.close()
+
+# 상품 시즌정보 생성
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+cur.execute("SELECT PrdName, Season from ProductsData")
+data = cur.fetchall()
+for i in data:
+  productsSeason[i[0]] = i[1]
+con.close()
+
+print(productsSeason)
+
 for file in excelFileList:
 
   wb = load_workbook(currPath + '\\' + file)
@@ -46,22 +62,40 @@ for file in excelFileList:
   
   wb.active = wb['상품사진삽입']
   
-  fillAlignment = Alignment(horizontal='center')
+  fillAlignment = Alignment(horizontal='center', vertical='center')
   fillFont = Font(bold=True)
   
   sheet2.cell(1, 1).value = '주문건수(상품기준)'
   sheet2.cell(1, 2).value = '판매량'
   sheet2.cell(1, 3).value = '대표이미지'
+  sheet2.cell(1, 5).value = '봄가을'
+  sheet2.cell(1, 6).value = '여름'
+  sheet2.cell(1, 7).value = '겨울'
   sheet2.cell(1, 1).alignment = fillAlignment
   sheet2.cell(1, 2).alignment = fillAlignment
   sheet2.cell(1, 3).alignment = fillAlignment
+  sheet2.cell(1, 5).alignment = fillAlignment
+  sheet2.cell(1, 6).alignment = fillAlignment
+  sheet2.cell(1, 7).alignment = fillAlignment
+  sheet2.cell(2, 5).alignment = fillAlignment
+  sheet2.cell(2, 6).alignment = fillAlignment
+  sheet2.cell(2, 7).alignment = fillAlignment
+  sheet2.cell(3, 5).alignment = fillAlignment
+  sheet2.cell(3, 6).alignment = fillAlignment
+  sheet2.cell(3, 7).alignment = fillAlignment
   sheet2.cell(1, 1).font = fillFont
   sheet2.cell(1, 2).font = fillFont
   sheet2.cell(1, 3).font = fillFont
+  sheet2.cell(1, 5).font = fillFont
+  sheet2.cell(1, 6).font = fillFont
+  sheet2.cell(1, 7).font = fillFont
 
   sheet2.column_dimensions['A'].width = 40
   sheet2.column_dimensions['B'].width = 10
   sheet2.column_dimensions['C'].width = 12
+  sheet2.column_dimensions['E'].width = 12
+  sheet2.column_dimensions['F'].width = 12
+  sheet2.column_dimensions['G'].width = 12
 
   fillData = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
   fillData2 = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
@@ -69,6 +103,9 @@ for file in excelFileList:
   sheet2["A1"].fill = fillData
   sheet2["B1"].fill = fillData
   sheet2["C1"].fill = fillData
+  sheet2["E1"].fill = fillData
+  sheet2["F1"].fill = fillData
+  sheet2["G1"].fill = fillData
 
   for sheet in wb:
     if sheet.title == '상품사진삽입':
@@ -93,6 +130,15 @@ for file in excelFileList:
       print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
       sheet2.cell(row=i, column=1).value = sheet1.cell(row=i, column=4).value
       sheet2.cell(row=i, column=2).value = sheet1.cell(row=i, column=5).value
+      
+      productsSeasonOrder[productsSeason[sheet1.cell(row=i, column=4).value]] += sheet1.cell(row=i, column=5).value
+      if productsSeason[sheet1.cell(row=i, column=4).value] == 'F':
+        prdF.append(sheet1.cell(row=i, column=4).value)
+      elif productsSeason[sheet1.cell(row=i, column=4).value] == 'S':
+        prdS.append(sheet1.cell(row=i, column=4).value)
+      else:
+        prdW.append(sheet1.cell(row=i, column=4).value)
+        
       try:
         sheet2.row_dimensions[i].height = 75
         # image_path = 'https://gi.esmplus.com/jja6806/thumbnail/{}.jpg'.format(sheet2.cell(row=i, column=3).value)
@@ -105,5 +151,14 @@ for file in excelFileList:
         sheet2.cell(i, 1).fill = fillData2
         sheet2.cell(i, 2).fill = fillData2
         sheet2.cell(i, 3).fill = fillData2
+        
+  sheet2.cell(2, 5).value = productsSeasonOrder['F']
+  sheet2.cell(2, 6).value = productsSeasonOrder['S']
+  sheet2.cell(2, 7).value = productsSeasonOrder['W']
+  sheet2.cell(3, 5).value = '/'.join(prdF)
+  sheet2.cell(3, 6).value = '/'.join(prdS)
+  sheet2.cell(3, 7).value = '/'.join(prdW)
+  sheet2.cell(3, 4).value = " "
+  sheet2.cell(3, 8).value = " "
   
   wb.save(currPath + '\\' + file)
