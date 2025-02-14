@@ -49,8 +49,6 @@ for i in data:
   productsSeason[i[0]] = i[1]
 con.close()
 
-print(productsSeason)
-
 for file in excelFileList:
 
   wb = load_workbook(currPath + '\\' + file)
@@ -81,6 +79,7 @@ for file in excelFileList:
   sheet2.cell(2, 5).alignment = fillAlignment
   sheet2.cell(2, 6).alignment = fillAlignment
   sheet2.cell(2, 7).alignment = fillAlignment
+  sheet2.cell(2, 8).alignment = fillAlignment
   sheet2.cell(3, 5).alignment = fillAlignment
   sheet2.cell(3, 6).alignment = fillAlignment
   sheet2.cell(3, 7).alignment = fillAlignment
@@ -90,6 +89,7 @@ for file in excelFileList:
   sheet2.cell(1, 5).font = fillFont
   sheet2.cell(1, 6).font = fillFont
   sheet2.cell(1, 7).font = fillFont
+  sheet2.cell(2, 8).font = fillFont
 
   sheet2.column_dimensions['A'].width = 40
   sheet2.column_dimensions['B'].width = 10
@@ -97,6 +97,7 @@ for file in excelFileList:
   sheet2.column_dimensions['E'].width = 12
   sheet2.column_dimensions['F'].width = 12
   sheet2.column_dimensions['G'].width = 12
+  sheet2.column_dimensions['H'].width = 12
 
   fillData = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
   fillData2 = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
@@ -118,40 +119,43 @@ for file in excelFileList:
   last_row = sheet1.max_row + 1  
   
   for i in range(first_row, last_row):
-    sheet1.cell(row=i, column=24).value = " "
-    sheet1.cell(row=i, column=27).value = " "
-    sheet1.cell(row=i, column=30).value = " "
-    sheet1.cell(row=i, column=33).value = " "
-    
-    if sheet1.cell(row=i, column=4).value == None or sheet1.cell(row=i, column=4).value == '':
-      continue
-    else:
-      sheet2["A" + str(i)].alignment = Alignment(vertical='center')
-      sheet2["B" + str(i)].alignment = Alignment(vertical='center')
-      print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
-      sheet2.cell(row=i, column=1).value = sheet1.cell(row=i, column=4).value
-      sheet2.cell(row=i, column=2).value = sheet1.cell(row=i, column=5).value
+    try:
+      sheet1.cell(row=i, column=24).value = " "
+      sheet1.cell(row=i, column=27).value = " "
+      sheet1.cell(row=i, column=30).value = " "
+      sheet1.cell(row=i, column=33).value = " "
       
-      productsSeasonOrder[productsSeason[sheet1.cell(row=i, column=4).value]] += sheet1.cell(row=i, column=5).value
-      if productsSeason[sheet1.cell(row=i, column=4).value] == 'F':
-        prdF.append(sheet1.cell(row=i, column=4).value)
-      elif productsSeason[sheet1.cell(row=i, column=4).value] == 'S':
-        prdS.append(sheet1.cell(row=i, column=4).value)
+      if sheet1.cell(row=i, column=4).value == None or sheet1.cell(row=i, column=4).value == '':
+        continue
       else:
-        prdW.append(sheet1.cell(row=i, column=4).value)
+        sheet2["A" + str(i)].alignment = Alignment(vertical='center')
+        sheet2["B" + str(i)].alignment = Alignment(vertical='center')
+        print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
+        sheet2.cell(row=i, column=1).value = sheet1.cell(row=i, column=4).value
+        sheet2.cell(row=i, column=2).value = sheet1.cell(row=i, column=5).value
         
-      try:
-        sheet2.row_dimensions[i].height = 75
-        # image_path = 'https://gi.esmplus.com/jja6806/thumbnail/{}.jpg'.format(sheet2.cell(row=i, column=3).value)
-        image_path = '.\\data\\images\\' + str(productsCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
-        image = Image(image_path)
-        image.width = 100
-        image.height = 100
-        sheet2.add_image(image, anchor='C'+str(i))
-      except:
-        sheet2.cell(i, 1).fill = fillData2
-        sheet2.cell(i, 2).fill = fillData2
-        sheet2.cell(i, 3).fill = fillData2
+        productsSeasonOrder[productsSeason[sheet1.cell(row=i, column=4).value]] += sheet1.cell(row=i, column=5).value
+        if productsSeason[sheet1.cell(row=i, column=4).value] == 'F':
+          prdF.append(sheet1.cell(row=i, column=4).value)
+        elif productsSeason[sheet1.cell(row=i, column=4).value] == 'S':
+          prdS.append(sheet1.cell(row=i, column=4).value)
+        else:
+          prdW.append(sheet1.cell(row=i, column=4).value)
+          
+        try:
+          sheet2.row_dimensions[i].height = 75
+          # image_path = 'https://gi.esmplus.com/jja6806/thumbnail/{}.jpg'.format(sheet2.cell(row=i, column=3).value)
+          image_path = '.\\data\\images\\' + str(productsCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
+          image = Image(image_path)
+          image.width = 100
+          image.height = 100
+          sheet2.add_image(image, anchor='C'+str(i))
+        except:
+          sheet2.cell(i, 1).fill = fillData2
+          sheet2.cell(i, 2).fill = fillData2
+          sheet2.cell(i, 3).fill = fillData2
+    except Exception as e:
+      print(e)
   
   seasonOrderSum = 0      
   for key, value in productsSeasonOrder.items():
@@ -160,6 +164,7 @@ for file in excelFileList:
   sheet2.cell(2, 5).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['F'], round((productsSeasonOrder['F'] / seasonOrderSum), 3) * 100)
   sheet2.cell(2, 6).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['S'], round((productsSeasonOrder['S'] / seasonOrderSum), 3) * 100)
   sheet2.cell(2, 7).value = '{0}\n({1:.1f}%)'.format(productsSeasonOrder['W'], round((productsSeasonOrder['W'] / seasonOrderSum), 3) * 100)
+  sheet2.cell(2, 8).value = '{0}'.format(seasonOrderSum)
   
   sheet2.cell(3, 5).value = '/'.join(prdF)
   sheet2.cell(3, 6).value = '/'.join(prdS)
