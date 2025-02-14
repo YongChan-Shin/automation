@@ -185,6 +185,7 @@ for i in range(first_row, last_row_sh1):
 for i in range(first_row, last_row_sh2 + 1):
   try:
     sheet2.cell(i, 8).value = str(sheet2.cell(i, 1).value) + '/' + str(sheet2.cell(i, 2).value) + '/' + str(sheet2.cell(i, 3).value)
+    sheet2.cell(i, 8).value = sheet2.cell(i, 8).value.replace(" ", "")
     
     for product in product_list:
       try:

@@ -126,6 +126,7 @@ last_row = ws.max_row + 1
 for i in range(first_row, last_row):
   try:
     ws.cell(i, 12).value = str(ws.cell(i, 3).value) + '/' + str(ws.cell(i, 4).value) + '/' + str(ws.cell(i, 5).value)
+    ws.cell(i, 12).value = ws.cell(i, 12).value.replace(" ", "")
     
     for product in product_list:
       try:
