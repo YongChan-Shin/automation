@@ -9,7 +9,8 @@ import os
 from os import listdir
 from os.path import exists
 from os import makedirs
-import math
+import datetime
+import json
 
 # 폴더 내 엑셀 파일 검색
 currPath = os.getcwd()
@@ -173,3 +174,76 @@ for file in excelFileList:
   sheet2.cell(3, 8).value = " "
   
   wb.save(currPath + '\\' + file)
+  
+  # 채널명 정제 함수
+  def arrangeChannel(channel):
+    if channel == "jja6806(옥션)":
+      return "옥션"
+    elif channel == "jja6806(지마켓)":
+      return "지마켓"
+    elif channel == "카카오스타일(저스틴23)":
+      return "카카오스타일"
+    elif channel == "위메프(저스틴23)":
+      return "위메프"
+    elif channel == "11번가(jja6806)":
+      return "11번가"
+    elif channel == "티몬(저스틴23)":
+      return "티몬"
+    elif channel == "스마트스토어(저스틴23)":
+      return "스마트스토어"
+    elif channel == "톡스토어(저스틴23)":
+      return "톡스토어"
+    elif channel == "하프클럽":
+      return "보리보리"
+    elif channel == "키즈노트(저스틴23)":
+      return "키즈노트"
+    elif channel == "네오스토어_이몰":
+      return "이몰"
+    else:
+      return channel
+  
+  jsonData = {}
+  jsonData['data'] = []
+  
+  salesInfoSize = {}
+  salesInfoChannel = {}
+  salesInfoQnt = {}
+  
+  for i in range(2, 30):
+    if sheet1.cell(row=i, column=7).value == None or sheet1.cell(row=i, column=7).value == '':
+        continue
+    else:
+      salesInfoSize[sheet1.cell(row=i, column=7).value.replace('05호', '5호').replace('07호', '7호').replace('09호', '9호')] = sheet1.cell(row=i, column=8).value
+  
+  for i in range(2, 30):
+    if sheet1.cell(row=i, column=10).value == None or sheet1.cell(row=i, column=10).value == '':
+        continue
+    else:
+      salesInfoChannel[arrangeChannel(sheet1.cell(row=i, column=10).value)] = sheet1.cell(row=i, column=11).value
+  
+  for i in range(2, 30):
+    if sheet1.cell(row=i, column=19).value == None or sheet1.cell(row=i, column=19).value == '':
+        continue
+    else:
+      salesInfoQnt[sheet1.cell(row=i, column=19).value] = sheet1.cell(row=i, column=20).value
+      
+  try:
+    jsonData['data'].append({
+      'checkDate': datetime.datetime.now().strftime('%Y-%m-%d'),
+      'salesTotal': seasonOrderSum,
+      'salesF': productsSeasonOrder['F'],
+      'salesFRatio': '{0:.1f}'.format(round((productsSeasonOrder['F'] / seasonOrderSum), 3) * 100),
+      'salesS': productsSeasonOrder['S'],
+      'salesSRatio': '{0:.1f}'.format(round((productsSeasonOrder['S'] / seasonOrderSum), 3) * 100),
+      'salesW': productsSeasonOrder['W'],
+      'salesWRatio': '{0:.1f}'.format(round((productsSeasonOrder['W'] / seasonOrderSum), 3) * 100),
+      'salesInfoSize': salesInfoSize,
+      'salesInfoChannel': salesInfoChannel,
+      'salesInfoQnt': salesInfoQnt
+    })
+  except Exception as e:
+    print(e)
+
+  # 일일 판매데이터 json 생성
+  with open('./saleDaily_{}.json'.format(file.replace('.xlsx', '')), 'w', encoding='UTF-8') as outfile:
+    json.dump(jsonData, outfile, indent=2, ensure_ascii=False)
