@@ -176,7 +176,8 @@ for i in range(first_row, last_row):
           excProductsCheckList.append("○ {} / 상품코드 : {} / 실재고 : {} / 임시재고 : {} / 사용여부 : {}".format(ws.cell(i, 22).value, ws.cell(i, 7).value, ws.cell(i, 12).value, ws.cell(i, 13).value, ws.cell(i, 16).value))
           
   except Exception as e:
-    matchingErrList.append('row : {} / {}'.format(i, e))
+    if ws.cell(row=i, column=16).value == 'Y':
+      matchingErrList.append('row : {} / {}'.format(i, e))
     continue
   
 if len(stockErrList) > 0 or len(stockErrAutoList) > 0:
