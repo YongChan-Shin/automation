@@ -71,12 +71,18 @@ for file in excelFileList:
   sheet2.cell(1, 5).value = '봄가을'
   sheet2.cell(1, 6).value = '여름'
   sheet2.cell(1, 7).value = '겨울'
+  sheet2.cell(1, 10).value = '상품명'
+  sheet2.cell(1, 11).value = '사이즈'
+  sheet2.cell(1, 12).value = '판매량'
   sheet2.cell(1, 1).alignment = fillAlignment
   sheet2.cell(1, 2).alignment = fillAlignment
   sheet2.cell(1, 3).alignment = fillAlignment
   sheet2.cell(1, 5).alignment = fillAlignment
   sheet2.cell(1, 6).alignment = fillAlignment
   sheet2.cell(1, 7).alignment = fillAlignment
+  sheet2.cell(1, 10).alignment = fillAlignment
+  sheet2.cell(1, 11).alignment = fillAlignment
+  sheet2.cell(1, 12).alignment = fillAlignment
   sheet2.cell(2, 5).alignment = fillAlignment
   sheet2.cell(2, 6).alignment = fillAlignment
   sheet2.cell(2, 7).alignment = fillAlignment
@@ -90,6 +96,9 @@ for file in excelFileList:
   sheet2.cell(1, 5).font = fillFont
   sheet2.cell(1, 6).font = fillFont
   sheet2.cell(1, 7).font = fillFont
+  sheet2.cell(1, 10).font = fillFont
+  sheet2.cell(1, 11).font = fillFont
+  sheet2.cell(1, 12).font = fillFont
   sheet2.cell(2, 8).font = fillFont
 
   sheet2.column_dimensions['A'].width = 40
@@ -99,6 +108,7 @@ for file in excelFileList:
   sheet2.column_dimensions['F'].width = 12
   sheet2.column_dimensions['G'].width = 12
   sheet2.column_dimensions['H'].width = 12
+  sheet2.column_dimensions['J'].width = 25
 
   fillData = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
   fillData2 = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
@@ -109,6 +119,9 @@ for file in excelFileList:
   sheet2["E1"].fill = fillData
   sheet2["F1"].fill = fillData
   sheet2["G1"].fill = fillData
+  sheet2["J1"].fill = fillData
+  sheet2["K1"].fill = fillData
+  sheet2["L1"].fill = fillData
 
   for sheet in wb:
     if sheet.title == '상품사진삽입':
@@ -155,10 +168,24 @@ for file in excelFileList:
           sheet2.cell(i, 1).fill = fillData2
           sheet2.cell(i, 2).fill = fillData2
           sheet2.cell(i, 3).fill = fillData2
+          
     except Exception as e:
       print(e)
+      
+  for i in range(first_row, last_row):
+    # 상품 호수별 판매량 정리 
+    if sheet1.cell(row=i, column=1).value == None or sheet1.cell(row=i, column=1).value == '':
+      continue
+    else:
+      sheet2.cell(row=i, column=10).value = sheet1.cell(row=i, column=1).value.split('/')[0]
+      sheet2.cell(row=i, column=11).value = sheet1.cell(row=i, column=1).value.split('/')[-1]
+      sheet2.cell(row=i, column=12).value = sheet1.cell(row=i, column=2).value
+      
+      sheet2.cell(row=i, column=10).alignment = Alignment(vertical='center', wrap_text=True)
+      sheet2.cell(row=i, column=11).alignment = Alignment(vertical='center', wrap_text=True)
+      sheet2.cell(row=i, column=12).alignment = Alignment(vertical='center', wrap_text=True)
   
-  seasonOrderSum = 0      
+  seasonOrderSum = 0
   for key, value in productsSeasonOrder.items():
     seasonOrderSum += value
   
@@ -209,19 +236,19 @@ for file in excelFileList:
   salesInfoChannel = {}
   salesInfoQnt = {}
   
-  for i in range(2, 30):
+  for i in range(2, 40):
     if sheet1.cell(row=i, column=7).value == None or sheet1.cell(row=i, column=7).value == '':
         continue
     else:
       salesInfoSize[sheet1.cell(row=i, column=7).value.replace('05호', '5호').replace('07호', '7호').replace('09호', '9호')] = sheet1.cell(row=i, column=8).value
   
-  for i in range(2, 30):
+  for i in range(2, 40):
     if sheet1.cell(row=i, column=10).value == None or sheet1.cell(row=i, column=10).value == '':
         continue
     else:
       salesInfoChannel[arrangeChannel(sheet1.cell(row=i, column=10).value)] = sheet1.cell(row=i, column=11).value
   
-  for i in range(2, 30):
+  for i in range(2, 40):
     if sheet1.cell(row=i, column=19).value == None or sheet1.cell(row=i, column=19).value == '':
         continue
     else:
