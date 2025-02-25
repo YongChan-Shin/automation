@@ -55,6 +55,33 @@ for i in files:
 
 print(excelFileList)
 
+# 채널명 정제 함수
+def arrangeChannel(channel):
+  if channel == "jja6806(옥션)":
+    return "옥션"
+  elif channel == "jja6806(지마켓)":
+    return "지마켓"
+  elif channel == "카카오스타일(저스틴23)":
+    return "카카오스타일"
+  elif channel == "위메프(저스틴23)":
+    return "위메프"
+  elif channel == "11번가(jja6806)":
+    return "11번가"
+  elif channel == "티몬(저스틴23)":
+    return "티몬"
+  elif channel == "스마트스토어(저스틴23)":
+    return "스마트스토어"
+  elif channel == "톡스토어(저스틴23)":
+    return "톡스토어"
+  elif channel == "하프클럽":
+    return "보리보리"
+  elif channel == "키즈노트(저스틴23)":
+    return "키즈노트"
+  elif channel == "네오스토어_이몰":
+    return "이몰"
+  else:
+    return channel
+
 for file in excelFileList:
 
   wb = load_workbook(currPath + '\\data\\' + file)
@@ -309,10 +336,10 @@ for file in excelFileList:
         
       if sheet2.cell(i, 4).value not in orderDictSize:
         orderDictSize[sheet2.cell(i, 4).value] = int(orderNum)
-        orderDictSizeChannelAcc[str(sheet1.cell(row=2, column=7).value) + '/' + str(sheet2.cell(i, 4).value)] = int(orderNum)
+        orderDictSizeChannelAcc[str(arrangeChannel(sheet1.cell(row=2, column=7).value)) + '/' + str(sheet2.cell(i, 4).value)] = int(orderNum)
       else:
         orderDictSize[sheet2.cell(i, 4).value] += int(orderNum)
-        orderDictSizeChannelAcc[str(sheet1.cell(row=2, column=7).value) + '/' + str(sheet2.cell(i, 4).value)] += int(orderNum)
+        orderDictSizeChannelAcc[str(arrangeChannel(sheet1.cell(row=2, column=7).value)) + '/' + str(sheet2.cell(i, 4).value)] += int(orderNum)
       
       if sheet2.cell(i, 6).value not in orderDictChannel:
         orderDictChannel[sheet2.cell(i, 6).value] = int(orderNum)
