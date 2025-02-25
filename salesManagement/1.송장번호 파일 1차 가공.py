@@ -167,6 +167,8 @@ for file in excelFileList:
   sheet2.cell(1, 31).value = '주문번호'
   sheet2.cell(1, 33).value = '상품명(상세)'
   sheet2.cell(1, 34).value = '주문번호'
+  sheet2.cell(1, 36).value = '주문건수(사이즈기준 - 채널별 취합용)'
+  sheet2.cell(1, 37).value = '판매량'
   
   sheet2.cell(1, 1).alignment = fillAlignment
   sheet2.cell(1, 2).alignment = fillAlignment
@@ -194,6 +196,8 @@ for file in excelFileList:
   sheet2.cell(1, 31).alignment = fillAlignment
   sheet2.cell(1, 33).alignment = fillAlignment
   sheet2.cell(1, 34).alignment = fillAlignment
+  sheet2.cell(1, 36).alignment = fillAlignment
+  sheet2.cell(1, 37).alignment = fillAlignment
   
   sheet2.cell(1, 1).font = fillFont
   sheet2.cell(1, 2).font = fillFont
@@ -221,6 +225,8 @@ for file in excelFileList:
   sheet2.cell(1, 31).font = fillFont
   sheet2.cell(1, 33).font = fillFont
   sheet2.cell(1, 34).font = fillFont
+  sheet2.cell(1, 36).font = fillFont
+  sheet2.cell(1, 37).font = fillFont
 
   sheet2.cell(1, 1).fill = fillData
   sheet2.column_dimensions['A'].width = 60
@@ -241,12 +247,14 @@ for file in excelFileList:
   sheet2.column_dimensions['AE'].width = 40
   sheet2.column_dimensions['AG'].width = 40
   sheet2.column_dimensions['AH'].width = 40
+  sheet2.column_dimensions['AJ'].width = 40
 
   last_row2 = sheet2.max_row + 1
 
   orderDict = {}
   orderDictPrd = {}
   orderDictSize = {}
+  orderDictSizeChannelAcc = {}
   orderDictChannel = {}
   orderDictAddress = {}
   orderDictCustomer = {}
@@ -301,8 +309,10 @@ for file in excelFileList:
         
       if sheet2.cell(i, 4).value not in orderDictSize:
         orderDictSize[sheet2.cell(i, 4).value] = int(orderNum)
+        orderDictSizeChannelAcc[str(sheet1.cell(row=2, column=7).value) + '/' + str(sheet2.cell(i, 4).value)] = int(orderNum)
       else:
         orderDictSize[sheet2.cell(i, 4).value] += int(orderNum)
+        orderDictSizeChannelAcc[str(sheet1.cell(row=2, column=7).value) + '/' + str(sheet2.cell(i, 4).value)] += int(orderNum)
       
       if sheet2.cell(i, 6).value not in orderDictChannel:
         orderDictChannel[sheet2.cell(i, 6).value] = int(orderNum)
@@ -430,6 +440,12 @@ for file in excelFileList:
     sheet2.cell(orderDictPrdDetailNumsCnt, 33).value = key
     sheet2.cell(orderDictPrdDetailNumsCnt, 34).value = ", ".join(value)
     orderDictPrdDetailNumsCnt += 1
+    
+  orderDictSizeChannelAccCnt = 2
+  for key, value in orderDictSizeChannelAcc.items():
+    sheet2.cell(orderDictSizeChannelAccCnt, 36).value = key
+    sheet2.cell(orderDictSizeChannelAccCnt, 37).value = value
+    orderDictSizeChannelAccCnt += 1    
 
 
   fillData2 = PatternFill(fill_type='solid', start_color='CCFFCC', end_color='CCFFCC')
@@ -460,6 +476,8 @@ for file in excelFileList:
   sheet2["AE1"].fill = fillData2
   sheet2["AG1"].fill = fillData2
   sheet2["AH1"].fill = fillData2
+  sheet2["AJ1"].fill = fillData3
+  sheet2["AK1"].fill = fillData3
   
   wb.active = sheet2
 
