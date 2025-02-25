@@ -48,8 +48,7 @@ cur.execute("SELECT PrdName, Season from ProductsData")
 data = cur.fetchall()
 for i in data:
   productsSeason[i[0]] = i[1]
-con.close()
-
+  
 for file in excelFileList:
 
   wb = load_workbook(currPath + '\\' + file)
@@ -233,22 +232,29 @@ for file in excelFileList:
   jsonData['data'] = []
   
   salesInfoSize = {}
+  salesInfoSizeChannelAcc = {}
   salesInfoChannel = {}
   salesInfoQnt = {}
   
-  for i in range(2, 40):
+  for i in range(first_row, last_row):
     if sheet1.cell(row=i, column=7).value == None or sheet1.cell(row=i, column=7).value == '':
         continue
     else:
       salesInfoSize[sheet1.cell(row=i, column=7).value.replace('05호', '5호').replace('07호', '7호').replace('09호', '9호')] = sheet1.cell(row=i, column=8).value
   
-  for i in range(2, 40):
+  for i in range(first_row, last_row):
+    if sheet1.cell(row=i, column=34).value == None or sheet1.cell(row=i, column=34).value == '':
+        continue
+    else:
+      salesInfoSizeChannelAcc[sheet1.cell(row=i, column=34).value.replace('05호', '5호').replace('07호', '7호').replace('09호', '9호')] = sheet1.cell(row=i, column=35).value
+  
+  for i in range(first_row, last_row):
     if sheet1.cell(row=i, column=10).value == None or sheet1.cell(row=i, column=10).value == '':
         continue
     else:
       salesInfoChannel[arrangeChannel(sheet1.cell(row=i, column=10).value)] = sheet1.cell(row=i, column=11).value
   
-  for i in range(2, 40):
+  for i in range(first_row, last_row):
     if sheet1.cell(row=i, column=19).value == None or sheet1.cell(row=i, column=19).value == '':
         continue
     else:
@@ -266,6 +272,7 @@ for file in excelFileList:
       'salesWRatio': '{0:.1f}'.format(round((productsSeasonOrder['W'] / seasonOrderSum), 3) * 100),
       'salesInfoSize': salesInfoSize,
       'salesInfoChannel': salesInfoChannel,
+      'salesInfoSizeChannelAcc': salesInfoSizeChannelAcc,
       'salesInfoQnt': salesInfoQnt
     })
   except Exception as e:
