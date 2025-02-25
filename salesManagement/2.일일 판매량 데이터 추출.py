@@ -76,6 +76,8 @@ dailyWs.cell(1, 28).value = '상품 주문번호 종합'
 dailyWs.cell(1, 29).value = '주문번호'
 dailyWs.cell(1, 31).value = '상품(상세) 주문번호 종합'
 dailyWs.cell(1, 32).value = '주문번호'
+dailyWs.cell(1, 34).value = '주문건수(사이즈기준 - 채널별 취합용)'
+dailyWs.cell(1, 35).value = '판매량'
 
 dailyWs.cell(1, 1).alignment = fillAlignment
 dailyWs.cell(1, 2).alignment = fillAlignment
@@ -99,6 +101,8 @@ dailyWs.cell(1, 28).alignment = fillAlignment
 dailyWs.cell(1, 29).alignment = fillAlignment
 dailyWs.cell(1, 31).alignment = fillAlignment
 dailyWs.cell(1, 32).alignment = fillAlignment
+dailyWs.cell(1, 34).alignment = fillAlignment
+dailyWs.cell(1, 35).alignment = fillAlignment
 
 dailyWs.cell(1, 1).font = fillFont
 dailyWs.cell(1, 2).font = fillFont
@@ -122,6 +126,8 @@ dailyWs.cell(1, 28).font = fillFont
 dailyWs.cell(1, 29).font = fillFont
 dailyWs.cell(1, 31).font = fillFont
 dailyWs.cell(1, 32).font = fillFont
+dailyWs.cell(1, 34).font = fillFont
+dailyWs.cell(1, 35).font = fillFont
 
 dailyWs.cell(1, 1).fill = fillData
 dailyWs.column_dimensions['A'].width = 40
@@ -148,6 +154,8 @@ dailyWs.column_dimensions['AB'].width = 30
 dailyWs.column_dimensions['AC'].width = 50
 dailyWs.column_dimensions['AE'].width = 30
 dailyWs.column_dimensions['AF'].width = 50
+dailyWs.column_dimensions['AH'].width = 40
+dailyWs.column_dimensions['AI'].width = 10
 
 fillData2 = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
 dailyWs["A1"].fill = fillData2
@@ -172,10 +180,13 @@ dailyWs["AB1"].fill = fillData2
 dailyWs["AC1"].fill = fillData2
 dailyWs["AE1"].fill = fillData2
 dailyWs["AF1"].fill = fillData2
+dailyWs["AH1"].fill = fillData2
+dailyWs["AI1"].fill = fillData2
 
 orderDict = {}
 orderDictPrd = {}
 orderDictSize = {}
+orderDictSizeChannelAcc = {}
 orderDictChannel = {}
 orderDictAddress = {}
 orderDictCustomer = {}
@@ -230,6 +241,15 @@ for file in excelFileList:
         orderDictSize[ws.cell(i, 15).value] = ws.cell(i, 16).value
       else:
         orderDictSize[ws.cell(i, 15).value] += ws.cell(i, 16).value
+  
+  for i in range(first_row, last_row):
+    if ws.cell(i, 36).value == None or ws.cell(i, 36).value == '':
+      continue
+    else:
+      if ws.cell(i, 36).value not in orderDictSizeChannelAcc:
+        orderDictSizeChannelAcc[ws.cell(i, 36).value] = ws.cell(i, 37).value
+      else:
+        orderDictSizeChannelAcc[ws.cell(i, 36).value] += ws.cell(i, 37).value
         
   for i in range(first_row, last_row):
     if ws.cell(i, 18).value == None or ws.cell(i, 18).value == '':
@@ -399,6 +419,13 @@ for file in excelFileList:
     dailyWs.cell(orderDictPrdDetailNumsCnt, 33).value = " "
     orderDictPrdDetailNumsCnt += 1  
     
+  orderDictSizeChannelAccCnt= 2
+  for key, value in orderDictSizeChannelAcc.items():
+    dailyWs.cell(orderDictSizeChannelAccCnt, 34).value = key
+    dailyWs.cell(orderDictSizeChannelAccCnt, 35).value = value
+    dailyWs.cell(orderDictSizeChannelAccCnt, 36).value = " "
+    orderDictSizeChannelAccCnt += 1  
+    
 dailyWb.save(currPath + '\\' + date + '.xlsx')
 
 import win32com.client
@@ -413,6 +440,7 @@ ws.Range('D:E').Sort(Key1=ws.Range('E1'), Order1=2)
 
 # 사이즈기준은 판매량에 따른 정렬 미적용
 ws.Range('G:H').Sort(Key1=ws.Range('H1'), Order1=2)
+ws.Range('AH:AI').Sort(Key1=ws.Range('AI1'), Order1=2)
 
 ws.Range('J:K').Sort(Key1=ws.Range('K1'), Order1=2)
 ws.Range('M:N').Sort(Key1=ws.Range('N1'), Order1=2)
