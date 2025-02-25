@@ -9,8 +9,26 @@ ws = wb["상품사진삽입"]
 first_row = 2
 last_row = ws.max_row + 1
 
+channelList = [] # 운영채널 리스트
+
+# DB 불러오기
+import sqlite3
+
+# 운영채널 정보 생성
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+cur.execute("SELECT Channel from ProductsData")
+data = cur.fetchall()
+for i in data:
+  if i[0] is not None:
+    channelList.append(i[0])
+con.close()
+
+print(channelList)
+
 # JSON 파일로 저장
 jsonData = {}
+jsonData["channelList"] = channelList
 jsonData["data"] = []
 
 # 상품 호수별 판매정보 생성
