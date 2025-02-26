@@ -235,6 +235,7 @@ for file in excelFileList:
   salesInfoSizeChannelAcc = {}
   salesInfoChannel = {}
   salesInfoQnt = {}
+  salesInfoQntChannelAcc = {}
   
   for i in range(first_row, last_row):
     if sheet1.cell(row=i, column=7).value == None or sheet1.cell(row=i, column=7).value == '':
@@ -259,6 +260,12 @@ for file in excelFileList:
         continue
     else:
       salesInfoQnt[sheet1.cell(row=i, column=19).value] = sheet1.cell(row=i, column=20).value
+  
+  for i in range(first_row, last_row):
+    if sheet1.cell(row=i, column=37).value == None or sheet1.cell(row=i, column=37).value == '':
+        continue
+    else:
+      salesInfoQntChannelAcc[sheet1.cell(row=i, column=37).value] = sheet1.cell(row=i, column=38).value
       
   try:
     jsonData['data'].append({
@@ -273,7 +280,8 @@ for file in excelFileList:
       'salesInfoSize': salesInfoSize,
       'salesInfoChannel': salesInfoChannel,
       'salesInfoSizeChannelAcc': salesInfoSizeChannelAcc,
-      'salesInfoQnt': salesInfoQnt
+      'salesInfoQnt': salesInfoQnt,
+      'salesInfoQntChannelAcc': salesInfoQntChannelAcc
     })
   except Exception as e:
     print(e)
