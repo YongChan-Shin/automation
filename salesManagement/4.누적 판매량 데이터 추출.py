@@ -50,6 +50,10 @@ accWs.cell(1, 28).value = '상품 주문번호 종합'
 accWs.cell(1, 29).value = '주문번호'
 accWs.cell(1, 31).value = '상품(상세) 주문번호 종합'
 accWs.cell(1, 32).value = '주문번호'
+accWs.cell(1, 34).value = '주문건수(사이즈기준 - 채널별 취합용)'
+accWs.cell(1, 35).value = '주문번호'
+accWs.cell(1, 37).value = '주문건수(주문수량기준 - 채널별 취합용)'
+accWs.cell(1, 38).value = '주문번호'
 
 accWs.cell(1, 1).alignment = fillAlignment
 accWs.cell(1, 2).alignment = fillAlignment
@@ -73,6 +77,10 @@ accWs.cell(1, 28).alignment = fillAlignment
 accWs.cell(1, 29).alignment = fillAlignment
 accWs.cell(1, 31).alignment = fillAlignment
 accWs.cell(1, 32).alignment = fillAlignment
+accWs.cell(1, 34).alignment = fillAlignment
+accWs.cell(1, 35).alignment = fillAlignment
+accWs.cell(1, 37).alignment = fillAlignment
+accWs.cell(1, 38).alignment = fillAlignment
 
 accWs.cell(1, 1).font = fillFont
 accWs.cell(1, 2).font = fillFont
@@ -96,6 +104,10 @@ accWs.cell(1, 28).font = fillFont
 accWs.cell(1, 29).font = fillFont
 accWs.cell(1, 31).font = fillFont
 accWs.cell(1, 32).font = fillFont
+accWs.cell(1, 34).font = fillFont
+accWs.cell(1, 35).font = fillFont
+accWs.cell(1, 37).font = fillFont
+accWs.cell(1, 38).font = fillFont
 
 accWs.column_dimensions['A'].width = 40
 accWs.column_dimensions['B'].width = 10
@@ -121,6 +133,10 @@ accWs.column_dimensions['AB'].width = 30
 accWs.column_dimensions['AC'].width = 50
 accWs.column_dimensions['AE'].width = 30
 accWs.column_dimensions['AF'].width = 50
+accWs.column_dimensions['AH'].width = 40
+accWs.column_dimensions['AI'].width = 10
+accWs.column_dimensions['AK'].width = 40
+accWs.column_dimensions['AL'].width = 10
 
 fillData2 = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
 accWs["A1"].fill = fillData2
@@ -145,10 +161,15 @@ accWs["AB1"].fill = fillData2
 accWs["AC1"].fill = fillData2
 accWs["AE1"].fill = fillData2
 accWs["AF1"].fill = fillData2
+accWs["AH1"].fill = fillData2
+accWs["AI1"].fill = fillData2
+accWs["AK1"].fill = fillData2
+accWs["AL1"].fill = fillData2
 
 orderDict = {}
 orderDictPrd = {}
 orderDictSize = {}
+orderDictSizeChannelAcc = {}
 orderDictChannel = {}
 orderDictAddress = {}
 orderDictCustomer = {}
@@ -165,6 +186,7 @@ orderDictQuantity = {
   '50개 이상': 0,
   '100개 이상': 0,
 }
+orderDictQuantityChannelAcc = {}
 orderDictPrdNums = {}
 orderDictPrdDetailNums = {}
 orderDictPrdChannel = {}
@@ -212,6 +234,24 @@ for file in excelFileList:
         orderDictSize[ws.cell(i, 7).value] = ws.cell(i, 8).value
       else:
         orderDictSize[ws.cell(i, 7).value] += ws.cell(i, 8).value
+  
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 34).value == None or ws.cell(i, 34).value == '':
+      continue
+    else:
+      if ws.cell(i, 34).value not in orderDictSizeChannelAcc:
+        orderDictSizeChannelAcc[ws.cell(i, 34).value] = ws.cell(i, 35).value
+      else:
+        orderDictSizeChannelAcc[ws.cell(i, 34).value] += ws.cell(i, 35).value
+  
+  for i in range(first_row, last_row):        
+    if ws.cell(i, 37).value == None or ws.cell(i, 37).value == '':
+      continue
+    else:
+      if ws.cell(i, 37).value not in orderDictQuantityChannelAcc:
+        orderDictQuantityChannelAcc[ws.cell(i, 37).value] = ws.cell(i, 38).value
+      else:
+        orderDictQuantityChannelAcc[ws.cell(i, 37).value] += ws.cell(i, 38).value
         
   for i in range(first_row, last_row):        
     if ws.cell(i, 10).value == None or ws.cell(i, 10).value == '':
@@ -302,6 +342,18 @@ for file in excelFileList:
     accWs.cell(orderDictSizeCnt, 7).value = key
     accWs.cell(orderDictSizeCnt, 8).value = value
     orderDictSizeCnt += 1
+  
+  orderDictSizeChannelAccCnt = 2
+  for key, value in orderDictSizeChannelAcc.items():
+    accWs.cell(orderDictSizeChannelAccCnt, 34).value = key
+    accWs.cell(orderDictSizeChannelAccCnt, 35).value = value
+    orderDictSizeChannelAccCnt += 1
+  
+  orderDictQuantityChannelAccCnt = 2
+  for key, value in orderDictQuantityChannelAcc.items():
+    accWs.cell(orderDictQuantityChannelAccCnt, 37).value = key
+    accWs.cell(orderDictQuantityChannelAccCnt, 38).value = value
+    orderDictQuantityChannelAccCnt += 1
   
   orderDictChannelCnt = 2
   for key, value in orderDictChannel.items():
