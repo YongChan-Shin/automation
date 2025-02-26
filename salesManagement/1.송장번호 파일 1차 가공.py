@@ -196,6 +196,9 @@ for file in excelFileList:
   sheet2.cell(1, 34).value = '주문번호'
   sheet2.cell(1, 36).value = '주문건수(사이즈기준 - 채널별 취합용)'
   sheet2.cell(1, 37).value = '판매량'
+  sheet2.cell(1, 39).value = '주문건수(주문수량기준 - 채널별 취합용)'
+  sheet2.cell(1, 40).value = '판매량'
+  
   
   sheet2.cell(1, 1).alignment = fillAlignment
   sheet2.cell(1, 2).alignment = fillAlignment
@@ -225,6 +228,8 @@ for file in excelFileList:
   sheet2.cell(1, 34).alignment = fillAlignment
   sheet2.cell(1, 36).alignment = fillAlignment
   sheet2.cell(1, 37).alignment = fillAlignment
+  sheet2.cell(1, 39).alignment = fillAlignment
+  sheet2.cell(1, 40).alignment = fillAlignment
   
   sheet2.cell(1, 1).font = fillFont
   sheet2.cell(1, 2).font = fillFont
@@ -254,6 +259,8 @@ for file in excelFileList:
   sheet2.cell(1, 34).font = fillFont
   sheet2.cell(1, 36).font = fillFont
   sheet2.cell(1, 37).font = fillFont
+  sheet2.cell(1, 39).font = fillFont
+  sheet2.cell(1, 40).font = fillFont
 
   sheet2.cell(1, 1).fill = fillData
   sheet2.column_dimensions['A'].width = 60
@@ -275,6 +282,7 @@ for file in excelFileList:
   sheet2.column_dimensions['AG'].width = 40
   sheet2.column_dimensions['AH'].width = 40
   sheet2.column_dimensions['AJ'].width = 40
+  sheet2.column_dimensions['AM'].width = 40
 
   last_row2 = sheet2.max_row + 1
 
@@ -453,7 +461,9 @@ for file in excelFileList:
   orderDictQuantityCnt = 2
   for key, value in orderDictQuantity.items():
     sheet2.cell(orderDictQuantityCnt, 27).value = key
+    sheet2.cell(orderDictQuantityCnt, 39).value = str(arrangeChannel(sheet1.cell(row=2, column=7).value)) + '/' + key
     sheet2.cell(orderDictQuantityCnt, 28).value = value
+    sheet2.cell(orderDictQuantityCnt, 40).value = value
     orderDictQuantityCnt += 1
     
   orderDictPrdNumsCnt = 2
@@ -505,6 +515,8 @@ for file in excelFileList:
   sheet2["AH1"].fill = fillData2
   sheet2["AJ1"].fill = fillData3
   sheet2["AK1"].fill = fillData3
+  sheet2["AM1"].fill = fillData3
+  sheet2["AN1"].fill = fillData3
   
   wb.active = sheet2
 

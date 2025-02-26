@@ -78,6 +78,8 @@ dailyWs.cell(1, 31).value = '상품(상세) 주문번호 종합'
 dailyWs.cell(1, 32).value = '주문번호'
 dailyWs.cell(1, 34).value = '주문건수(사이즈기준 - 채널별 취합용)'
 dailyWs.cell(1, 35).value = '판매량'
+dailyWs.cell(1, 37).value = '주문건수(주문수량기준 - 채널별 취합용)'
+dailyWs.cell(1, 38).value = '판매량'
 
 dailyWs.cell(1, 1).alignment = fillAlignment
 dailyWs.cell(1, 2).alignment = fillAlignment
@@ -103,6 +105,8 @@ dailyWs.cell(1, 31).alignment = fillAlignment
 dailyWs.cell(1, 32).alignment = fillAlignment
 dailyWs.cell(1, 34).alignment = fillAlignment
 dailyWs.cell(1, 35).alignment = fillAlignment
+dailyWs.cell(1, 37).alignment = fillAlignment
+dailyWs.cell(1, 38).alignment = fillAlignment
 
 dailyWs.cell(1, 1).font = fillFont
 dailyWs.cell(1, 2).font = fillFont
@@ -128,6 +132,8 @@ dailyWs.cell(1, 31).font = fillFont
 dailyWs.cell(1, 32).font = fillFont
 dailyWs.cell(1, 34).font = fillFont
 dailyWs.cell(1, 35).font = fillFont
+dailyWs.cell(1, 37).font = fillFont
+dailyWs.cell(1, 38).font = fillFont
 
 dailyWs.cell(1, 1).fill = fillData
 dailyWs.column_dimensions['A'].width = 40
@@ -156,6 +162,8 @@ dailyWs.column_dimensions['AE'].width = 30
 dailyWs.column_dimensions['AF'].width = 50
 dailyWs.column_dimensions['AH'].width = 40
 dailyWs.column_dimensions['AI'].width = 10
+dailyWs.column_dimensions['AK'].width = 40
+dailyWs.column_dimensions['AL'].width = 10
 
 fillData2 = PatternFill(fill_type='solid', start_color='FFCCCC', end_color='FFCCCC')
 dailyWs["A1"].fill = fillData2
@@ -182,6 +190,8 @@ dailyWs["AE1"].fill = fillData2
 dailyWs["AF1"].fill = fillData2
 dailyWs["AH1"].fill = fillData2
 dailyWs["AI1"].fill = fillData2
+dailyWs["AK1"].fill = fillData2
+dailyWs["AL1"].fill = fillData2
 
 orderDict = {}
 orderDictPrd = {}
@@ -191,6 +201,7 @@ orderDictChannel = {}
 orderDictAddress = {}
 orderDictCustomer = {}
 orderDictQuantity = {}
+orderDictQuantityChannelAcc = {}
 orderDictPrdNums = {}
 orderDictPrdDetailNums = {}
 
@@ -286,6 +297,15 @@ for file in excelFileList:
         orderDictQuantity[ws.cell(i, 27).value] = ws.cell(i, 28).value
       else:
         orderDictQuantity[ws.cell(i, 27).value] += ws.cell(i, 28).value
+        
+  for i in range(first_row, last_row):
+    if ws.cell(i, 39).value == None or ws.cell(i, 39).value == '':
+      continue
+    else:
+      if ws.cell(i, 39).value not in orderDictQuantityChannelAcc:
+        orderDictQuantityChannelAcc[ws.cell(i, 39).value] = ws.cell(i, 40).value
+      else:
+        orderDictQuantityChannelAcc[ws.cell(i, 39).value] += ws.cell(i, 40).value
         
   for i in range(first_row, last_row):
     if ws.cell(i, 30).value == None or ws.cell(i, 30).value == '':
@@ -417,14 +437,21 @@ for file in excelFileList:
     dailyWs.cell(orderDictPrdDetailNumsCnt, 31).value = key
     dailyWs.cell(orderDictPrdDetailNumsCnt, 32).value = value
     dailyWs.cell(orderDictPrdDetailNumsCnt, 33).value = " "
-    orderDictPrdDetailNumsCnt += 1  
+    orderDictPrdDetailNumsCnt += 1
     
   orderDictSizeChannelAccCnt= 2
   for key, value in orderDictSizeChannelAcc.items():
     dailyWs.cell(orderDictSizeChannelAccCnt, 34).value = key
     dailyWs.cell(orderDictSizeChannelAccCnt, 35).value = value
     dailyWs.cell(orderDictSizeChannelAccCnt, 36).value = " "
-    orderDictSizeChannelAccCnt += 1  
+    orderDictSizeChannelAccCnt += 1
+    
+  orderDictQuantityChannelAccCnt= 2
+  for key, value in orderDictQuantityChannelAcc.items():
+    dailyWs.cell(orderDictQuantityChannelAccCnt, 37).value = key
+    dailyWs.cell(orderDictQuantityChannelAccCnt, 38).value = value
+    dailyWs.cell(orderDictQuantityChannelAccCnt, 39).value = " "
+    orderDictQuantityChannelAccCnt += 1
     
 dailyWb.save(currPath + '\\' + date + '.xlsx')
 
