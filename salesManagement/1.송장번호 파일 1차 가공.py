@@ -73,6 +73,8 @@ def arrangeChannel(channel):
     return "스마트스토어"
   elif channel == "톡스토어(저스틴23)":
     return "톡스토어"
+  elif channel == "톡스토어(저스틴23)_계정미사용":
+    return "톡스토어"
   elif channel == "하프클럽":
     return "보리보리"
   elif channel == "키즈노트(저스틴23)":
@@ -330,7 +332,7 @@ for file in excelFileList:
         sheet2.cell(i, 4).value = "free"
         
       sheet2.cell(i, 5).value = str(sheet2.cell(i, 2).value.replace("(저스틴23)", "")) + "/" + str(sheet2.cell(i, 3).value) + "/" + str(sheet2.cell(i, 4).value.replace("FREE", "free"))
-      sheet2.cell(i, 6).value = sheet1.cell(2, 7).value
+      sheet2.cell(i, 6).value = arrangeChannel(sheet1.cell(2, 7).value)
       
       if sheet2.cell(i, 5).value not in orderDict:
         orderDict[sheet2.cell(i, 5).value] = int(orderNum)

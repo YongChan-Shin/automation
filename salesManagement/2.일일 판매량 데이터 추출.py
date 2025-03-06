@@ -27,6 +27,8 @@ def arrangeChannel(channel):
     return "스마트스토어"
   elif channel == "톡스토어(저스틴23)":
     return "톡스토어"
+  elif channel == "톡스토어(저스틴23)_계정미사용":
+    return "톡스토어"
   elif channel == "하프클럽":
     return "보리보리"
   elif channel == "키즈노트(저스틴23)":
