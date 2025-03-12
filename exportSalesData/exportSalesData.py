@@ -37,8 +37,11 @@ for i in range(first_row, last_row):
   if ws.cell(i, 10).value not in salesPrdSizeQnt:
     salesPrdSizeQnt[ws.cell(i, 10).value] = {'{}'.format(ws.cell(i, 11).value): ws.cell(i, 12).value}
   else:
-    salesPrdSizeQnt[ws.cell(i, 10).value].setdefault('{}'.format(ws.cell(i, 11).value), ws.cell(i, 12).value)
-  
+    if ws.cell(i, 11).value not in salesPrdSizeQnt[ws.cell(i, 10).value]:
+      salesPrdSizeQnt[ws.cell(i, 10).value][ws.cell(i, 11).value] = ws.cell(i, 12).value
+    else:
+      salesPrdSizeQnt[ws.cell(i, 10).value][ws.cell(i, 11).value] += ws.cell(i, 12).value
+      
 print(salesPrdSizeQnt)
   
 for i in range(first_row, last_row):
