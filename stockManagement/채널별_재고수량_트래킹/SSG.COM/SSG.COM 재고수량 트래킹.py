@@ -157,9 +157,9 @@ for i in range(first_row, last_row):
         if int(ws.cell(row=i, column=10).value) != 0:
           print("{}/{}".format(ws.cell(i, 19).value, stockList[ws.cell(i, 19).value]))
           if ws.cell(i, 19).value in soldoutPrdCSList:
-            stockErrList.append("○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 19).value, ws.cell(i, 5).value, ws.cell(i, 10).value))
+            stockErrList.append("○ {} / 상품번호 : {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 19).value, ws.cell(i, 1).value, ws.cell(i, 5).value, ws.cell(i, 10).value))
           else:
-            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 19).value, ws.cell(i, 5).value, ws.cell(i, 10).value))            
+            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 상품번호 : {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 19).value, ws.cell(i, 1).value, ws.cell(i, 5).value, ws.cell(i, 10).value))            
             
           for colNum in range(1, 21):
             ws.cell(row=i, column=colNum).fill = fillData2
@@ -168,12 +168,12 @@ for i in range(first_row, last_row):
       if ws.cell(row=i, column=5).value == "판매중":
         if int(ws.cell(row=i, column=10).value) <= 3:
           if stockList[ws.cell(i, 19).value] > int(ws.cell(row=i, column=10).value):
-            impendingPrdList.append("○ {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 19).value, ws.cell(i, 5).value, ws.cell(i, 10).value, stockList[ws.cell(i, 19).value]))
+            impendingPrdList.append("○ {} / 상품번호 : {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 19).value, ws.cell(i, 1).value, ws.cell(i, 5).value, ws.cell(i, 10).value, stockList[ws.cell(i, 19).value]))
           
     if ws.cell(row=i, column=5).value == "판매중":
         if int(ws.cell(row=i, column=10).value) != 0:
           if prdDetailInfoProduct in excProducts:
-            excProductsCheckList.append("○ {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 19).value, ws.cell(i, 5).value, ws.cell(i, 10).value))
+            excProductsCheckList.append("○ {} / 상품번호 : {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 19).value, ws.cell(i, 1).value, ws.cell(i, 5).value, ws.cell(i, 10).value))
           
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))
