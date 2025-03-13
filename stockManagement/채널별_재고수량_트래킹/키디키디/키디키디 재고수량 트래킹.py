@@ -72,7 +72,8 @@ cur.execute("SELECT ExcProducts from ProductsData WHERE ExcProducts IS NOT NULL 
 data = cur.fetchall()
 for i in data:
   excProducts.append(i[0])
-  
+
+print(excProducts)
 # 판매중지상품 판매여부 체크용
 excProductsCheckList = []
 
@@ -157,9 +158,9 @@ for i in range(first_row, last_row):
         if int(ws.cell(row=i, column=8).value) != 0:
           print("{}/{}".format(ws.cell(i, 17).value, stockList[ws.cell(i, 17).value]))
           if ws.cell(i, 17).value in soldoutPrdCSList:
-            stockErrList.append("○ {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 17).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
+            stockErrList.append("○ {} / 상품번호 : {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 17).value, ws.cell(i, 2).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
           else:
-            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 17).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
+            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 상품번호 : {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 17).value, ws.cell(i, 2).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
           for colNum in range(1, 19):
             ws.cell(row=i, column=colNum).fill = fillData2
             
@@ -169,10 +170,10 @@ for i in range(first_row, last_row):
           if stockList[ws.cell(i, 17).value] > int(ws.cell(row=i, column=8).value):
             impendingPrdList.append("○ {} / 상품번호 : {} / 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 2).value, ws.cell(i, 6).value, ws.cell(i, 8).value, stockList[ws.cell(i, 17).value]))
             
-      if ws.cell(row=i, column=6).value == "판매진행":
-        if int(ws.cell(row=i, column=8).value) != 0:
-          if prdDetailInfoProduct in excProducts:
-            excProductsCheckList.append("○ {} / 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
+    if ws.cell(row=i, column=6).value == "판매진행":
+      if int(ws.cell(row=i, column=8).value) != 0:
+        if prdDetailInfoProduct in excProducts:
+          excProductsCheckList.append("○ {} / 상품번호 : {} / 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 2).value, ws.cell(i, 6).value, ws.cell(i, 8).value))
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))
     continue
