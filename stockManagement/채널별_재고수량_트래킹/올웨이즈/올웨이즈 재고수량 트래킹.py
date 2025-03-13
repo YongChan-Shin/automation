@@ -168,9 +168,9 @@ for i in range(first_row, last_row):
           if stockList[ws.cell(i, 17).value] > int(ws.cell(row=i, column=12).value):
             impendingPrdList.append("○ {} / 상품ID : {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 17).value, ws.cell(i, 1).value, ws.cell(i, 4).value, ws.cell(i, 12).value, stockList[ws.cell(i, 17).value]))
           
-      if ws.cell(row=i, column=4).value == "판매중":
-        if prdDetailInfoProduct in excProducts:
-          excProductsCheckList.append("○ {} / 상품ID : {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 1).value, ws.cell(i, 4).value, ws.cell(i, 12).value))
+    if ws.cell(row=i, column=4).value == "판매중":
+      if prdDetailInfoProduct in excProducts:
+        excProductsCheckList.append("○ {} / 상품ID : {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 17).value, ws.cell(i, 1).value, ws.cell(i, 4).value, ws.cell(i, 12).value))
             
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))

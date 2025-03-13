@@ -157,9 +157,9 @@ for i in range(first_row, last_row):
         if int(ws.cell(row=i, column=16).value) != 0 or ws.cell(row=i, column=9).value == "판매중":
           print("{}/{}".format(ws.cell(i, 28).value, stockList[ws.cell(i, 28).value]))
           if ws.cell(i, 28).value in soldoutPrdCSList:
-            stockErrList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
+            stockErrList.append("○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
           else:
-            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))            
+            stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))            
           for colNum in range(1, 30):
             ws.cell(row=i, column=colNum).fill = fillData2
             
@@ -168,12 +168,12 @@ for i in range(first_row, last_row):
         if ws.cell(row=i, column=9).value == "판매중":
           if int(ws.cell(row=i, column=16).value) <= 3:
             if stockList[ws.cell(i, 28).value] > int(ws.cell(row=i, column=16).value):
-              impendingPrdList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value, stockList[ws.cell(i, 28).value]))
+              impendingPrdList.append("○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value, stockList[ws.cell(i, 28).value]))
           
     if ws.cell(row=i, column=11).value == "Y":
       if int(ws.cell(row=i, column=16).value) != 0 or ws.cell(row=i, column=9).value == "판매중":          
         if prdDetailInfoProduct in excProducts:
-          excProductsCheckList.append("○ {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {}".format(ws.cell(i, 28).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
+          excProductsCheckList.append("○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {}".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))
     continue

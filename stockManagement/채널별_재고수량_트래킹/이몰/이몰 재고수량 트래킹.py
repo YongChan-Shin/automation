@@ -173,12 +173,12 @@ for i in range(first_row, last_row):
               if stockList[ws.cell(i, 23).value] > int(ws.cell(row=i, column=10).value):
                 impendingPrdList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value, stockList[ws.cell(i, 23).value]))
           
-      if ws.cell(row=i, column=9).value == "T":
-        if ws.cell(row=i, column=14).value == "T":
-          if ws.cell(row=i, column=15).value == "T":
-            if int(ws.cell(row=i, column=10).value) != 0:
-              if prdDetailInfoProduct in excProducts:
-                excProductsCheckList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
+    if ws.cell(row=i, column=9).value == "T":
+      if ws.cell(row=i, column=14).value == "T":
+        if ws.cell(row=i, column=15).value == "T":
+          if int(ws.cell(row=i, column=10).value) != 0:
+            if prdDetailInfoProduct in excProducts:
+              excProductsCheckList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
         
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))
