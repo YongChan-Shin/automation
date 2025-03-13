@@ -159,9 +159,9 @@ for i in range(first_row, last_row):
             if int(ws.cell(row=i, column=10).value) != 0:
               print("{}/{}".format(ws.cell(i, 23).value, stockList[ws.cell(i, 23).value]))
               if ws.cell(i, 23).value in soldoutPrdCSList:
-                stockErrList.append("○ {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 23).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
+                stockErrList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
               else:
-                stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 23).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
+                stockErrAutoList.append("※ 판매량차감 자동품절 상품(CS팀에서 품절로 전달되지 않은 상품) ※\n○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
               for colNum in range(1, 25):
                 ws.cell(row=i, column=colNum).fill = fillData2
                 
@@ -171,14 +171,14 @@ for i in range(first_row, last_row):
           if ws.cell(row=i, column=15).value == "T":
             if int(ws.cell(row=i, column=10).value) <= 3:
               if stockList[ws.cell(i, 23).value] > int(ws.cell(row=i, column=10).value):
-                impendingPrdList.append("○ {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 23).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value, stockList[ws.cell(i, 23).value]))
+                impendingPrdList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value, stockList[ws.cell(i, 23).value]))
           
       if ws.cell(row=i, column=9).value == "T":
         if ws.cell(row=i, column=14).value == "T":
           if ws.cell(row=i, column=15).value == "T":
             if int(ws.cell(row=i, column=10).value) != 0:
               if prdDetailInfoProduct in excProducts:
-                excProductsCheckList.append("○ {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 23).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
+                excProductsCheckList.append("○ {} / 상품코드 : {} / 재고관리 사용 : {} / 품목 진열상태 : {} / 품목 판매상태 : {} / 재고수량 : {}".format(ws.cell(i, 23).value, ws.cell(i, 1).value, ws.cell(i, 9).value, ws.cell(i, 14).value, ws.cell(i, 15).value, ws.cell(i, 10).value))
         
   except Exception as e:
     matchingErrList.append('row : {} / {}'.format(i, e))
