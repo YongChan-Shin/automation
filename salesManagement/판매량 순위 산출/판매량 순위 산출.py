@@ -17,12 +17,10 @@ productsCode = {}
 
 # DB 불러오기
 import sqlite3
-con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsCode.db')
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
 cur = con.cursor()
-
-cur.execute("SELECT PrdName, PrdCode from ProductsCode")
+cur.execute("SELECT PrdName, prdCode from ProductsData")
 data = cur.fetchall()
-
 for i in data:
   productsCode[i[0]] = i[1]
 
