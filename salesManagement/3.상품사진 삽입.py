@@ -32,22 +32,17 @@ prdW = [] # 겨울 판매상품 정보
 # DB 불러오기
 import sqlite3
 
-# 상품 코드정보 생성
-con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsCode.db')
+# 상품 정보 생성
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
 cur = con.cursor()
-cur.execute("SELECT PrdName, PrdCode from ProductsCode")
+cur.execute("SELECT PrdName, prdCode, Season from ProductsData")
 data = cur.fetchall()
 for i in data:
   productsCode[i[0]] = i[1]
-con.close()
-
-# 상품 시즌정보 생성
-con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
-cur = con.cursor()
-cur.execute("SELECT PrdName, Season from ProductsData")
-data = cur.fetchall()
-for i in data:
-  productsSeason[i[0]] = i[1]
+  productsSeason[i[0]] = i[2]
+  
+print(productsCode)
+print(productsSeason)
   
 for file in excelFileList:
 
