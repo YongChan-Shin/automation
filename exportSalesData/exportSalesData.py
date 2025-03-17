@@ -43,18 +43,40 @@ for i in range(first_row, last_row):
       salesPrdSizeQnt[ws.cell(i, 10).value][ws.cell(i, 11).value] += ws.cell(i, 12).value
       
 print(salesPrdSizeQnt)
-  
+
+# 상품 이미지 및 가격정보 불러오기 위한 DB 연결
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+
 for i in range(first_row, last_row):
   if ws.cell(row=i, column=1).value == None or ws.cell(row=i, column=1).value == '':
     continue
   else:
+    query = "SELECT PrdCode, SalePrice, DealPrice, Url from ProductsData where PrdName = ?"
+    cur.execute(query, (ws.cell(row=i, column=1).value,))
+    data = cur.fetchall()
+    try:
+      prdInfoCode = data[0][0]
+      prdInfoSalePrice = data[0][1]
+      prdInfoDealPrice = data[0][2]
+      prdInfoUrl = data[0][3]
+    except Exception as e:
+      print(ws.cell(row=i, column=1).value, e)
+      continue
+      
     jsonData["data"].append({
       "prdName": ws.cell(i, 1).value.replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트"),
+      "prdCode": prdInfoCode,
+      "salePrice": prdInfoSalePrice,
+      "dealPrice": prdInfoDealPrice,
+      "url": prdInfoUrl,
       "salesCnt": ws.cell(i, 2).value,
       "sizeQnt": salesPrdSizeQnt[ws.cell(i, 1).value.replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트")]
     })
-  
-print(jsonData)
+    
+con.close()
+
+# print(jsonData)
 
 with open("salesData.json", "w", encoding="UTF-8") as outfile:
   json.dump(jsonData, outfile, indent=2, ensure_ascii=False)
