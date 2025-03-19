@@ -153,12 +153,14 @@ for file in excelFileList:
         try:
           sheet2.row_dimensions[i].height = 75
           # image_path = 'https://gi.esmplus.com/jja6806/thumbnail/{}.jpg'.format(sheet2.cell(row=i, column=3).value)
-          image_path = '.\\data\\images\\' + str(productsCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
+          # image_path = '.\\data\\images\\' + str(productsCode[sheet2.cell(row=i, column=1).value]) + '.jpg'
+          image_path = '\\\\Main-pc\\KIDS_CS\\대표이미지\\resize\\' + str(sheet2.cell(row=i, column=1).value) + '.jpg'
           image = Image(image_path)
           image.width = 100
           image.height = 100
           sheet2.add_image(image, anchor='C'+str(i))
-        except:
+        except Exception as e:
+          print(e)
           sheet2.cell(i, 1).fill = fillData2
           sheet2.cell(i, 2).fill = fillData2
           sheet2.cell(i, 3).fill = fillData2
