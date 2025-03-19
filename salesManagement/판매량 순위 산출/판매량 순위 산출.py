@@ -12,17 +12,17 @@ sheetName = '상품사진삽입'
 currPath = os.getcwd()
 now = datetime.now()
 
-# 제품 코드정보 생성
-productsCode = {}
+# # 제품 코드정보 생성
+# productsCode = {}
 
-# DB 불러오기
-import sqlite3
-con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
-cur = con.cursor()
-cur.execute("SELECT PrdName, prdCode from ProductsData")
-data = cur.fetchall()
-for i in data:
-  productsCode[i[0]] = i[1]
+# # DB 불러오기
+# import sqlite3
+# con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+# cur = con.cursor()
+# cur.execute("SELECT PrdName, prdCode from ProductsData")
+# data = cur.fetchall()
+# for i in data:
+#   productsCode[i[0]] = i[1]
 
 firstCell = 2
 lastCell = wb[sheetName].max_row + 1
@@ -71,7 +71,7 @@ for i in range(wb2FirstCell, wb2LastCell):
   try:
     wb2Sheet.row_dimensions[i].height = 75
     # TODO 기준 파일에 맞춰 정보 수정 필요
-    image_path = '.\\data\\images\\' + str(productsCode[wb2Sheet.cell(row=i, column=4).value]) + '.jpg'
+    image_path = '\\\\Main-pc\\KIDS_CS\\대표이미지\\resize\\' + str(wb2Sheet.cell(row=i, column=4).value) + '.jpg'
     print(image_path)
     image = Image(image_path)
     image.width = 100
