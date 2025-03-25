@@ -153,7 +153,7 @@ for i in range(first_row, last_row):
     ws.cell(i, 18).value = stockList[ws.cell(i, 17).value]
     
     if stockList[ws.cell(i, 17).value] == 0:
-      if ws.cell(row=i, column=4).value == "판매중":
+      if ws.cell(row=i, column=4).value == "판매중" and ws.cell(row=i, column=12).value != 0:
         print("{}/{}".format(ws.cell(i, 17).value, stockList[ws.cell(i, 17).value]))
         if ws.cell(i, 17).value in soldoutPrdCSList:
           stockErrList.append("○ {} / 상품ID : {} / 상태 : {} / 재고수량 : {} / 데이터파일 기준 재고 : 0".format(ws.cell(i, 17).value, ws.cell(i, 1).value, ws.cell(i, 4).value, ws.cell(i, 12).value))
