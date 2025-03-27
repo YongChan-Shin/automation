@@ -4,10 +4,17 @@ from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
-# import os
+import os
+import json
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
+
+# 판매세팅 상품정보 JSON 파일 불러오기
+channelName = '키즈노트'
+settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
+  settingInfo = json.load(jsonFile)
 
 # 정상상품 정보 생성
 wbNormal = load_workbook('상품목록.xlsx')
@@ -17,7 +24,7 @@ wbNormalLastCell = wbNormalSh.max_row + 1
 wbNormalPrds = []
 
 for i in range(wbNormalFirstCell, wbNormalLastCell):
-  wbNormalPrds.append(wbNormalSh.cell(i, 5).value)
+  wbNormalPrds.append(wbNormalSh.cell(i, 3).value)
   
 # 재고정보 생성
 wbStock = load_workbook('데이터.xlsx')
@@ -175,7 +182,15 @@ for i in range(first_row, last_row):
           
     if ws.cell(row=i, column=10).value in wbNormalPrds:
       if ws.cell(row=i, column=6).value != "강제품절":
-        if int(ws.cell(row=i, column=7).value) != 0:          
+        if int(ws.cell(row=i, column=7).value) != 0:
+          print(ws.cell(i, 18).value)
+          # 판매세팅 상품정보 추가
+          if ws.cell(i, 18).value not in settingInfo:
+            settingInfo[ws.cell(i, 18).value] = [channelName]
+          else:
+            if channelName not in settingInfo[ws.cell(i, 18).value]:
+              settingInfo[ws.cell(i, 18).value].append(channelName)
+          
           if prdDetailInfoProduct in excProducts:
             excProductsCheckList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value))
             
@@ -216,6 +231,10 @@ if len(matchingErrList) > 0:
   for i in matchingErrList:
     f.write("{}\n\n".format(i))
   f.close()  
+
+# 판매세팅 상품정보 JSON 파일 업데이트
+with open(settingInfoJSONPath, 'w', encoding='UTF-8') as jsonFile:
+  json.dump(settingInfo, jsonFile, indent=2, ensure_ascii=False)
 
 wb.active.auto_filter.ref = "A1:V1"
 wb.save('상품옵션별 재고현황 추출.xlsx')

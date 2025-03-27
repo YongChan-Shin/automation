@@ -4,10 +4,17 @@ from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
-# import os
+import os
+import json
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
+
+# 판매세팅 상품정보 JSON 파일 불러오기
+channelName = '무무즈'
+settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
+  settingInfo = json.load(jsonFile)
 
 # 재고정보 생성
 wbStock = load_workbook('데이터.xlsx')
@@ -231,6 +238,14 @@ for i in range(first_row, last_row_sh2 + 1):
     if sheet2.cell(row=i, column=4).value == "노출함":
       if sheet2.cell(row=i, column=5).value == "노출함" and sheet2.cell(row=i, column=6).value == "판매함":
         if sheet2.cell(row=i, column=7).value != "품절":
+          
+          # 판매세팅 상품정보 추가
+          if sheet2.cell(i, 9).value not in settingInfo:
+            settingInfo[sheet2.cell(i, 9).value] = [channelName]
+          else:
+            if channelName not in settingInfo[sheet2.cell(i, 9).value]:
+              settingInfo[sheet2.cell(i, 9).value].append(channelName)
+              
           if prdDetailInfoProduct in excProducts:
             excProductsCheckList.append("○ {} / 노출상태 : {} / 옵션노출상태 : {} / 옵션판매상태 : {} / 옵션품절상태 : {}".format(sheet2.cell(i, 12).value, sheet2.cell(i, 4).value, sheet2.cell(i, 5).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value))
   except Exception as e:
@@ -274,6 +289,9 @@ if len(matchingErrList) > 0:
 
 sheet2.auto_filter.ref = "A1:M1"
 
+# 판매세팅 상품정보 JSON 파일 업데이트
+with open(settingInfoJSONPath, 'w', encoding='UTF-8') as jsonFile:
+  json.dump(settingInfo, jsonFile, indent=2, ensure_ascii=False)
 
 for sheet in wb:
   if sheet.title == '정리':

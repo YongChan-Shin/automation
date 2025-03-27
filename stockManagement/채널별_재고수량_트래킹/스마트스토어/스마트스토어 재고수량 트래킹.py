@@ -4,10 +4,17 @@ from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
-# import os
+import os
+import json
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
+
+# 판매세팅 상품정보 JSON 파일 불러오기
+channelName = '스마트스토어'
+settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
+  settingInfo = json.load(jsonFile)
 
 # 재고정보 생성
 wbStock = load_workbook('데이터.xlsx')
@@ -206,6 +213,14 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
           
     if sheet2.cell(row=i, column=7).value == "Y":
       if int(sheet2.cell(row=i, column=8).value) != 0:
+        
+        # 판매세팅 상품정보 추가
+        if sheet2.cell(i, 3).value not in settingInfo:
+          settingInfo[sheet2.cell(i, 3).value] = [channelName]
+        else:
+          if channelName not in settingInfo[sheet2.cell(i, 3).value]:
+            settingInfo[sheet2.cell(i, 3).value].append(channelName)
+        
         if prdDetailInfoProduct in excProducts:
           excProductsCheckList.append("○ 상품번호 : {} / {} / 옵션사용여부 : {} / 옵션재고수량 : {}".format(sheet2.cell(i, 1).value, sheet2.cell(i, 6).value, sheet2.cell(i, 7).value, sheet2.cell(i, 8).value))
             
@@ -250,6 +265,9 @@ if len(matchingErrList) > 0:
 
 sheet2.auto_filter.ref = "A1:I1"
 
+# 판매세팅 상품정보 JSON 파일 업데이트
+with open(settingInfoJSONPath, 'w', encoding='UTF-8') as jsonFile:
+  json.dump(settingInfo, jsonFile, indent=2, ensure_ascii=False)
 
 for sheet in wb:
   if sheet.title == '정리':

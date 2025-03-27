@@ -4,10 +4,17 @@ from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
-# import os
+import os
+import json
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
+
+# 판매세팅 상품정보 JSON 파일 불러오기
+channelName = '하이스토어'
+settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
+  settingInfo = json.load(jsonFile)
 
 # 재고정보 생성
 wbStock = load_workbook('데이터.xlsx')
@@ -172,6 +179,14 @@ for i in range(first_row, last_row):
     
     if ws.cell(row=i, column=6).value == "판매중":
       if int(ws.cell(row=i, column=13).value) != 0:
+        
+        # 판매세팅 상품정보 추가
+        if ws.cell(i, 25).value not in settingInfo:
+          settingInfo[ws.cell(i, 25).value] = [channelName]
+        else:
+          if channelName not in settingInfo[ws.cell(i, 25).value]:
+            settingInfo[ws.cell(i, 25).value].append(channelName)
+        
         if prdDetailInfoProduct in excProducts:
           excProductsCheckList.append("○ {} / 상품번호 : {} / 상태 : {} / 재고수량 : {}".format(ws.cell(i, 28).value, ws.cell(i, 28).value, ws.cell(i, 6).value, ws.cell(i, 13).value))
           
@@ -212,6 +227,10 @@ if len(matchingErrList) > 0:
   for i in matchingErrList:
     f.write("{}\n\n".format(i))
   f.close()
+
+# 판매세팅 상품정보 JSON 파일 업데이트
+with open(settingInfoJSONPath, 'w', encoding='UTF-8') as jsonFile:
+  json.dump(settingInfo, jsonFile, indent=2, ensure_ascii=False)
 
 wb.active.auto_filter.ref = "A1:AC1"
 wb.save('상품옵션별 재고현황 추출.xlsx')
