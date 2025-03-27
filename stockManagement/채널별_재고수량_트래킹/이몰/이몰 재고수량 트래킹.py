@@ -12,7 +12,8 @@ import json
 
 # 판매세팅 상품정보 JSON 파일 불러오기
 channelName = '이몰'
-settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+# settingInfoJSONPath = os.path.dirname(os.path.abspath(os.path.dirname(__file__))) + '\\settingProducts.json'
+settingInfoJSONPath = 'D:\\1.업무\\6.자동화작업\\재고 관리\\채널별_재고수량_트래킹\\settingProducts.json'
 with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
   settingInfo = json.load(jsonFile)
 

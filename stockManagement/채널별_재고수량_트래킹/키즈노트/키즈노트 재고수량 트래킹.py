@@ -12,7 +12,8 @@ import json
 
 # 판매세팅 상품정보 JSON 파일 불러오기
 channelName = '키즈노트'
-settingInfoJSONPath = os.path.dirname(os.path.dirname(__file__)) + '\\settingProducts.json'
+# settingInfoJSONPath = os.path.dirname(os.path.abspath(os.path.dirname(__file__))) + '\\settingProducts.json'
+settingInfoJSONPath = 'D:\\1.업무\\6.자동화작업\\재고 관리\\채널별_재고수량_트래킹\\settingProducts.json'
 with open(settingInfoJSONPath, 'r', encoding='UTF-8') as jsonFile:
   settingInfo = json.load(jsonFile)
 
@@ -183,7 +184,6 @@ for i in range(first_row, last_row):
     if ws.cell(row=i, column=10).value in wbNormalPrds:
       if ws.cell(row=i, column=6).value != "강제품절":
         if int(ws.cell(row=i, column=7).value) != 0:
-          print(ws.cell(i, 18).value)
           # 판매세팅 상품정보 추가
           if ws.cell(i, 18).value not in settingInfo:
             settingInfo[ws.cell(i, 18).value] = [channelName]
