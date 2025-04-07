@@ -6,6 +6,7 @@ from openpyxl.styles.fonts import Font
 from openpyxl.utils import get_column_letter
 import os
 import json
+import datetime
 # from os import listdir
 # from os.path import exists
 # from os import makedirs
@@ -216,6 +217,8 @@ for i in range(first_row_sh2, last_row_sh2 + 1):
       if int(sheet2.cell(row=i, column=8).value) != 0:
         
         # 판매세팅 상품정보 추가
+        settingInfo['checkTime'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
         if sheet2.cell(i, 3).value not in settingInfo:
           settingInfo[sheet2.cell(i, 3).value] = [channelName]
         else:
