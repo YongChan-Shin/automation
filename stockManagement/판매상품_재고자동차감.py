@@ -32,7 +32,7 @@ for i in range(firstCell, lastCell):
   except:
     pass
   
-# 판매채널정보(상세)  생성
+# 판매채널정보(상세) 생성
 sellChannelDetailList ={}
 for i in range(firstCell, lastCell):
   try:
@@ -69,8 +69,8 @@ stockAllSizeList = {}
 currentPrd = ""
 
 # 재고수량(사이즈종합) 20개 미만 상품 리스트
-stockImpendingCheckSheetName = "겨울_이월" # TODO 확인 후 수정필요
-stockImpendingCheckSheetName2 = "봄가을_이월" # TODO 확인 후 수정필요
+stockImpendingCheckSheetName = "봄가을_이월" # TODO 확인 후 수정필요
+stockImpendingCheckSheetName2 = "" # TODO 확인 후 수정필요
 stockImpending = []
 
 # 품절상품 중 재고수량 0인 아닌 상품 식별 리스트
@@ -251,7 +251,7 @@ for i in range(wb2Soldout2FirstCell, wb2Soldout2LastCell):
 # 사이즈 종합 재고수량 20개 미만 상품 정보 저장
 for key, value in stockAllSizeList.items():
   try:
-    if value > 0 and value < 20:
+    if value >= 0 and value < 20:
       stockImpending.append("{}/총 재고 : {}".format(key, value))
   except:
     pass
