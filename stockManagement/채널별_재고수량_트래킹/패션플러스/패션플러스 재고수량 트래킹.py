@@ -177,6 +177,13 @@ for i in range(first_row, last_row):
     if stockList[ws.cell(i, 27).value] != 0:
       if ws.cell(row=i, column=8).value == "Y" and ws.cell(row=i, column=17).value != 0:
         
+        if int(ws.cell(row=i, column=17).value) <= 3:
+          if stockList[ws.cell(i, 27).value] > int(ws.cell(row=i, column=17).value):
+            impendingPrdList.append("○ {} / 진열 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 27).value, ws.cell(i, 8).value, ws.cell(i, 17).value, stockList[ws.cell(i, 27).value]))
+    
+    if ws.cell(row=i, column=8).value == "Y":
+      if int(ws.cell(row=i, column=17).value) != 0:
+        
         # 판매세팅 상품정보 추가
         settingInfo['checkTime'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
@@ -184,14 +191,8 @@ for i in range(first_row, last_row):
           settingInfo[ws.cell(i, 24).value] = [channelName]
         else:
           if channelName not in settingInfo[ws.cell(i, 24).value]:
-            settingInfo[ws.cell(i, 24).value].append(channelName)
-          
-        if int(ws.cell(row=i, column=17).value) <= 3:
-          if stockList[ws.cell(i, 27).value] > int(ws.cell(row=i, column=17).value):
-            impendingPrdList.append("○ {} / 진열 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 27).value, ws.cell(i, 8).value, ws.cell(i, 17).value, stockList[ws.cell(i, 27).value]))
-    
-    if ws.cell(row=i, column=8).value == "Y":
-      if int(ws.cell(row=i, column=17).value) != 0:
+            settingInfo[ws.cell(i, 24).value].append(channelName)        
+        
         if prdDetailInfoProduct in excProducts:
           excProductsCheckList.append("○ {} / 진열 : {} / 재고수량 : {}".format(ws.cell(i, 27).value, ws.cell(i, 8).value, ws.cell(i, 17).value))
           

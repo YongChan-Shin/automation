@@ -176,21 +176,22 @@ for i in range(first_row, last_row):
       if ws.cell(row=i, column=11).value == "Y":
         if ws.cell(row=i, column=9).value == "판매중":
           
-          # 판매세팅 상품정보 추가
-          settingInfo['checkTime'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
-          if ws.cell(i, 25).value not in settingInfo:
-            settingInfo[ws.cell(i, 25).value] = [channelName]
-          else:
-            if channelName not in settingInfo[ws.cell(i, 25).value]:
-              settingInfo[ws.cell(i, 25).value].append(channelName)
-          
           if int(ws.cell(row=i, column=16).value) <= 3:
             if stockList[ws.cell(i, 28).value] > int(ws.cell(row=i, column=16).value):
               impendingPrdList.append("○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value, stockList[ws.cell(i, 28).value]))
           
     if ws.cell(row=i, column=11).value == "Y":
-      if int(ws.cell(row=i, column=16).value) != 0 or ws.cell(row=i, column=9).value == "판매중":          
+      if int(ws.cell(row=i, column=16).value) != 0 or ws.cell(row=i, column=9).value == "판매중":
+        
+      # 판매세팅 상품정보 추가
+        settingInfo['checkTime'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+      
+        if ws.cell(i, 25).value not in settingInfo:
+          settingInfo[ws.cell(i, 25).value] = [channelName]
+        else:
+          if channelName not in settingInfo[ws.cell(i, 25).value]:
+            settingInfo[ws.cell(i, 25).value].append(channelName)
+        
         if prdDetailInfoProduct in excProducts:
           excProductsCheckList.append("○ {} / 전시상품번호 : {} / 판매상태 : {} / 전시여부 : {} / 재고수량 : {}".format(ws.cell(i, 28).value, ws.cell(i, 2).value, ws.cell(i, 9).value, ws.cell(i, 11).value, ws.cell(i, 16).value))
   except Exception as e:
