@@ -361,12 +361,12 @@ for file in excelFileList:
   
   orderDictSizeCnt = 2
   for key, value in orderDictSize.items():
-    if dailyWs.cell(orderDictSizeCnt, 7).value == '5호':
-      dailyWs.cell(orderDictSizeCnt, 7).value = '05호'
-    elif dailyWs.cell(orderDictSizeCnt, 7).value == '7호':
-      dailyWs.cell(orderDictSizeCnt, 7).value = '07호'
-    elif dailyWs.cell(orderDictSizeCnt, 7).value == '9호':
-      dailyWs.cell(orderDictSizeCnt, 7).value = '09호'
+    if dailyWs.cell(orderDictSizeCnt, 7).value == '05호':
+      dailyWs.cell(orderDictSizeCnt, 7).value = '5호'
+    elif dailyWs.cell(orderDictSizeCnt, 7).value == '07호':
+      dailyWs.cell(orderDictSizeCnt, 7).value = '7호'
+    elif dailyWs.cell(orderDictSizeCnt, 7).value == '09호':
+      dailyWs.cell(orderDictSizeCnt, 7).value = '9호'
     else:
       dailyWs.cell(orderDictSizeCnt, 7).value = key
     
