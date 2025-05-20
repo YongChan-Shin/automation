@@ -28,4 +28,4 @@ for idx, el in enumerate(imgEls):
   
 wb.save('이미지 url 추출 데이터.xlsx')
 
-time.sleep(100000000)
+driver.quit()
