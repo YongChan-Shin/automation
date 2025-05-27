@@ -25,9 +25,11 @@ for i in files:
 productsSeason = {} # 제품 시즌정보
 productsSeasonOrder = {'F': 0, 'S': 0, 'W': 0} # 시즌별 판매정보
 productsCode = {} # 제품 코드정보
+productsUrl = {} # 제품 url 정보
 prdF = [] # 봄가을 판매상품 정보
 prdS = [] # 여름 판매상품 정보
 prdW = [] # 겨울 판매상품 정보
+
 
 # DB 불러오기
 import sqlite3
@@ -35,14 +37,12 @@ import sqlite3
 # 상품 정보 생성
 con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
 cur = con.cursor()
-cur.execute("SELECT PrdName, prdCode, Season from ProductsData")
+cur.execute("SELECT PrdName, prdCode, Season, Url from ProductsData")
 data = cur.fetchall()
 for i in data:
   productsCode[i[0]] = i[1]
   productsSeason[i[0]] = i[2]
-  
-print(productsCode)
-print(productsSeason)
+  productsUrl[i[0]] = i[3]
   
 for file in excelFileList:
 
@@ -138,7 +138,7 @@ for file in excelFileList:
       else:
         sheet2["A" + str(i)].alignment = Alignment(vertical='center')
         sheet2["B" + str(i)].alignment = Alignment(vertical='center')
-        print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
+        # print(sheet1.cell(row=i, column=4).value + " / 판매수량 : " + str(sheet1.cell(row=i, column=5).value))
         sheet2.cell(row=i, column=1).value = sheet1.cell(row=i, column=4).value
         sheet2.cell(row=i, column=2).value = sheet1.cell(row=i, column=5).value
         
@@ -227,6 +227,7 @@ for file in excelFileList:
   
   jsonData = {}
   jsonData['data'] = []
+  jsonUrlData = {}
   
   salesInfoSize = {}
   salesInfoSizeChannelAcc = {}
@@ -286,3 +287,7 @@ for file in excelFileList:
   # 일일 판매데이터 json 생성
   with open('./saleDaily_{}.json'.format(file.replace('.xlsx', '')), 'w', encoding='UTF-8') as outfile:
     json.dump(jsonData, outfile, indent=2, ensure_ascii=False)
+    
+  # 상품별 상세이미지 url 정보 json 생성
+  with open('./prdUrlInfo.json', 'w', encoding='UTF-8') as outfile:
+    json.dump(productsUrl, outfile, indent=2, ensure_ascii=False)
