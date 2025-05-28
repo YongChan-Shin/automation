@@ -12,17 +12,19 @@ sheetName = '상품사진삽입'
 currPath = os.getcwd()
 now = datetime.now()
 
-# # 제품 코드정보 생성
-# productsCode = {}
+# 제품 코드정보 생성
+productsCode = {}
 
-# # DB 불러오기
-# import sqlite3
-# con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
-# cur = con.cursor()
-# cur.execute("SELECT PrdName, prdCode from ProductsData")
-# data = cur.fetchall()
-# for i in data:
-#   productsCode[i[0]] = i[1]
+# DB 불러오기
+import sqlite3
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+
+cur.execute("SELECT PrdName, prdCode from ProductsData")
+data = cur.fetchall()
+
+for i in data:
+  productsCode[i[0]] = i[1]
 
 firstCell = 2
 lastCell = wb[sheetName].max_row + 1
@@ -59,7 +61,7 @@ wb2Sheet.cell(1, wb2LastColumn).font = fillFont
 wb2Sheet.cell(1, wb2LastColumn + 1).font = fillFont
 
 # TODO 기준 파일에 맞춰 정보 수정 필요(이미지 삽입 열 너비 지정)
-wb2Sheet.column_dimensions['J'].width = 12.5
+wb2Sheet.column_dimensions['K'].width = 12.5
 
 for i in range(wb2FirstCell, wb2LastCell):
   try:
@@ -77,7 +79,7 @@ for i in range(wb2FirstCell, wb2LastCell):
     image.width = 100
     image.height = 100
     # TODO 기준 파일에 맞춰 정보 수정 필요(이미지 삽입 열 지정)
-    wb2Sheet.add_image(image, anchor='J'+str(i))
+    wb2Sheet.add_image(image, anchor='K'+str(i))
   except:
     pass
     
@@ -90,10 +92,10 @@ excel.Visible = False
 wb = excel.Workbooks.Open(currPath + '\\' + fileName + '.xlsx')
 
 # TODO 기준 파일에 맞춰 정보 수정 필요
-ws = wb.Worksheets('2025_봄')
+ws = wb.Worksheets('2024_겨울')
 
 # TODO 기준 파일에 맞춰 정보 수정 필요
-ws.Range('A:J').Sort(Key1=ws.Range('I1'), Order1=2)
+ws.Range('A:K').Sort(Key1=ws.Range('J1'), Order1=2)
 
 wb.Save()
 
