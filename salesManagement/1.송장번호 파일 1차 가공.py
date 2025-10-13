@@ -137,34 +137,37 @@ for file in excelFileList:
       # 상품(상세정보) 주문번호 수집 식별자
       prdDetailInfo = ''
       
-      for product in product_list:
-        try:
-          if product in str(sheet1.cell(row=i, column=j).value):
-            prdDetailInfoProduct = product.replace("(저스틴23)", "").replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트")
-            if prdDetailInfoProduct not in orderDictPrdNums:
-              orderDictPrdNums[prdDetailInfoProduct] = [sheet1.cell(row=i, column=9).value]
-            else:
-              if sheet1.cell(row=i, column=9).value not in orderDictPrdNums[prdDetailInfoProduct]:
-                orderDictPrdNums[prdDetailInfoProduct].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
-        except:
-          pass
-      
-      for color in color_list:
-        if color in str(sheet1.cell(row=i, column=j).value):
-          prdDetailInfoColor = color
-      for size in size_list:
-        if size in str(sheet1.cell(row=i, column=j).value):
-          prdDetailInfoSize = size.replace("FREE", "free")
-      
-      if prdDetailInfoProduct in cap_list:
-        prdDetailInfoSize = "free"
-      
-      prdDetailInfo = '{}/{}/{}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
+      try:
+        for product in product_list:
+          try:
+            if product in str(sheet1.cell(row=i, column=j).value):
+              prdDetailInfoProduct = product.replace("(저스틴23)", "").replace("토밍이세트", "토밍이모자세트").replace("해피스노우세트", "해피스노우모자세트")
+              if prdDetailInfoProduct not in orderDictPrdNums:
+                orderDictPrdNums[prdDetailInfoProduct] = [sheet1.cell(row=i, column=9).value]
+              else:
+                if sheet1.cell(row=i, column=9).value not in orderDictPrdNums[prdDetailInfoProduct]:
+                  orderDictPrdNums[prdDetailInfoProduct].append(sheet1.cell(row=i, column=9).value) # 주문번호 정보 삽입
+          except:
+            pass
+        
+        for color in color_list:
+          if color in str(sheet1.cell(row=i, column=j).value):
+            prdDetailInfoColor = color
+        for size in size_list:
+          if size in str(sheet1.cell(row=i, column=j).value):
+            prdDetailInfoSize = size.replace("FREE", "free")
+        
+        if prdDetailInfoProduct in cap_list:
+          prdDetailInfoSize = "free"
+        
+        prdDetailInfo = '{}/{}/{}'.format(prdDetailInfoProduct, prdDetailInfoColor, prdDetailInfoSize)
 
-      if prdDetailInfo not in orderDictPrdDetailNums:
-        orderDictPrdDetailNums[prdDetailInfo] = [sheet1.cell(row=i, column=9).value]
-      else:
-        orderDictPrdDetailNums[prdDetailInfo].append(sheet1.cell(row=i, column=9).value)
+        if prdDetailInfo not in orderDictPrdDetailNums:
+          orderDictPrdDetailNums[prdDetailInfo] = [sheet1.cell(row=i, column=9).value]
+        else:
+          orderDictPrdDetailNums[prdDetailInfo].append(sheet1.cell(row=i, column=9).value)
+      except Exception as e:
+        print(e)
       
   fillData = PatternFill(fill_type='solid', start_color='FFFF00', end_color='FFFF00')
   fillAlignment = Alignment(horizontal='center')
