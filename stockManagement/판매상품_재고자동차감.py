@@ -69,7 +69,7 @@ stockAllSizeList = {}
 currentPrd = ""
 
 # 재고수량(사이즈종합) 20개 미만 상품 리스트
-stockImpendingCheckSheetName = "봄가을_이월" # TODO 확인 후 수정필요
+stockImpendingCheckSheetName = "가을_이월" # TODO 확인 후 수정필요
 stockImpendingCheckSheetName2 = "" # TODO 확인 후 수정필요
 stockImpending = []
 
@@ -110,12 +110,6 @@ for wb2Sheet in wb2:
       if wb2Sheet.cell(i, 13).value != None:
         prdList.append(wb2Sheet.cell(i, 13).value)
         stockList[wb2Sheet.cell(i, 13).value] = wb2Sheet.cell(i, 14).value
-        if wb2Sheet.title == stockImpendingCheckSheetName or wb2Sheet.title == stockImpendingCheckSheetName2:
-          if wb2Sheet.cell(i, 5).value != currentPrd:
-            currentPrd = wb2Sheet.cell(i, 5).value
-            stockAllSizeList[currentPrd] = wb2Sheet.cell(i, 14).value
-          else:
-            stockAllSizeList[currentPrd] += wb2Sheet.cell(i, 14).value
     except:
       pass
       
@@ -148,6 +142,18 @@ for wb2Sheet in wb2:
           wb2Sheet.cell(i, 16).value = sellList[wb2Sheet.cell(i, 13).value]
       else:
         pass
+    except:
+      pass
+
+    # 사이즈 종합 재고수량 정보 저장
+    try:
+      if wb2Sheet.cell(i, 13).value != None:
+        if wb2Sheet.title == stockImpendingCheckSheetName or wb2Sheet.title == stockImpendingCheckSheetName2:
+          if wb2Sheet.cell(i, 5).value != currentPrd:
+            currentPrd = wb2Sheet.cell(i, 5).value
+            stockAllSizeList[currentPrd] = wb2Sheet.cell(i, 14).value
+          else:
+            stockAllSizeList[currentPrd] += wb2Sheet.cell(i, 14).value
     except:
       pass
     
