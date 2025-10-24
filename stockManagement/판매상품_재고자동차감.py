@@ -68,7 +68,7 @@ stockList = {}
 stockAllSizeList = {}
 currentPrd = ""
 
-# 재고수량(사이즈종합) 20개 미만 상품 리스트
+# 재고수량(사이즈종합) 30개 미만 상품 리스트
 stockImpendingCheckSheetName = "가을_이월" # TODO 확인 후 수정필요
 stockImpendingCheckSheetName2 = "" # TODO 확인 후 수정필요
 stockImpending = []
@@ -254,11 +254,18 @@ for i in range(wb2Soldout2FirstCell, wb2Soldout2LastCell):
   except:
     pass
   
-# 사이즈 종합 재고수량 20개 미만 상품 정보 저장
+# 사이즈 종합 재고수량 30개 미만 상품 정보 저장
 for key, value in stockAllSizeList.items():
   try:
-    if value >= 0 and value < 20:
-      stockImpending.append("{}/총 재고 : {}".format(key, value))
+    if value >= 0 and value < 30:
+      stockImpending.append("\n○ {}/총 재고 : {}".format(key, value))
+      for wb2Sheet in wb2:
+        if wb2Sheet.title == stockImpendingCheckSheetName or wb2Sheet.title == stockImpendingCheckSheetName2:
+          wb2FirstCell = 3
+          wb2LastCell = wb2Sheet.max_row + 1
+          for i in range(wb2FirstCell, wb2LastCell):
+            if wb2Sheet.cell(i, 5).value == key:
+              stockImpending.append("- {} : {}".format(wb2Sheet.cell(i, 13).value, wb2Sheet.cell(i, 14).value))
   except:
     pass
 
@@ -275,8 +282,8 @@ if len(channelErrPrdList) > 0:
   f5.close()
   
 if len(stockImpending) > 0:
-  f6 = open('전 사이즈 총 재고수량 20개 미만 상품.txt', 'w')
-  f6.write('ㅡㅡㅡㅡㅡㅡㅡㅡ 시트 : {} / {} ㅡㅡㅡㅡㅡㅡㅡㅡ\n\n'.format(stockImpendingCheckSheetName, stockImpendingCheckSheetName2)) # TODO 확인 후 수정필요
+  f6 = open('전 사이즈 총 재고수량 30개 미만 상품.txt', 'w')
+  f6.write('ㅡㅡㅡㅡㅡㅡㅡㅡ 시트 : {} / {} ㅡㅡㅡㅡㅡㅡㅡㅡ\n'.format(stockImpendingCheckSheetName, stockImpendingCheckSheetName2)) # TODO 확인 후 수정필요
   for i in stockImpending:
     f6.write('{}\n'.format(i))
   f6.close()
