@@ -69,7 +69,7 @@ stockAllSizeList = {}
 currentPrd = ""
 
 # 재고수량(사이즈종합) 30개 미만 상품 리스트
-stockImpendingCheckSheetName = "가을_이월" # TODO 확인 후 수정필요
+stockImpendingCheckSheetName = "겨울_이월" # TODO 확인 후 수정필요
 stockImpendingCheckSheetName2 = "" # TODO 확인 후 수정필요
 stockImpending = []
 
@@ -93,6 +93,19 @@ doublePrdList = {}
 # 세팅채널과 판매채널 상이한 상품리스트
 channelErrPrdList = []
 
+# 별이오키즈 상품리스트
+byeorioPrdList = []
+
+# DB 불러오기
+import sqlite3
+con = sqlite3.connect('D:/1.업무/10.기타자료/Development/db/productsData.db')
+cur = con.cursor()
+
+cur.execute("SELECT PrdName from ProductsData WHERE SeasonDetail like 'BYEORIO'")
+data = cur.fetchall()
+for i in data:
+  byeorioPrdList.append(i[0])
+  
 wb2 = load_workbook('데이터.xlsx')
 
 first_row_cs = 3
@@ -203,7 +216,10 @@ for i in sellList:
 if len(errList) > 0 or len(prdOrderSoldout) > 0 or len(prdOrderSoldoutAuto) > 0:
   f = open('차감 재고 데이터 매칭 오류.txt', 'w')
   for i in errList:
-    f.write('{} : {} / {}\n'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
+    if i.split(' ')[0] in byeorioPrdList:
+      continue
+    else:
+      f.write('{} : {} / {}\n'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
   f.write('\n\n\nㅡㅡㅡㅡㅡㅡㅡㅡㅡ 재고수량 0인 상품 중 판매된 상품리스트 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n')
   f.close()
   f = open('차감 재고 데이터 매칭 오류.txt', 'a')
@@ -211,6 +227,20 @@ if len(errList) > 0 or len(prdOrderSoldout) > 0 or len(prdOrderSoldoutAuto) > 0:
     f.write('○ {} \n\n'.format(i))
   for i in prdOrderSoldoutAuto:
     f.write('○ {} \n\n'.format(i))
+  f.close()
+  
+# 별이오키즈 판매 정보 저장
+byeorioCheckedNum = 0
+for i in errList:
+  if i.split(' ')[0] in byeorioPrdList:
+    byeorioCheckedNum += 1
+    
+if byeorioCheckedNum > 0:
+  f = open('별이오키즈 판매건.txt', 'w')
+  f.write('ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 별이오키즈 판매 상품 정보 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n\n')
+  for i in errList:
+    if i.split(' ')[0] in byeorioPrdList:
+      f.write('{} : {} / {}\n'.format(i, sellList[i], sellChannelList[i.split(" ")[0]]))
   f.close()
 
 # 판매량 차감 후 품절처리된 상품 정보 저장
