@@ -324,9 +324,10 @@ for file in excelFileList:
           # 사은품 체크
           if "사은품" in str(sheet2.cell(i, 1).value):
             sheet2.cell(i, 2).value = "사은품"
-          # 스마일비니 단품 판매건 체크
-          if "스마일비니" in str(sheet2.cell(i, 1).value) and "(1+1)" not in str(sheet2.cell(i, 1).value):
-            orderBeanie.append(str(sheet1.cell(2, 7).value) + " / " + str(sheet2.cell(i, 1).value) + " / " + orderNum)
+          else:
+            # 스마일비니 단품 판매건 체크
+            if "스마일비니" in str(sheet2.cell(i, 1).value) and "(1+1)" not in str(sheet2.cell(i, 1).value):
+              orderBeanie.append(str(sheet1.cell(2, 7).value) + " / " + str(sheet2.cell(i, 1).value) + " / " + orderNum)
             
       for color in color_list:
         if color in str(sheet2.cell(i, 1).value):
