@@ -205,6 +205,15 @@ for wb2Sheet in wb2:
               if str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value) not in channelErrPrdList:
                 channelErrPrdList.append(str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value))
         wb2Sheet.cell(i, 20).value = "({}개 판매) {} : {}".format(sellList[wb2Sheet.cell(i, 13).value], sellChannelDetailList[wb2Sheet.cell(i, 13).value], orderNumDetailList[wb2Sheet.cell(i, 13).value])
+        
+        # 세팅채널이 비어있는데 판매채널 정보가 존재할 경우 특이사항 표시
+        if wb2Sheet.cell(i, 20).value != None and wb2Sheet.cell(i, 19).value == None:
+          wb2Sheet.cell(i, 19).fill = fillData
+          wb2Sheet.cell(i, 19).value = sellChannelDetailList[wb2Sheet.cell(i, 13).value]
+          wb2Sheet.cell(i, 20).fill = fillData
+          if str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value) not in channelErrPrdList:
+            channelErrPrdList.append(str(wb2Sheet.cell(i, 4).value+"/"+wb2Sheet.cell(i, 5).value))
+        
       except:
         pass
     
