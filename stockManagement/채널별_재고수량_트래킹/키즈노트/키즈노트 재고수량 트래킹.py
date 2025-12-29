@@ -177,10 +177,11 @@ for i in range(first_row, last_row):
               ws.cell(row=i, column=colNum).fill = fillData2
               
     if stockList[ws.cell(i, 21).value] != 0:
-      if int(ws.cell(row=i, column=7).value) <= 3:
-        if ws.cell(row=i, column=6).value != "강제품절":
-          if stockList[ws.cell(i, 21).value] > int(ws.cell(row=i, column=7).value):
-            impendingPrdList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value, stockList[ws.cell(i, 21).value]))
+      if ws.cell(row=i, column=10).value in wbNormalPrds:
+        if int(ws.cell(row=i, column=7).value) <= 3:
+          if ws.cell(row=i, column=6).value != "강제품절":
+            if stockList[ws.cell(i, 21).value] > int(ws.cell(row=i, column=7).value):
+              impendingPrdList.append("○ 상품코드 : {} / {} / 품절방식 : {} / 현재고 : {} / 데이터파일 기준 재고 : {}".format(ws.cell(i, 10).value, ws.cell(i, 21).value, ws.cell(i, 6).value, ws.cell(i, 7).value, stockList[ws.cell(i, 21).value]))
           
     if ws.cell(row=i, column=10).value in wbNormalPrds:
       if ws.cell(row=i, column=6).value != "강제품절":
